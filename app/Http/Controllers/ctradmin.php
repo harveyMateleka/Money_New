@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\tbl_personnel;
-use App\Models\user;
+use App\Models\user; 
 use App\Models\tbl_menu;
 use App\Models\tbl_depot;
 use Illuminate\Support\Facades\Auth;
