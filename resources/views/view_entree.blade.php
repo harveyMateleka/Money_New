@@ -73,13 +73,12 @@
                      <div class="clearfix"></div>
                   </div>
                </div>
-            </div> 
+            </div>
             <div class="row mt-4">
                <div class="col-md-4">
                   <div class="form-row">
                      <label class="form-label">Nom Expediteur</label>
-                     <input type="text" style="text-transform:uppercase; border: 1px solid silver;padding-left:7px"
-                      class="form-control" name="expedieteur" placeholder="Nom d'expéditeur" id="name_expedit" required>
+                     <input type="text" style="text-transform:uppercase; border: 1px solid silver;padding-left:7px" class="form-control" name="expedieteur" placeholder="Nom d'expéditeur" id="name_expedit" required>
                      <span id='errCodeTransact'></span>
                      <div id="mes_naex" style="color:red; font-size:10px;" class="clearfix"></div>
                   </div>
@@ -106,8 +105,9 @@
             <div class="row mt-4">
                <div class="col-md-3">
                   <div class="form-row">
-                     <label class="form-label">Phone Bénéficiere</label>
-                     <input type="tel" maxlength="15" class="form-control" style="border: 1px solid silver;padding-left:7px" name="tel_benefic" placeholder="" id="tel_benefic" required>
+                     <label class="form-label">Phone Bénéficiaire</label>
+                     <input type="number" maxlength="15" class="form-control" style="border: 1px solid silver;padding-left:7px" name="tel_benefic" placeholder="" id="tel_benefic" required>
+                     <span id="errPhoneBenefic"></span>
                      <div id="mes_ben" style="color:red; font-size:10px;" class="clearfix"></div>
                   </div>
                </div>
@@ -303,6 +303,40 @@
       }
    })
 
+   // VALIDATE FOR INPUT NUMBER PHONE BEN, EVENT ONCHANGE
+
+   $("#tel_benefic").on('change', () => {
+      let value = $("#tel_benefic").val();
+      let pattern = /[0-9]/g;
+      if (isValidBtn) {
+         if (value === '') {
+            isValidNameAgence = false;
+            $('#errPhoneBenefic').text('Veuillez entrer un numéro de téléphone svp !!!');
+            $('#errPhoneBenefic').css({
+               'font-size': '12px',
+               "margin-left": '10px',
+               "color": "red"
+            });
+         } else if (!value.match(pattern)) {
+            $('#errPhoneBenefic').text('Veuillez entrer un numéro de téléphone valide svp !!!');
+            $('#errPhoneBenefic').css({
+               'font-size': '12px',
+               "margin-left": '10px',
+               "color": "red"
+            });
+         } else if (value.length < 10) {
+            $('#errPhoneBenefic').text('Le numéro de téléphone assez court, minimum 10 chiffres !!!');
+            $('#errPhoneBenefic').css({
+               'font-size': '12px',
+               "margin-left": '10px',
+               "color": "red"
+            });
+         } else {
+            $('#errPhoneBenefic').text('');
+         }
+      }
+   })
+
    // VALIDATE FOR INPUT TEXT NAME BENEFICIAIRE, EVENT ONCHANGE
 
    $("#name_benefic").on('change', () => {
@@ -375,6 +409,19 @@
          });
       } else {
          $('#errPhoneExp').text('');
+      }
+
+      // VALIDATE FOR INPUT NUMBER PHONE NUMBER
+
+      if ($('#tel_benefic').val() === "") {
+         $('#errPhoneBenefic').text('Veuillez entrer un numéro de téléphone svp !!!');
+         $('#errPhoneBenefic').css('color', 'red');
+         $('#errPhoneBenefic').css({
+            'font-size': '12px',
+            "margin-left": '10px'
+         });
+      } else {
+         $('#errPhoneBenefic').text('');
       }
 
       // VALIDATE FOR INPUT TEXT NAME BENEFICIAIRE
