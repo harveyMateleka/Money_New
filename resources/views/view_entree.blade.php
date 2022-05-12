@@ -79,6 +79,7 @@
                   <div class="form-row">
                      <label class="form-label">Nom Expediteur</label>
                      <input type="text" style="text-transform:uppercase; border: 1px solid silver;padding-left:7px" class="form-control" name="expedieteur" placeholder="" id="name_expedit" required>
+                     <span id='errCodeTransact'></span>
                      <div id="mes_naex" style="color:red; font-size:10px;" class="clearfix"></div>
                   </div>
                </div>
@@ -87,7 +88,8 @@
                      <label class="form-label">
                         <NAV>Phone Expediteur</NAV>
                      </label>
-                     <input type="tel" maxlength="15" class="form-control" min="0" max="2" name="telexpedit" style="text-transform:uppercase; border: 1px solid silver;padding-left:7px" placeholder="Téléphone expéditeur" id="tel_expedit" required='Veuillez saisir cette zone'>
+                     <input type="text" maxlength="15" class="form-control" min="0" max="2" name="telexpedit" style="text-transform:uppercase; border: 1px solid silver;padding-left:7px" placeholder="Téléphone expéditeur" id="tel_expedit" required='Veuillez saisir cette zone'>
+                     <span id="errPhoneExp"></span>
                      <div id="mes_ex" style="color:red; font-size:10px;" class="clearfix"></div>
                   </div>
                </div>
@@ -227,8 +229,83 @@
       }
    })
 
+   // VALIDATE FOR SELECT NAME VILLE
+
+   $("#name_ville").on('change', () => {
+      let value = $("#name_ville").val();
+      if (isValidBtn) {
+         if (value === '-1') {
+            isValidNameAgence = false;
+            $('#errNameVill').text('Veuillez choisir une ville svp !!!');
+            $('#errNameVill').css('color', 'red');
+            $('#errNameVill').css({
+               'font-size': '12px',
+               "margin-left": '10px'
+            });
+         } else {
+            $('#errNameVill').text('');
+         }
+      }
+   })
+
+   // VALIDATE FOR INPUT TEXT NAME EXP, EVENT ONCHANGE
+
+   $("#name_expedit").on('change', () => {
+      let value = $("#name_expedit").val();
+      if (isValidBtn) {
+         if (value === '') {
+            isValidNameAgence = false;
+            $('#errCodeTransact').text('Veuillez entrer le nom de l\'expéditeur svp !!!');
+            $('#errCodeTransact').css('color', 'red');
+            $('#errCodeTransact').css({
+               'font-size': '12px',
+               "margin-left": '10px'
+            });
+         } else {
+            $('#errCodeTransact').text('');
+         }
+      }
+   })
+
+   // VALIDATE FOR INPUT NUMBER PHONE EXP, EVENT ONCHANGE
+
+   $("#tel_expedit").on('change', () => {
+      let value = $("#tel_expedit").val();
+      let pattern = /[0-9]/g;
+      if (isValidBtn) {
+         if (value === '') {
+            isValidNameAgence = false;
+            $('#errPhoneExp').text('Veuillez entrer un numéro de téléphone svp !!!');
+            $('#errPhoneExp').css({
+               'font-size': '12px',
+               "margin-left": '10px',
+               "color": "red"
+            });
+         } else if (!value.match(pattern)) {
+            $('#errPhoneExp').text('Veuillez entrer un numéro de téléphone valide svp !!!');
+            $('#errPhoneExp').css({
+               'font-size': '12px',
+               "margin-left": '10px',
+               "color": "red"
+            });
+         } else if (value.length < 10) {
+            $('#errPhoneExp').text('Le numéro de téléphone assez court, minimum 10 chiffres !!!');
+            $('#errPhoneExp').css({
+               'font-size': '12px',
+               "margin-left": '10px',
+               "color": "red"
+            });
+         } else {
+            $('#errPhoneExp').text('');
+         }
+      }
+   })
+
    $('.btnEnvoi').on('click', function() {
       isValidBtn = true;
+
+      // VALIDATE FOR SELECT NAME AGENCE
+
       if ($("#name_agence").val() === "-1") {
          $('#errNameAgence').text('Veuillez choisir une agence svp !!!');
          $('#errNameAgence').css('color', 'red');
@@ -240,6 +317,8 @@
          $('#errNameAgence').text('');
       }
 
+      // VALIDATE FOR SELECT NAME VILLE
+
       if ($('#name_ville').val() === "-1") {
          $('#errNameVill').text('Veuillez choisir une ville svp !!!');
          $('#errNameVill').css('color', 'red');
@@ -250,6 +329,33 @@
       } else {
          $('#errNameVill').text('');
       }
+
+      // VALIDATE FOR INPUT TEXT NAME EXP
+
+      if ($('#name_expedit').val() === "") {
+         $('#errCodeTransact').text('Veuillez entrer le nom de l\'expéditeur svp !!!');
+         $('#errCodeTransact').css('color', 'red');
+         $('#errCodeTransact').css({
+            'font-size': '12px',
+            "margin-left": '10px'
+         });
+      } else {
+         $('#errCodeTransact').text('');
+      }
+
+      // VALIDATE FOR INPUT NUMBER PHONE NUMBER
+
+      if ($('#tel_expedit').val() === "") {
+         $('#errPhoneExp').text('Veuillez entrer un numéro de téléphone svp !!!');
+         $('#errPhoneExp').css('color', 'red');
+         $('#errPhoneExp').css({
+            'font-size': '12px',
+            "margin-left": '10px'
+         });
+      } else {
+         $('#errPhoneExp').text('');
+      }
+
    })
 
 
