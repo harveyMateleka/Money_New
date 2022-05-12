@@ -78,7 +78,8 @@
                <div class="col-md-4">
                   <div class="form-row">
                      <label class="form-label">Nom Expediteur</label>
-                     <input type="text" style="text-transform:uppercase; border: 1px solid silver;padding-left:7px" class="form-control" name="expedieteur" placeholder="" id="name_expedit" required>
+                     <input type="text" style="text-transform:uppercase; border: 1px solid silver;padding-left:7px"
+                      class="form-control" name="expedieteur" placeholder="Nom d'expéditeur" id="name_expedit" required>
                      <span id='errCodeTransact'></span>
                      <div id="mes_naex" style="color:red; font-size:10px;" class="clearfix"></div>
                   </div>
@@ -88,7 +89,7 @@
                      <label class="form-label">
                         <NAV>Phone Expediteur</NAV>
                      </label>
-                     <input type="text" maxlength="15" class="form-control" min="0" max="2" name="telexpedit" style="text-transform:uppercase; border: 1px solid silver;padding-left:7px" placeholder="Téléphone expéditeur" id="tel_expedit" required='Veuillez saisir cette zone'>
+                     <input type="number" maxlength="15" class="form-control" min="0" max="2" name="telexpedit" style="text-transform:uppercase; border: 1px solid silver;padding-left:7px" placeholder="Téléphone expéditeur" id="tel_expedit" required='Veuillez saisir cette zone'>
                      <span id="errPhoneExp"></span>
                      <div id="mes_ex" style="color:red; font-size:10px;" class="clearfix"></div>
                   </div>
@@ -97,6 +98,7 @@
                   <div class="form-row">
                      <label class="form-label">Nom Bénéficiaire</label>
                      <input type="text" style="text-transform:uppercase; border: 1px solid silver;padding-left:7px" class="form-control" name="ben" placeholder="" id="name_benefic" required>
+                     <span id="errNomBenefic"></span>
                      <div id="id_ben" class="clearfix"></div>
                   </div>
                </div>
@@ -301,6 +303,25 @@
       }
    })
 
+   // VALIDATE FOR INPUT TEXT NAME BENEFICIAIRE, EVENT ONCHANGE
+
+   $("#name_benefic").on('change', () => {
+      let value = $("#name_benefic").val();
+      if (isValidBtn) {
+         if (value === '') {
+            isValidNameAgence = false;
+            $('#errNomBenefic').text('Veuillez entrer le nom du bénéficiaire svp !!!');
+            $('#errNomBenefic').css({
+               'font-size': '12px',
+               "margin-left": '10px',
+               "color": "red"
+            });
+         } else {
+            $('#errCodeTransact').text('');
+         }
+      }
+   })
+
    $('.btnEnvoi').on('click', function() {
       isValidBtn = true;
 
@@ -354,6 +375,19 @@
          });
       } else {
          $('#errPhoneExp').text('');
+      }
+
+      // VALIDATE FOR INPUT TEXT NAME BENEFICIAIRE
+
+      if ($('#name_benefic').val() === "") {
+         $('#errNomBenefic').text('Veuillez entrer le nom du bénéficiaire svp !!!');
+         $('#errNomBenefic').css('color', 'red');
+         $('#errNomBenefic').css({
+            'font-size': '12px',
+            "margin-left": '10px'
+         });
+      } else {
+         $('#errNomBenefic').text('');
       }
 
    })
