@@ -14,12 +14,12 @@
                                     <div class="form-row">
                                         <div class="form-group col-md-4">
                                             <label class="form-label">Nom du menu</label>
-                                            <input type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="name_menu">
+                                            <input style="text-transform:uppercase;" type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="name_menu">
                                             <div class="clearfix"></div>
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label class="form-label">Icon de Menu</label>
-                                            <input type="text" class="form-control" name="name_icon" placeholder="Saisir le menu" id="name_icon">
+                                            <input style="text-transform:uppercase;" type="text" class="form-control" name="name_icon" placeholder="Saisir le menu" id="name_icon">
                                             <div class="clearfix"></div>
                                         </div>
                                     </div>

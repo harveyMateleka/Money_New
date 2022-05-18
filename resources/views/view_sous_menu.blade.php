@@ -24,13 +24,13 @@
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <label class="form-label">NOM DU SOUS MENU</label>
-                                            <input type="text" class="form-control" name="name_menu" placeholder="" id="name_smenu">
+                                            <input type="text" style="text-transform:uppercase;" class="form-control" name="name_menu" placeholder="" id="name_smenu">
                                             <div class="clearfix"></div>
                                         </div>
 
                                         <div class="form-group col-md-6">
                                             <label class="form-label">LIEN DU ROUTE</label>
-                                            <input type="text" class="form-control" name="name_lien" placeholder="" id="name_lien">
+                                            <input type="text" style="text-transform:uppercase;" class="form-control" name="name_lien" placeholder="" id="name_lien">
                                             <div class="clearfix"></div>
                                         </div>
                                        
