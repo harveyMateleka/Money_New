@@ -6,11 +6,21 @@
     <!-- [ Preloader ] End -->
     <!-- [ content ] Start -->
     <div class="authentication-wrapper authentication-1 px-4">
-        <div class="authentication-inner py-5">
+        <div class="authentication-inner">
+
+        <div class="card" style="width: 18rem;">
+    <div class="card-body">
+        <!-- [ Logo ] Start -->
+        <h2 class="mt-4" style="text-align:center">S'authentifier</h2>
+        <div style=" text-align:center; ">
 
             <!-- [ Logo ] Start -->
             
-            <img src="{{ URL::to('../abt_app/public/colombelogo.jpeg') }}" style=" border: 5px ;border-radius: 50%;width:250px"  >
+            <img src="{{ URL::to('../abt_app/public/colombelogo.jpeg') }}" alt="Logo Lacolombe" style="max-width:100%; 
+            width: 40%; border-radius:100%; ">
+
+</div>
+        <hr />
             
             <!-- [ Logo ] End -->
 
@@ -45,15 +55,14 @@
                     </div>
                 </div>
                 <div class="d-flex justify-content-between align-items-center m-0">
-                    <label class="custom-control custom-checkbox m-0">
-                        <input type="checkbox" class="custom-control-input" id="checking">
-                        <span class="custom-control-label">Mot de passe oublié</span>
-                    </label>
                     <button type="submit" class="btn btn-success" name="login" id='login'>Se connecter</button>
                 </div>
             </form>
             <!-- [ Form ] End -->
         </div>
     </div>
+
+    </div>
+</div>
     <!-- meme une horloge en pangne donne lheure deux fois par jours-->
 @endsection
