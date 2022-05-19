@@ -234,7 +234,7 @@
                                                   }
                                                             },
                                     error:function(data){
-
+                                          console.log(data.success);
                                           Swal.fire('error', '', 'error')                              
                                           }
                                     });

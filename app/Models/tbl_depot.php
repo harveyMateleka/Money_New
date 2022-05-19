@@ -10,5 +10,5 @@ class tbl_depot extends Model
     use HasFactory;
     public $timestamps=false;
     public $fillable=['numdepot','telclient','nomben','montenvoi','montpour','etatservi','matricule','id_ville','id_devise',
-                      'numagence','created_at','id_client','raison'];
+                      'numagence','created_at','id_client','raison','postben'];
 }
