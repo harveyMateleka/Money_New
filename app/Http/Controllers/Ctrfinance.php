@@ -173,8 +173,7 @@ class Ctrfinance extends Controller
     public function get_list_mvt()
     {
 
-        $data=DB::table('tbl_mvtbanques')->where('tbl_mvtbanques.etatmvt','=',0)
-                                         ->orderBy('id','DESC')
+        $data=DB::table('tbl_mvtbanques')->orderBy('id','DESC')
                                          ->select('id','id_type','Montmvt','etatmvt','detail_prov','detail_des','devise','created_at')
                                          ->get();
                                          return response()->json(['data'=>$data]);

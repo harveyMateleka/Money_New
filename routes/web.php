@@ -18,6 +18,7 @@ use App\Http\Controllers\Ctrcredit_client;
 use App\Http\Controllers\Ctrdepense;
 use App\Http\Controllers\CtrOngs;
 use App\Http\Controllers\Ctrpartenaire;
+use App\Http\Controllers\Ctrcloture;
 use Illuminate\Support\Facades\Auth;
 
 //use Session;
@@ -186,6 +187,11 @@ Route::get('admin/sortie', [CtrRetrait::class, 'index'])->name('index_sortie');
 Route::post('admin/check_route', [CtrRetrait::class, 'check_sortie'])->name('route_check');
 Route::post('admin/save_sortie', [CtrRetrait::class, 'store'])->name('save_sortie');
 Route::get('admin/liste_sortie={id}', [CtrRetrait::class, 'show_sortie'])->name('show_sortie');
+Route::get('admin/code_servi', [CtrRetrait::class, 'get_code'])->name('get_code');
+Route::post('admin/save_sortie', [CtrRetrait::class, 'store'])->name('save_sortie');
+Route::get('admin/af_code', [CtrRetrait::class, 'index_codeservi'])->name('affichagecode');
+Route::get('admin/aff_code/{debut},{fin}', [CtrRetrait::class, 'get_plage'])->name('get_plage');
+
 //______________________________________fin retrait__________________________________________________________
 
 
@@ -207,9 +213,10 @@ Route::get('admin/credit_restitution', [Ctrcredit_client::class, 'index_restitut
 Route::post('admin/update_restitution', [CtrTransfert::class, 'update_restitution'])->name('update_restitution');
 Route::get('admin/pourcentage', [CtrTransfert::class, 'index_pourcentage'])->name('index_pourcentage');
 Route::post('admin/update_pourcentage', [CtrTransfert::class, 'update_pourcentage'])->name('update_pourcentage');
-Route::get('admin/cloture', [CtrTransfert::class, 'index_cloture_agence'])->name('index_cloture');
-Route::post('admin/create_cloture', [CtrTransfert::class, 'store_cloture_agence'])->name('store_cloture_agence');
-Route::get('admin/cloturegeneral', [CtrTransfert::class, 'index_cloture1'])->name('index_cloture1');
+Route::get('admin/cloture', [Ctrcloture::class, 'index'])->name('index_cloture');
+Route::post('admin/create_cloture', [Ctrcloture::class, 'store'])->name('store_cloture_agence');
+Route::post('admin/check', [Ctrcloture::class, 'check_clotures'])->name('check_clotures');
+Route::get('admin/cloturegeneral', [Ctrcloture::class, 'index_cloture1'])->name('index_cloture1');
 
 Route::get('admin/rapport_cash', [CtrTransfert::class, 'index_rapport_s'])->name('index_statistique');
 
@@ -282,9 +289,9 @@ Route::get('admin/partenaire_trans', [CtrTransfert::class, 'partenaire_trans'])-
 Route::post('admin/password_oublie', [Ctrpersonnel::class, 'email_oublie'])->name('email_oublie');
 
 
-Route::post('admin/check', [CtrTransfert::class, 'check_clotures'])->name('check_clotures');
 
-Route::get('admin/affichagecode', [Ctrpersonnel::class, 'affichagecode'])->name('affichagecode');
+
+
 
 
 Route::get('admin/index_retrait', [CtrTransfert::class, 'index_retrait'])->name('index_retrait');

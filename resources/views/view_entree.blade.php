@@ -71,38 +71,61 @@
                </div>
             </div>
             <div class="row">
-               <div class="col-md-4">
+               <div class="col-md-3">
                   <div class="form-row">
-                          <label class="form-label">Nom Expediteur</label>
+                          <label class="form-label">Nom Expediteur *</label>
                               <input type="text" style="text-transform:uppercase;" class="form-control"  name="expedieteur" placeholder="" id="name_expedit" required>
                               <div id="mes_naex" style="color:red; font-size:10px;" class="clearfix"></div>
                         </div>
                </div>
-                  <div class="col-md-4">
+
+               <div class="col-md-3">
+                  <div class="form-row">
+                          <label class="form-label">Post-Nom Expediteur *</label>
+                              <input type="text" style="text-transform:uppercase;" class="form-control"  name="expedieteur" placeholder="" id="past_expedit" required>
+                              <div id="mes_naex" style="color:red; font-size:10px;" class="clearfix"></div>
+                        </div>
+               </div>
+               <div class="col-md-3">
+                  <div class="form-row">
+                          <label class="form-label">PreNom Expediteur *</label>
+                              <input type="text" style="text-transform:uppercase;" class="form-control"  name="expedieteur" placeholder="" id="pre_expedit" required>
+                              <div id="mes_naex" style="color:red; font-size:10px;" class="clearfix"></div>
+                        </div>
+               </div>
+               <div class="col-md-3">
                         <div class="form-row">
-                          <label class="form-label"><NAV>Phone Expediteur</NAV></label>
+                          <label class="form-label"><NAV>Phone Expediteur *</NAV></label>
                               <input type="tel" maxlength="15" class="form-control" min="0" max="2"  name="telexpedit" placeholder="" id="tel_expedit" required='Veuillez saisir cette zone'>
                               <div id="mes_ex" style="color:red; font-size:10px;" class="clearfix"></div>
                         </div>
                   </div>
+               </div>
+            <div class="row"> 
                    <div class="col-md-4">
                         <div class="form-row">
-                          <label class="form-label">Nom Beneficiaire</label>
+                          <label class="form-label">Nom et Postnom Beneficiaire *</label>
                               <input type="text" style="text-transform:uppercase;" class="form-control"  name="ben" placeholder="" id="name_benefic" required>
                               <div id="id_ben"class="clearfix"></div>
                         </div>
                      </div>
-            </div>
-            <div class="row"> 
-                     <div class="col-md-3">
+                     <div class="col-md-4">
+                        <div class="form-row">
+                          <label class="form-label"> Prenom Beneficiaire *</label>
+                              <input type="text" style="text-transform:uppercase;" class="form-control"  name="ben" placeholder="" id="prename_ben" required>
+                              <div id="id_ben"class="clearfix"></div>
+                        </div>
+                     </div>
+                     <div class="col-md-4">
                         <div class="form-row">
                         <label class="form-label">Phone Beneficiere</label>                              
                         <input type="tel" maxlength="15" class="form-control"  name="tel_benefic" placeholder="" id="tel_benefic" required>
                         <div id="mes_ben" style="color:red; font-size:10px;" class="clearfix"></div>
                         </div>
                      </div>
-
-                  <div class="col-md-3">
+            </div>
+            <div class="row"> 
+                  <div class="col-md-4">
                   <label class="form-label">Devise</label>
                            <div class="form-group">
                            <select class="custom-select flex-grow-1" id='name_devise' name="name_devise" required>
@@ -118,18 +141,18 @@
                      
                      </div>
                   </div>
-                   <div class="col-md-3">
+                   <div class="col-md-4">
+                   <label class="form-label">Montant d'envoi</label>
                       <div class="form-group">
-                          <label class="form-label">Montant d'envoi</label>
-                              <input type="number" autocomplete="off" class="currency"  name="name_montexp" placeholder=""   id="name_montexp" required="Veuillez saisir cette zone">
+                              <input type="text" autocomplete="off" class="currency"  name="name_montexp" placeholder=""   id="name_montexp" required="Veuillez saisir cette zone" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) ||event.charCode == 46 || event.charCode == 0 " 
+       onfocusout ="validateinput(this)">
                               <div class="clearfix" id='msgmont'></div>
                         </div>
                    </div>
 
-                     <div class="col-md-3">
+                     <div class="col-md-4">
                         <label class="form-label">Pourcentage</label>
                       <div class="form-group">
-                          
                               <input type="text"  class="currency"  name="telexpedit" placeholder="" id="name_montcom" readonly required>
                               <div class="clearfix" id='msgpour'></div>
                         </div>
@@ -145,7 +168,7 @@
                 </div>
 
            
-            <br>
+                  <br>
             <button type="button" class="btn btn-success" name="btnsave_users" id="btnsave_envois">Envoyez</button>
             <button type="reset" class="btn btn-danger" id="btnreset_affectation">annule</button>
             <input type="hidden" class="form-control"  id="name_occupation">
@@ -248,7 +271,7 @@
                         if ($('#name_ville').val() != '-1') {
                            code_transfert();
                         } else {
-                           return '';
+                           $("#name_transact").val("");
                         }
                         });
 
@@ -258,7 +281,7 @@
                         affiche_entree($('#name_agence').val());
                         code_transfert();
                      } else {
-                        return '';
+                        $("#name_transact").val("");
                      }
                      });
                      $("#name_agence").select2();
@@ -266,14 +289,91 @@
 
 
                      $('#name_montexp').on('input', function() {
-                     if (!isNaN($('#name_montexp').val()) && $('#name_devise').val()!='-1') {
-                        $('#name_montcom').val(calcul_com());
+                      
+                        //$('#name_montexp').change();
+                        // let aff=formateIndianCurrency($('#name_montexp').val());
+                        // $('#name_montexp').html(aff);
+                        // $('#name_montcom').val(aff);
+                        // $('#name_montexp').val(aff);
+                       
+                        // $("#msgmont").html(aff);
+                      if (!isNaN($('#name_montexp').val()) && $('#name_devise').val()!='-1') {
+                         $('#name_montcom').val(calcul_com());
                         
-                     } else {
-                        $("#msgmont").html("veuillez choisir la devise").css("color", "red");
-                        $('#name_montexp').val('');
-                     }
+                      } else {
+                         $("#msgmont").html("veuillez choisir la devise").css("color", "red");
+                         $('#name_montexp').val('');
+                      }
                      });
+
+                     // $('#name_montexp').keypress(function() {
+                       
+                     // });
+
+                 
+
+                     // function format_num(id) {
+                     //    var number = document.getElementById(id).value;
+                     //          number += '';
+                     //          number = number.replace(",","");
+                     //          x = number.split('.');
+                     //          x1 = x[0];
+                     //          x2 = x.length > 1 ? '.' + x[1] : '';
+                     //          var rgx = /(\d+)(\d{3})/;
+                     //          while (rgx.test(x1)) {
+                     //                x1 = x1.replace(rgx, '$1' + ',' + '$2');
+                     //          }
+                     //          return document.getElementById(id).value = x1 + x2;
+                     //       }
+                     
+                  //    $('#name_montexp').focusout(function() {
+                  //       var a =  $('#name_montexp').val();
+                  //     a = a.split('').reverse().join('').replace(/([0-9]{3})/g, "$1 ").split('').reverse().join('');
+
+                  //   return $('#name_montexp').val(a);
+                  //       // let valeur =document.querySelector("#name_montexp").value;
+                  //       // let nombre=parseFloat(valeur).toFixed(2);
+                  //       // let result = numberWithSpaces(nombre);//.toLocaleString() ;//+ nombre.toString().slice(nombre.toString().indexOf('.'))
+                  //       // $('#name_montexp').val(result);
+
+                  //       //let aff=formateIndianCurrency($('#name_montexp').val());
+                  //       // $('#name_montexp').html(aff);
+                  //       // $('#name_montcom').val(aff);
+                  //      // $('#name_montexp').val(aff);
+                  //       // $("#msgmont").html(aff);
+                  //    // if (!isNaN($('#name_montexp').val()) && $('#name_devise').val()!='-1') {
+                  //    //    $('#name_montcom').val(calcul_com());
+                        
+                  //    // } else {
+                  //    //    $("#msgmont").html("veuillez choisir la devise").css("color", "red");
+                  //    //    $('#name_montexp').val('');
+                  //    // }
+                  //    });
+
+                  //    function validateinput(el) {
+                  //       if (parseFloat(el.value) < 99 & parseFloat(el.value)>0) {
+                  //             el.value = parseFloat(el.value).toFixed(2);
+                  //       }
+                  //       else {
+                  //             //show invalidate message.
+                  //             //clear the input value.
+                  //             el.value = "";
+                  //       }
+                  //    };
+                  //    const formatAndVerifyNumericValue = (value, callback) => {
+                  //    const reg = new RegExp('^[0-9]+$');
+                  //    let newValue = value.replace(/\s/g, '');
+                  //    if (reg.test(newValue)) {
+                  //       newValue = newValue.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+. 
+                  //       (?!\d))/g, ' ');
+                  //       return callback(newValue);
+                  //    }}
+
+                  //    function numberWithSpaces(x) {
+                  //    var parts = x.toString().split(".");
+                  //    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+                  //    return parts.join(".");
+                  // }
 
                      $('#tel_benefic').on('input', function() {
                         var teleben=$('#tel_benefic').val();
@@ -317,14 +417,15 @@
                      });
 
       $('#btnsave_envois').click(function() {
-                  if ($("#name_expedit").val() != '' && $("#tel_expedit").val() != '' && $("#name_benefic").val() != '' && $("#tel_benefic").val() != '' && $("#name_montexp").val() != '' && $("#name_montcom").val() != '') {
 
-                    if ($('#name_devise').val() != '-1' && $('#name_ville').val() != '-1' && $('#name_agence').val() != '-1' && $('#raison').val()!= '') {
-                     let id_vil = $("#name_ville").val();
+         if (verification()) {
+            let id_vil = $("#name_ville").val();
                      let dev = $('#name_devise').val();
+                     let name_expedi = $("#name_expedit").val() + ' ' + $("#past_expedit").val() + ' ' + $("#pre_expedit").val();
+                     let name_ben = $("#name_benefic").val() + ' ' + $("#prename_ben").val();
                      let message = "vous voulez envoyer de l'argent à "; 
                       message += $('#ville' + id_vil).val() + ' provenant de ';
-                      message += $("#name_expedit").val() + ', destiné à ' + $("#name_benefic").val();
+                      message += name_expedi + ', destiné à ' + name_ben ;
                       message += ' au code de transfert de ' + $("#name_transact").val() + ' pour un montant de ' + $("#name_montexp").val() + ' ' + $('#devise' + dev).val();
                       Swal.fire({  
                                  title: 'Colombe Money',
@@ -345,9 +446,9 @@
                                              agence: $("#name_agence").val(),
                                              ville: $("#name_ville").val(),
                                              devise: $("#name_devise").val(),
-                                             expediteur: $("#name_expedit").val(),
+                                             expediteur:name_expedi,
                                              expeditel: $("#tel_expedit").val(),
-                                             benefic: $("#name_benefic").val(),
+                                             benefic: name_ben,
                                              tel_ben: $("#tel_benefic").val(),
                                              montenv: $("#name_montexp").val(),
                                              montcom: $("#name_montcom").val(),
@@ -360,8 +461,8 @@
                                                       affiche_entree($('#name_agence').val());
                                                       let id_ag = $('#name_agence').val();
                                                       let tab = ['1', $('#agence' + id_ag).val(), $('#ville' + id_vil).val(),
-                                                         $("#name_transact").val(), $("#name_expedit").val(), $("#tel_expedit").val(),
-                                                   $("#name_benefic").val(), $("#tel_benefic").val(), $("#name_montexp").val(), $("#name_montcom").val(), $('#devise' + dev).val(),$("#raison").val()
+                                                         $("#name_transact").val(), name_expedi, $("#tel_expedit").val(),
+                                                         name_ben, $("#tel_benefic").val(), $("#name_montexp").val(), $("#name_montcom").val(), $('#devise' + dev).val(),$("#raison").val()
                                                       ];
                                                       window.location.href = ("/pdf/generate/" + tab);
                                                       Swal.fire('operation effectuée', '', 'success') 
@@ -377,6 +478,9 @@
                                                       $("#raison").val("");
                                                       $("#msgmont").html("");
                                                       $("#msgpour").html("");
+                                                      $("#past_expedit").val("");
+                                                      $("#pre_expedit").val("");
+                                                      $("#prename_ben").val("");
                                                    }
                                                    else{
                                                       alert('existe deja');
@@ -384,7 +488,7 @@
                                              },
                                              error:function(data){
                               
-                                                   Swal.fire('error', '', 'succerroress')                              
+                                                   Swal.fire('error', '', 'error')                              
                                              }
                                           });
                                        
@@ -392,11 +496,25 @@
                                        } else if (result.isDenied) {    
                                           Swal.fire('Changes are not saved', '', 'info')  
                                        }
-                                 });      
-                    
-                }
-              }
+                                 }); 
+         }
+         else{
+            Swal.fire('verifiez bien les zones de saisie', '', 'info') 
+         }
 });
+         function verification(){
+            if ($("#name_expedit").val() != '' && $("#tel_expedit").val() != '' && $("#name_benefic").val() != '' && $("#tel_benefic").val() != '' && $("#name_montexp").val() != '' && $("#name_montcom").val() != ''){
+               if ($('#name_devise').val() != '-1' && $('#name_ville').val() != '-1' && $('#name_agence').val() != '-1' && $('#raison').val()!= '' && $("#past_expedit").val()!="" && $("#pre_expedit").val()!='' && $("#prename_ben").val()!='') {
+                  return true;
+               }
+               else{
+                  return false;
+               }
+            }
+            else{
+                  return false;
+               }
+         }
 
 
         })();
@@ -416,8 +534,16 @@
                      {"data":'numdepot'},
                      {"data":'nomagence'},
                      {"data":'ville'},
-                     {"data":'montenvoi'},
-                     {"data":'montpour'},
+                     {"data":'montenvoi',"autoWidth":true,"render":function (data){
+                        let mont=formateIndianCurrency(data);
+                        let new_value=mont.substring(0,mont.length - 1);
+                        return new_value;
+                     }},
+                     {"data":'montpour',"autoWidth":true,"render":function (data){
+                        let montp=formateIndianCurrency(data);
+                        let new_val=montp.substring(0,montp.length - 1);
+                        return new_val;
+                     }},
                      {"data":'intitule'},
                      
                      {"data":'id',"autoWidth":true,"render":function (data) {
@@ -479,6 +605,9 @@ function code_transfert(){
          alert(data.success);
       }
    });
+   }
+   else{
+    
    }
   
 }

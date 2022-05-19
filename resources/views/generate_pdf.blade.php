@@ -201,9 +201,9 @@ footer {
     <table>
         <thead>
           <tr>
-            <th class="service" width='100px'>BENEFICIAIRE</th>
+            <th class="service" width='150%'>BENEFICIAIRE</th>
             <th class="service">Ville</th>
-            <th class="desc">TELEPHONE</th>
+            <th class="service">TELEPHONE</th>
             <th class="service">MONTANT PAYE </th>
             <th class="service" width='100%'>CODE</th> 
           </tr>

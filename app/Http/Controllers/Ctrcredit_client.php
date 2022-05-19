@@ -115,7 +115,8 @@ class Ctrcredit_client extends Controller
                  public function get_id_credit(Request $request)
                  {
                      if ($request->ajax()) {
-                          $resultat=tbl_depot::whereId($request->code)->first();
+                          $resultat=DB::table('tbl_depots','depot')->join('tbl_clients','depot.id_client','=','tbl_clients.id_client')
+                          ->join('tbl_agences','depot.numagence','=','tbl_agences.numagence')->where('depot.numdepot','=',$request->code)->first();
                          return response()->json($resultat); 
                         
                      }

@@ -7,6 +7,7 @@ use App\Models\tbl_typedepense;
 use App\Models\tbl_menu;
 use App\Models\tbl_sous_menu;
 use App\Models\tbl_droitacces;
+use App\Models\tbl_fonction;
 
 use App\Models\tbl_vile;
 use App\Models\tbl_ong;
@@ -29,7 +30,7 @@ public function index_ville()
         return view("view_ville"); 
         }
         else{
-            return redirect()->route('index_login');
+            return redirect()->route('login');
         }   
     }
 
@@ -47,7 +48,7 @@ public function index_ville()
         return view("view_typedepense");
         }
         else{
-            return redirect()->route('index_login');
+            return redirect()->route('login');
         }
         
     }
@@ -58,7 +59,7 @@ public function index_ville()
         return view("view_menu");
        }
        else{
-        return redirect()->route('index_login'); 
+        return redirect()->route('login'); 
        }
     }
     public function index4()
@@ -69,7 +70,7 @@ public function index_ville()
         return view("view_sous_menu",compact('resultat'));
       } 
       else{
-        return redirect()->route('index_login');
+        return redirect()->route('login');
       }
        
        
