@@ -697,6 +697,14 @@
       });
 
    }
+<<<<<<< HEAD
+=======
+   else{
+    
+   }
+  
+}
+>>>>>>> main
 
    function calcul_com() {
       if ($('#name_devise').val() != '-1' && $('#name_montexp').val() != '') {

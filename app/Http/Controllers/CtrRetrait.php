@@ -11,6 +11,7 @@ use App\Models\tbl_retrait;
 use App\Models\tbl_depot;
 use Illuminate\Support\Facades\Auth;
 use DB;
+use DateTime;
 
 class CtrRetrait extends Controller
 {
@@ -21,6 +22,7 @@ class CtrRetrait extends Controller
      */
     private $transfert;
     private $admin;
+    private $date;
     public function index()
     {
         if (Auth::check()) {  
@@ -36,6 +38,40 @@ class CtrRetrait extends Controller
 
         $this->transfert=new CtrTransfert; 
         $this->admin=new ctradmin; 
+        $this->date= new DateTime();
+    }
+
+    public function index_codeservi(){
+        if (Auth::check()) {
+            $this->admin->index_entete();
+            return view('view_affichagecode');
+        }
+        else{
+            return redirect()->route('login');
+        }  
+    }
+
+    public function get_code(){
+        $resultat=DB::table('tbl_retraits','retrait')->join('tbl_depots','retrait.id_depot','=','tbl_depots.numdepot')
+                                                ->join('tbl_agences','retrait.numagence','=','tbl_agences.numagence')
+                                                 ->join('tbl_personnels','retrait.matricule','=','tbl_personnels.matricule')
+                                                 ->join('tbl_devises','tbl_depots.id_devise','=','tbl_devises.id')
+                                                 ->where('tbl_depots.etatservi','=','1')
+                                                 ->select('retrait.id','nomagence',DB::raw("CONCAT(tbl_personnels.nom,' ',tbl_personnels.prenom) AS name"),'numdepot','montenvoi','intitule','date_servis')
+                                                 ->get();
+                                                 return response()->json(['data'=>$resultat]);
+    }
+
+    public function get_plage($debut,$fin){
+        $resultat=DB::table('tbl_retraits','retrait')->join('tbl_depots','retrait.id_depot','=','tbl_depots.numdepot')
+                                                ->join('tbl_agences','retrait.numagence','=','tbl_agences.numagence')
+                                                ->join('tbl_personnels','retrait.matricule','=','tbl_personnels.matricule')
+                                                ->join('tbl_devises','tbl_depots.id_devise','=','tbl_devises.id')
+                                                 ->where('tbl_depots.etatservi','=','1')
+                                                 ->whereBetween('date_servis', [$debut,$fin])
+                                                 ->select('retrait.id','nomagence',DB::raw("CONCAT(tbl_personnels.nom,' ',tbl_personnels.prenom) AS name"),'numdepot','montenvoi','intitule','date_servis')->get();
+  //dd($resultat);
+        return response()->json(['data'=>$resultat]);
     }
 
     /**
@@ -86,7 +122,7 @@ class CtrRetrait extends Controller
                 $insert->date_servis=$this->date->format('Y-m-d');
                 $insert->save();
                 $requet=tbl_depot::whereNumdepot($request->code)->update(['etatservi'=>'1']);
-                $this->historique(Auth::user()->matricule,$operation);
+                $this->transfert->historique(Auth::user()->matricule,$operation);
                 return response()->json(['success'=>'1']);
             }
             else {
