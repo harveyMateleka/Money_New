@@ -15,13 +15,13 @@
                                         <div class="form-group col-md-4">
                                             <label class="form-label">Nom du menu</label>
                                             <input style="text-transform:uppercase;" type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="name_menu">
-                                            <div class="clearfix"></div>
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label class="form-label">Icon de Menu</label>
                                             <input style="text-transform:uppercase;" type="text" class="form-control" name="name_icon" placeholder="Saisir le menu" id="name_icon">
-                                            <div class="clearfix"></div>
                                         </div>
+                                        <div id="ms" style="color:red">ddd</div>
+
                                     </div>
 
                                     <button type="button" class="btn btn-success" name="btnsave_menu" id="btnsave_menu">Enregistre</button>
@@ -117,6 +117,8 @@ $('#btnsave_menu').click(function() {
             }
             
           
+        }else{
+            $("#ms").html(" Veuillez saisir tout les champs !");
         }
     });
     $('body').delegate('.modifier_menu','click',function(){

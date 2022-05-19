@@ -49,7 +49,7 @@
                <div class="form-group col-md-4">
                   <label class="form-label">INITIAL</label>
                   <input type="text" style="text-transform:uppercase;" class="form-control" required="" name="initial" placeholder="" id="initial">
-                  <div class="clearfix"></div>
+                  <div id="ms" style="color : red"></div>
                </div>
             </div>
             <button type="button" class="btn btn-success" name="btnsave_agence" id="btnsave_agence">Enregistre</button>
@@ -224,6 +224,8 @@
         })
     });
       }
+   }else{
+      $("#ms").html("Vveuillez remplire tout les champs !");
    }
 });
 $('body').delegate('.modifier_agence', 'click', function () {
