@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\tbl_personnel;
-use App\Models\user; 
+use App\Models\user;
 use App\Models\tbl_menu;
 use App\Models\tbl_depot;
 use Illuminate\Support\Facades\Auth;
@@ -44,38 +44,68 @@ class ctradmin extends Controller
            }
            $date= new DateTime();
 
-           $result=DB::table('tbl_depots')->where('created_at','=', $date->format('Y-m-d'))->get();
-           $result_credit=DB::table('tbl_depots')->where('etatservi','=','0')->get();
-           $result1=DB::table('tbl_retraits')->where('created_at','=', $date->format('Y-m-d'))->get();
-            $result3=DB::table('tbl_mvtbanques')->where('created_at','=', $date->format('Y-m-d'))->where('etatmvt','=','0')->get();
-            $result4=DB::table('tbl_mvtbanques')->where('created_at','=', $date->format('Y-m-d'))->where('etatmvt','=','1')->get();
+           $result5=DB::table('tbl_depots')->where('created_at','=', $date->format('Y-m-d'))->where('id_devise','=','1')->get();
+           $result6=DB::table('tbl_depots')->where('created_at','=', $date->format('Y-m-d'))->where('id_devise','=','2')->get();
+           //SORTIE
+           $result7=DB::table('tbl_depots')->where('created_at','=', $date->format('Y-m-d'))->where('id_devise','=','1')->where('etatservi','=','1')->get();
+           $result8=DB::table('tbl_depots')->where('created_at','=', $date->format('Y-m-d'))->where('id_devise','=','2')->where('etatservi','=','1')->get();
+          //CREDIT CLIENT
+           $result_credit=DB::table('tbl_depots')->where('created_at','=', $date->format('Y-m-d'))->where('etatservi','=','0')->where('id_devise','=','1')->get();
+           $result_credit1=DB::table('tbl_depots')->where('created_at','=', $date->format('Y-m-d'))->where('etatservi','=','0')->where('id_devise','=','2')->get();
+           //MOUVEMENT 
            $this->index_entete();
 
-        $data =tbl_depot::select('id','created_at')
-        ->get()->groupBy(function($data){
-         return Carbon::parse($data->created_at)->format('M');
-        });
 
-        $months=[];
-        $monthCount=[];
+          $data =tbl_depot::select('id','created_at','montenvoi')->where('id_devise','=','2')
+          ->get()->groupBy(function($data){
+           return Carbon::parse($data->created_at)->format('M-Y');
+          });
+          $montant=[];
+          $months=[];
+          $monthCount=[];
+          foreach ($data as $month => $values) {
+             $months[]=$month;
+             $monthCount[]=count($values);
+          }
+  
+         // DOLLARS AMERICAIN
+  
+          $data1 =tbl_depot::select('id','created_at','montenvoi')->where('id_devise','=','1')
+          ->get()->groupBy(function($data1){
+           return Carbon::parse($data1->created_at)->format('M-Y');
+          });
+          $montant1=[];
+          $months1=[];
+          $monthCount1=[];
+          foreach ($data1 as $month1 => $values1) {
+             $months1[]=$month1;
+             $montant1=[];
+             $monthCount1[]=count($values1);
+          }  
 
-        foreach ($data as $month => $values) {
-           $months[]=$month;
-           $monthCount[]=count($values);
-        }
+       // $data =tbl_depot::select('id','created_at')
+       // ->get()->groupBy(function($data){
+       //  return Carbon::parse($data->created_at)->format('M');
+       // });
 
-            $arrayName =['nbr_actif'=>$count_actif,
-            'nbr_conge'=>$count_conge,
-            'nbr_licencie'=>$count_licencie,
-            'Totalentree'=>$result->count(),
-            'Totalsortie'=>$result1->count(),
-            'Totalcredit'=>$result_credit->count(),
-            'Totalsortiemvt'=>$result3->count(),
-            'TotalEntremvt'=>$result4->count(),
-            'data'=> $data,
-            'months'=>$months,
-            'monthCount'=>$monthCount
-        ];
+      
+
+        $arrayName =['nbr_actif'=>$count_actif,
+        'nbr_conge'=>$count_conge,
+        'nbr_licencie'=>$count_licencie,
+        'TotalcreditUsd'=>$result_credit->count(),
+        'TotalcreditCdf'=>$result_credit1->count(),
+        'TotalEntreUsd'=>$result5->count(),
+        'TotalEntreCdf'=>$result6->count(),
+        'TotalsortieUsd'=>$result7->count(),
+        'TotalSortieCdf'=>$result8->count(),
+        'data'=> $data,
+        'months'=>$months,
+        'monthCount'=>$monthCount,
+        'data1'=> $data1,
+        'months1'=>$months1,
+        'monthCount1'=>$monthCount1
+    ];
            return view('dashboard', $arrayName);
             
         }

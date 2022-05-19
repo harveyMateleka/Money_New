@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\tbl_typedepense;
 use App\Models\tbl_menu;
 use App\Models\tbl_sous_menu;
+use App\Models\tbl_fonction;
 use App\Models\tbl_droitacces;
 
 use App\Models\tbl_vile;

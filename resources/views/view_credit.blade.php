@@ -85,15 +85,15 @@
         <table class="table card-table" id="update">
                                 <thead class="thead-dark">
                                     <tr>
-                                        <th>ID</th>
+                                         <th>ID</th>
                                         <th>DATE</th>
-                                        <th>EXPEDITEURE</th>
-                                        <th>AGENCE</th>
+                                        <th>CODE</th>
+                                        <th>PROVENANCE</th>
+                                        <th>DESTINATION</th>
+                                        <th>EXPEDITEUR</th>
                                         <th>BENEFICIARE</th>
-                                         <th>VILLE</th>
-                                         <th>DEVISE</th>
                                         <th>MONTANT</th>
-                                        <th>DEPOT</th>
+                                        <th>DEVISE</th>
                                         <th>ACTION</th>
                                     </tr>
                                 </thead>
@@ -129,33 +129,38 @@
                                   @if($create_at_difference >= 30)
                                      <td style="color:red">{{$resultats->id}}</td>
                                      <td style="color:red">{{$resultats->created_at}}</td>
-                                      <td style="color:red">{{$resultats->nomclient}}</td>
-                                      <td style="color:red">{{$resultats->nomagence}}</td>
-                                     <td style="color:red">{{$resultats->nomben}}</td>
-                                     <td style="color:red">{{$resultats->ville}}</td>
-                                     <td style="color:red">{{$resultats->intitule}}</td>
-                                      <td style="color:red">{{$resultats->montenvoi}}</td>
                                      <td style="color:red">{{$resultats->numdepot}}</td>
+                                     <td style="color:red">{{$resultats->nomagence}}</td>
+                                     <td style="color:red">{{$resultats->ville}}</td>
+                                      <td style="color:red">{{$resultats->nomclient}}</td>
+                                     <td style="color:red">{{$resultats->nomben}}</td>
+                                      <td style="color:red">{{$resultats->montenvoi}}</td>
+                                      <td style="color:red">{{$resultats->intitule}}</td>
+                                  
                                      <td>
                                    
 
-             <button  data-id='{{$resultats->id}}' class="btn btn-success fa fa-edit checking" type='button'>RETIRE</button>
+             <button  data-id='{{$resultats->id}}' class="btn btn-primary   checking" type='button'>RETIRE</button>
                                      </td>
                                   @else
-                                     <td style="color:green">{{$resultats->id}}</td>
+                                  <td style="color:green">{{$resultats->id}}</td>
                                      <td style="color:green">{{$resultats->created_at}}</td>
-                                      <td style="color:green">{{$resultats->nomclient}}</td>
-                                      <td style="color:green">{{$resultats->nomagence}}</td>
-                                     <td style="color:green">{{$resultats->nomben}}</td>
-                                     <td style="color:green">{{$resultats->ville}}</td>
-                                     <td style="color:green">{{$resultats->intitule}}</td>
-                                      <td style="color:green">{{$resultats->montenvoi}}</td>
                                      <td style="color:green">{{$resultats->numdepot}}</td>
+                                     <td style="color:green">{{$resultats->nomagence}}</td>
+                                     <td style="color:green">{{$resultats->ville}}</td>
+                                      <td style="color:green">{{$resultats->nomclient}}</td>
+                                     <td style="color:green">{{$resultats->nomben}}</td>
+                                      <td style="color:green">{{$resultats->montenvoi}}</td>
+                                      <td style="color:green">{{$resultats->intitule}}</td>
+                                     
                                      <td>
-                                       <button href="javascript:void(0)"  class="btn btn-danger" disabled><i class="fa fa-times"></i>BLOQUE</button>
-                                           <button  data-id='{{$resultats->id}}' class="btn btn-success fa fa-edit update" type='button'>modifier</button>
+                                       <button href="javascript:void(0)"  class="btn btn-danger" disabled><i class="fa fa-times"></i>BLOCK</button>
+                                      <button  data-id='{{$resultats->id}}' class="btn btn-success fa fa-edit update" type='button'>EDIT</button>
+                                      <button  data-id='{{$resultats->id}}' class="btn btn-warning fa fa-check-circle" type='button'>RETRAIT</button>
                                      </td>
                                   @endif
+
+                                  
                                   </tr>
                                       
           </tr> @endforeach </tbody>
@@ -385,6 +390,11 @@ swal({
     });
 
 });
+
+
+
+
+
 
 $(".update").click(function (e) {
   var ids = $(e.target).attr("data-id");
