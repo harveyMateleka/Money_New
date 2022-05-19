@@ -9,5 +9,5 @@ class tbl_client extends Model
 {
     use HasFactory;
     public $timestamps=false;
-    public $fillable=['id_client','nomclient','tel'];
+    public $fillable=['id_client','nomclient','tel','postnom','prenom'];
 }

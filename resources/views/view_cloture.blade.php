@@ -10,21 +10,26 @@
          <form action="#" method="POST" id="form_sous">
             {{csrf_field()}}
             <div class="form-row">
-               <div class="form-group col-md-4">
-                  <select class="custom-select flex-grow-1" id='name_agence' name="agence">
-                     <option value='-1'>SELECTIONER L'AGENCE</option>
-                     @foreach($don as $ligne_agence)
-                     <option value='{!! $ligne_agence->numagence !!}'>{!! $ligne_agence->nomagence !!}</option>
-                     @endforeach
-                  </select>
-                  @foreach($don as $ligne_agence)
-                  <input type="hidden"  class="form-control"  name="{{'agence'.$ligne_agence->numagence}}"  id="{{'agence'.$ligne_agence->numagence}}" value="{{$ligne_agence->nomagence}}">
-                  @endforeach
+               <div class="form-group col-md-6">
+                     <label class="form-label">Agence</label>
+                        <select class="custom-select flex-grow-1" id='name_agence' name="agence">
+                           <option value='-1'>Choisir Agence</option>
+                           @foreach($don as $ligne_agence)
+                           <option value='{!! $ligne_agence->numagence !!}'>{!! $ligne_agence->nomagence !!}</option>
+                           @endforeach
+                        </select>
+                        @foreach($don as $ligne_agence)
+                        <input type="hidden"  class="form-control"  name="{{'agence'.$ligne_agence->numagence}}"  id="{{'agence'.$ligne_agence->numagence}}" value="{{$ligne_agence->nomagence}}">
+                        @endforeach
                </div>
-
-      <button type="button" class="btn btn-success" name="btn_checking" id="btn_checking">Verifier</button>
+               <div class="form-group col-md-6">
+                        <label class="form-label">Date</label>
+                        <input type="date" class="form-control" name="name_datedebut" id='name_datedebut'>
+               </div>
             </div>
-          </br>
+            <div class="form-row">
+            <button type="button" class="btn btn-success" name="btn_checking" id="btn_checking">Verifier</button>
+            </div>
           </br>
           </br>
             <div class="form-row">
@@ -176,43 +181,73 @@
              headers: {
                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
              }
-                }); 
+                });
+                $('#name_agence').select2();
 $('#btn_checking').click(function() { 
 
-           if($("#name_agence").val()!=''){ 
+           if($("#name_agence").val()!='' && $("#name_datedebut").val()!=''){ 
                     $.ajax({
                      url   : "{{route('check_clotures')}}",
                      type  : 'POST',
                      async : false,
-                     data  : {numagence:$("#name_agence").val()
+                     data  : {
+                        numagence:$("#name_agence").val(),
+                        name_date:$("#name_datedebut").val()
                      },
                      success:function(data)
                      {
-                      
-                         $("#name_nouvusd").val(data.data.nouvdepartusd);
-                         $("#name_nouvcdf").val(data.data.nouvdepartcdf);
-                         $("#name_ancusd").val(data.data.ancdepartUsd);
-                         $("#name_anccdf").val(data.data.ancdepartCdf);
-                         $("#totalentre_usd").val(data.data.totalentreusd);
-                         $("#totalentre_cdf").val(data.data.totalentrecdf);
-                         $("#sortie_usd").val(data.data.totalsortiusd);
-                         $("#sortie_cdf").val(data.data.totalsorticdf);
-                         $("#Pourc_usd").val(data.data.pourusd);
-                         $("#Pourc_cdf").val(data.data.pourcdf);
-                         $("#Eong_usd").val(data.data.totalEOngusd);
-                         $("#Eong_cdf").val(data.data.totalEOngcdf);
-                         $("#Song_usd").val(data.data.totalSONGusd);
-                         $("#Song_cdf").val(data.data.totalSONGcdf);
-                         $("#totalentreecash_usd").val(data.data.totaleusd);
-                         $("#totalentreecash_cdf").val(data.data.totaleusd);
-                         $("#expresse_usd").val(data.data.totalsusd);
-                         $("#expresse_cdf").val(data.data.totalsusd);
-                         $("#depense_usd").val(data.data.totaldepusd);
-                         $("#depense_cdf").val(data.data.totaldepcdf);
-                         $("#entreeB_usd").val(data.data.entrebankusd);
-                         $("#entreeB_usd").val(data.data.entrebankcdf);
-                         $("#sortieB_usd").val(data.data.sortiebankusd);
-                         $("#sortieB_cdf").val(data.data.sortiebankcdf);
+                        let mont=formateIndianCurrency(data.data.nouvdepartusd);
+                        let monts=formateIndianCurrency(data.data.nouvdepartcdf);
+                        let montancU=formateIndianCurrency(data.data.ancdepartUsd);
+                        let montancC=formateIndianCurrency(data.data.ancdepartCdf);
+                        let totalEU=formateIndianCurrency(data.data.totalentreusd);
+                        let totalEC=formateIndianCurrency(data.data.totalentrecdf);
+                        let SortieU=formateIndianCurrency(data.data.totalsortiusd);
+                        let SortieC=formateIndianCurrency(data.data.totalsorticdf);
+                        let PourU=formateIndianCurrency(data.data.pourusd);
+                        let PourC=formateIndianCurrency(data.data.pourcdf);
+                        let Eong_usd=formateIndianCurrency(data.data.totalEOngusd);
+                        let Eong_cdf=formateIndianCurrency(data.data.totalEOngcdf);
+
+                        let Song_usd=formateIndianCurrency(data.data.totalSONGusd);
+                        let Song_cdf=formateIndianCurrency(data.data.totalSONGcdf);
+                        let totalentreecash_usd=formateIndianCurrency(data.data.totaleusd);
+                        let totalentreecash_cdf=formateIndianCurrency(data.data.totalecdf);
+                        let expresse_usd=formateIndianCurrency(data.data.totalsusd);
+                        let expresse_cdf=formateIndianCurrency(data.data.totalscdf);
+
+                        let depense_usd=formateIndianCurrency(data.data.totaldepusd);
+                        let depense_cdf=formateIndianCurrency(data.data.totaldepcdf);
+                        let entreeB_usd=formateIndianCurrency(data.data.entrebankusd);
+                        let entreeB_cdf=formateIndianCurrency(data.data.entrebankcdf);
+                        let sortieB_usd=formateIndianCurrency(data.data.sortiebankusd);
+                        let sortieB_cdf=formateIndianCurrency(data.data.sortiebankcdf);
+
+                         $("#name_nouvusd").val(mont.substring(0,mont.length - 1));
+                         $("#name_nouvcdf").val(monts.substring(0,monts.length - 1));
+                         $("#name_ancusd").val(montancU.substring(0,montancU.length - 1));
+                         $("#name_anccdf").val(montancC.substring(0,montancC.length - 1));
+                         $("#totalentre_usd").val(totalEU.substring(0,totalEU.length - 1));
+                         $("#totalentre_cdf").val(totalEC.substring(0,totalEC.length - 1));
+                         $("#sortie_usd").val(SortieU.substring(0,SortieU.length - 1));
+                         $("#sortie_cdf").val(SortieC.substring(0,SortieC.length - 1));
+                         $("#Pourc_usd").val(PourU.substring(0,PourU.length - 1));
+                         $("#Pourc_cdf").val(PourC.substring(0,PourC.length - 1));
+                         $("#Eong_usd").val(Eong_usd.substring(0,Eong_usd.length - 1));
+                         $("#Eong_cdf").val(Eong_cdf.substring(0,Eong_cdf.length - 1));
+                         $("#Song_usd").val(Song_usd.substring(0,Song_usd.length - 1));
+                         $("#Song_cdf").val(Song_cdf.substring(0,Song_cdf.length - 1));
+                         $("#totalentreecash_usd").val(totalentreecash_usd.substring(0,totalentreecash_usd.length - 1));
+                         $("#totalentreecash_cdf").val(totalentreecash_cdf.substring(0,totalentreecash_cdf.length - 1));
+                         $("#expresse_usd").val(expresse_usd.substring(0,expresse_usd.length - 1));
+                         $("#expresse_cdf").val(expresse_cdf.substring(0,expresse_cdf.length - 1));
+
+                         $("#depense_usd").val(depense_usd.substring(0,depense_usd.length -1));
+                         $("#depense_cdf").val(depense_cdf.substring(0,depense_cdf.length -1));
+                         $("#entreeB_usd").val(entreeB_usd.substring(0,entreeB_usd.length -1));
+                         $("#entreeB_cdf").val(entreeB_cdf.substring(0,entreeB_cdf.length -1));
+                         $("#sortieB_usd").val(sortieB_usd.substring(0,sortieB_usd.length -1));
+                         $("#sortieB_cdf").val(sortieB_cdf.substring(0,sortieB_cdf.length -1));
                          
                      },
                      error:function(data){
@@ -222,7 +257,7 @@ $('#btn_checking').click(function() {
                  });  
         }
         else{
-            $('#message').html('Veuillez saisir le numero de transaction');
+            $('#message').html('verifier bien les données à verifier');
         }
    });
 
@@ -237,7 +272,7 @@ $('#btn_cloture').click(function () {
     var pourcentagecdf=$("#Pourc_cdf").val();
     var pourcentageusd=$("#Pourc_usd").val();
 
-   if (departcdf != '' && departusd != '' && nvdepartcdf != '' && nvdepartusd != '' && pourcentagecdf != ''&& pourcentageusd != '') {
+   if (departcdf != 0 && departusd != 0 && nvdepartcdf != 0 && nvdepartusd != 0 && pourcentagecdf != 0 && pourcentageusd != 0 && totalentrecdf != 0 && totalentreusd != 0) {
        swal({
         title: 'ABT-TRANSFERT',
         text: "voulez vous cloture la journee?",
@@ -268,6 +303,8 @@ $('#btn_cloture').click(function () {
                     totalentreusd:totalentreusd,
                     pourcentagecdf:pourcentagecdf,
                     pourcentageusd:pourcentageusd,
+                    name_date:$("#name_datedebut").val(),
+                    numagence:$("#name_agence").val(),
             },
             success: function (data) {
                if (data.success == '1') {
