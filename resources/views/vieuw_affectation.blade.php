@@ -10,7 +10,7 @@
       <div class="card-body">
          <form action="#" method="POST" id="form_affectation">
             {{csrf_field()}}
-           <div class="row">
+           <div class="row" >
              <div class="col-md-3">
                         <div class="form-row">
                           <label class="form-label">MATRICULE</label>
