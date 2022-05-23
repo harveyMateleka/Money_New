@@ -5,7 +5,7 @@
     <div class="card col-md-12">
         <h6 class="card-header">Transaction</h6>
         <div class="card-body">
-        <table class="table card-table" id='update'>
+        <table class="table card-table"  id='update'>
             <thead class="thead-lisght">
                 <tr>
                     <th>Date</th>
