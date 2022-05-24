@@ -16,14 +16,14 @@
                <div class="form-group col-md-6">
                   <label class="form-label"></label> 
                   <select class="custom-select flex-grow-1" id='name_ong' name="name_ong">
-                     <option value='-1'>SELECTIONER ONG</option>
+                     <option value='-1'>Choisir l'ong</option>
                      @foreach($ong as $ligne_ong)
                      <option value='{!! $ligne_ong->id !!}'>{!! $ligne_ong->name_ong !!}</option>
                      @endforeach
                   </select>
                </div>
                <div class="form-group col-md-6">
-                  <label class="form-label"></label>         
+                  <label class="form-label">EXPEDITEUR</label>         
                      <input type="text" class="form-control"  name="name_transact"  style="text-transform:uppercase;" placeholder="EXPEDITEUR" id="name_exp" value="" >
                      <div class="clearfix"></div>
                </div>
@@ -31,17 +31,17 @@
             <div class="form-row">
                <div class="form-group col-md-12">
                   <div class="form-check form-check-inline">
-                     <input class="form-check-input" type="radio" name="etat" id="etat_ag" value="1">
+                     <input class="form-check-input" checked type="radio" name="etat" id="etat_ag" value="1">
                      <label class="form-check-label"  for="inlineRadio1">Agence</label>
                   </div>
                   <div class="form-check form-check-inline">
-                     <input class="form-check-input" checked type="radio" name="etat" id="etat_bank" value="2">
+                     <input class="form-check-input"  type="radio" name="etat" id="etat_bank" value="2">
                      <label class="form-check-label" for="inlineRadio2">Banque</label>
                   </div>
                </div>
             </div>
             <div class="form-row">
-               <div class="form-group col-md-6" id='prov_bank'>
+               <div class="form-group col-md-8" id='prov_bank'>
                   <select class="custom-select flex-grow-1" id='name_bank'>
                      <option value='-1'>Selectionnez Bank</option>
                      @foreach($tbl_banque as $ligne_banque)
@@ -49,7 +49,7 @@
                      @endforeach
                   </select>
                </div>
-               <div class="form-group col-md-6" id='prov_ag'>
+               <div class="form-group col-md-8" id='prov_ag'>
                   <select class="custom-select flex-grow-1" id='name_prov'>
                      <option value='-1'>Agence de Provenance</option>
                      @foreach($tbl_agence as $ligne_agence)
@@ -137,17 +137,18 @@ $(document).ready(function() {
                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
              }
             });
-    document.getElementById("name_prov").style.display = "none";
+            $("#name_bank,#name_prov,#name_ong,#devise").select2();
+    document.getElementById("prov_bank").style.display = "none";
 $('#etat_bank').change(function () {
     if (document.getElementById("etat_bank").checked) {
-        document.getElementById("name_prov").style.display = "none";
-        document.getElementById("name_bank").style.display = "block";
+        document.getElementById("prov_ag").style.display = "none";
+        document.getElementById("prov_bank").style.display = "block";
     }
 });
 $('#etat_ag').change(function () {
     if (document.getElementById("etat_ag").checked) {
-        document.getElementById("name_prov").style.display = "block";
-        document.getElementById("name_bank").style.display = "none";
+        document.getElementById("prov_ag").style.display = "block";
+        document.getElementById("prov_bank").style.display = "none";
     }
 });
 $('#Montant').on('input', function () {
@@ -219,7 +220,17 @@ $('#btnsave_ong').click(function () {
 
         
             if (provenance != 0 && indice != 0) {
-                $.ajax({
+                swal.fire({
+                  title: 'Colombe Money',
+                  html: "Voulez vous enregistrer cette transaction",
+                  width: 600,
+                  padding: '3em',
+                  showDenyButton: true,
+                  confirmButtonText: `Enregistrer`,
+                  denyButtonText: `Annuler`,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
                     url: "{{route('save_ong')}}",
                     type: 'POST',
                     async: false,
@@ -245,14 +256,20 @@ $('#btnsave_ong').click(function () {
                             $('#name_ong').val("");
                             $('#taux').val(3);
                             $('#montant_pourc').val("");
+                            Swal.fire('operation reussie', '', 'success')
                         } else {
-                            $('#message').html('verifiez bien le montant que vous voulez affecté dans le numero banque si elle est de la meme devise');
-                        }
+                            Swal.fire('verifiez bien les données saisies.', '', 'info')    }
                     },
                     error: function (data) {
                         alert(data.success);
                     }
                 });
+                    }
+                    else if (result.isDenied) {
+                     Swal.fire('Changes are not saved', '', 'info')
+                  }
+                });
+               
             }
        
     } else {
@@ -283,16 +300,23 @@ $('#btnsave_ong').click(function () {
                         return 'USD';
                     }
                       }},
-            {"data":'mont_trans'},
+            {"data":'mont_trans',"autoWidth":true,"render":function (data){
+                let values = formateIndianCurrency(data);
+                return values.substring(0,values.length - 1);
+            }},
             {"data":'taux'},
-            {"data":'mont_com'},
+            {"data":'mont_com',"autoWidth":true,"render":function (data){
+                let values = formateIndianCurrency(data);
+                return values.substring(0,values.length - 1);
+            }},
             {"data":'mont_dep'},
             
                 {"data":'montpayé',"autoWidth":true,"render":function (data){
                    if (data==null) {
                         return 0;
                     }else{
-                        return data;
+                        let values = formateIndianCurrency(data);
+                        return values.substring(0,values.length - 1);
                     }
                       }},
                  // {"data":'type',"autoWidth":true,"render":function (data){

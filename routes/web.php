@@ -140,7 +140,7 @@ Route::post('admin/delete_ong', [CtrOngs::class, 'destroy'])->name('delete_ong')
 Route::get('admin/repartion_ong', [CtrOngs::class, 'repartition_ong'])->name('repart_index');
 Route::get('admin/Transfert_ong', [CtrOngs::class, 'Transfert_ong'])->name('index_ong');
 Route::post('admin/save_detail', [CtrOngs::class, 'save_detail'])->name('save_detail');
-Route::post('admin/save_ong', [CtrOngs::class, 'save_ong'])->name('save_ong');
+Route::post('admin/save_ong', [CtrOngs::class, 'save_transfert_ong'])->name('save_ong');
 Route::get('admin/charger_ong', [CtrOngs::class, 'charger_transfert'])->name('charger_ong');
 Route::get('admin/paiement_ong', [CtrOngs::class, 'index_paie_ong'])->name('index_paie_ong');
 Route::post('admin/check_ong', [CtrOngs::class, 'check_ong'])->name('route_paie');
