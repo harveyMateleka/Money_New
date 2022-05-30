@@ -43,6 +43,7 @@ class CtrTransfert extends Controller
     private $code_ville;
     private $numagence;
     private $devise;
+    private $data;
 
     public function __construct(){
         $this->date= new DateTime();
@@ -593,28 +594,37 @@ public function get_liste_transfert()
 //____________________________code_raphael______________________________________
 
 ///////++++++++++++++++++++++++++++++++DEBUT RAPPORT+++++++++++++++++++++++++++++++++++++++++++++
-    public function get_rapport($d,$f)
-    {
-        $resultat=DB::table('tbl_transfert_banques','tbl_transfert')->join('tbl_agences','tbl_transfert.numagence','=','tbl_agences.numagence')
-        ->join('tbl_partenaires','tbl_transfert.id_partenaire','=','tbl_partenaires.id_partenaire')
-        ->whereBetween('date_T', [$d,$f])
-        ->select(DB::raw('SUM(montant) as montant'),'type','nomagence','id_devise','date_T','operation')
-        ->groupBy('date_T','nomagence','type','operation','id_devise')
-        ->get();
-        return response()->json(['data'=>$resultat]); 
-    }
+   // public function get_rapport($d,$f)
+   // {
+       //     $resultat=DB::table('tbl_transfert_banques','tbl_transfert')
+       //     ->join('tbl_agences','tbl_transfert.numagence','=','tbl_agences.numagence')
+         //   ->join('tbl_partenaires','tbl_transfert.id_partenaire','=','tbl_partenaires.id_partenaire')
+          //  ->whereBetween('date_T', [$d,$f]) 
+          //  ->select(DB::raw('SUM(montant) as montant'),'type','nomagence','id_devise','date_T','operation')
+           // ->groupBy('date_T','nomagence','type','operation','id_devise')
+           // ->get();
+           // return response()->json(['data'=>$resultat]);
+  //  }
+
+
+
+    
 
     
     public function index_rapport()
     {
         if (Auth::check()) {  
             $this->entete();
-             return view('view_rapport_cash');
+             $don=$this->recu_agence();
+             return view('view_rapport_cash',compact('don'));
         }
         else{
             return redirect()->route('login');
         }
     }
+
+
+
 
         public function index_general()
     {
@@ -664,23 +674,23 @@ public function get_liste_transfert()
 
 
 
-     public function index_rapport_s()
-    {
-        if (Auth::check()) {  
-            $this->entete();
-            $resultat=DB::table('tbl_transfert_banques','tbl_transfert')->join('tbl_partenaires','tbl_transfert.id_partenaire','=','tbl_partenaires.id_partenaire')
-            ->where('date_T','=', $this->date->format('Y-m-d'))
-            ->orderBy('type','asc')
-            ->select(DB::raw('SUM(montant) as montant'),'type','id_devise','operation')
-            ->groupBy('type','operation','id_devise')
-            ->get();
+   //  public function index_rapport_s()
+    //{
+        //if (Auth::check()) {  
+         //   $this->entete();
+            //$resultat=DB::table('tbl_transfert_banques','tbl_transfert')->join('tbl_partenaires','tbl_transfert.id_partenaire','=','tbl_partenaires.id_partenaire')
+            //->where('date_T','=', $this->date->format('Y-m-d'))
+            //->orderBy('type','asc')
+            //->select(DB::raw('SUM(montant) as montant'),'type','id_devise','operation')
+           // ->groupBy('type','operation','id_devise')
+           // ->get();
             ///dd($resultat);
-             return view('view_cash_s',compact('resultat'));
-        }
-        else{
-            return redirect()->route('login');
-        }
-    }
+           //  return view('view_cash_s',compact('resultat'));
+       // }
+       // else{
+            //return redirect()->route('login');
+       // }
+    //}
     
     
 

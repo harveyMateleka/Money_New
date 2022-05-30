@@ -27,15 +27,17 @@
                                 $depotcdf=0.0;
                                 $retraitcdf=0.0;
                                 $retraitusd=0.0;
+                                $totalusd =0.0;
+                                $totalcdf=0.0;
                                 @endphp
                                 @foreach($resultat as $ligne_requette)
                                     @if($banque=='')
-                                        @if($ligne_requette->operation=='2' && $ligne_requette->id_devise==1)
+                                        @if($ligne_requette->operation=='2' && $ligne_requette->id_devise==1 )
                                             @php
                                             $banque=$ligne_requette->type;
                                             $depotusd=$ligne_requette->montant;
                                             @endphp
-                                        @elseif($ligne_requette->operation=='2' && $ligne_requette->id_devise==2)
+                                        @elseif($ligne_requette->operation=='2' && $ligne_requette->id_devise==2 )
                                             @php
                                             $banque=$ligne_requette->type;
                                             $depotcdf=$ligne_requette->montant;
@@ -138,6 +140,7 @@
                                                 $depotcdf=0.0;
                                                 $retraitcdf=0.0;
                                                 $retraitusd=0.0;
+                                                
                                             @endphp
                                         @if($ligne_requette->operation=='2' && $ligne_requette->id_devise==1)
                                                 @php
@@ -185,6 +188,11 @@
                                 @php
                                 ++$count1;
                                 @endphp
+
+
+                            
+
+                               
                                 @endforeach
                                 </tbody>
                             </table>
@@ -193,10 +201,18 @@
                                 <div class="col-lg-12">
                                    <div class="row">
                                         <div class="col-md-6">
-                                        <h3 class="font-weight py-3 mb-0"> </h3>
+                                        <h3 class="font-weight py-3 mb-0"> Total Retait USD  : {{$retraitusd}}</h3>
                                         </div>
                                         <div class="col-md-6">
-                                            <h3 class="font-weight py-3 mb-0"> </h3>
+                                            <h3 class="font-weight py-3 mb-0">Total Retrait CDF : {{$retraitcdf}}</h3>
+                                        </div>
+                                  </div> 
+                                  <div class="row">
+                                        <div class="col-md-6">
+                                        <h3 class="font-weight py-3 mb-0">Total Depot USD  : {{$depotusd}}</h3>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h3 class="font-weight py-3 mb-0">Total Depot CDF : {{$depotcdf}}</h3>
                                         </div>
                                   </div> 
                             </div> 

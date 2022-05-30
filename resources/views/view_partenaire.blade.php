@@ -12,7 +12,7 @@
                                     <div class="form-row">
                                         
                                         <div class="form-group col-md-8">
-                                            <label class="form-label">INTITULE DU COMPTE</label>
+                                            <label class="form-label">NOM DE LA BANQUE</label>
                                             <input type="text" class="form-control" name="type"  id="type" data-validation="required">
                                             <div class="clearfix"></div>
                                         </div>
@@ -197,8 +197,7 @@
                      {"data":'id_partenaire'},
                      {"data":'type'},
                      {"data":'id_partenaire',"autoWidth":true,"render":function (data) {
-                          return '<button data-id='+data+' class="btn btn-warning btn-circle supprimer_partenaire" ><i class="fa fa-times"></i></button>'+ ' ' +
-                             '<button data-id='+data+' class="btn btn-info btn-circle modifier_partenaire" ><i class="fa fa-check"></i></button>';
+                          return '<button data-id='+data+' class="btn btn-info btn-circle modifier_partenaire" ><i class="fa fa-check"></i></button>';
                      }}
                  ],
                  "pageLength": 10, 

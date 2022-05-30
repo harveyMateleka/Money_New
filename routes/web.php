@@ -218,7 +218,7 @@ Route::post('admin/create_cloture', [Ctrcloture::class, 'store'])->name('store_c
 Route::post('admin/check', [Ctrcloture::class, 'check_clotures'])->name('check_clotures');
 Route::get('admin/cloturegeneral', [Ctrcloture::class, 'index_cloture1'])->name('index_cloture1');
 
-Route::get('admin/rapport_cash', [CtrTransfert::class, 'index_rapport_s'])->name('index_statistique');
+
 
 //_______________________________________fin_____________________________
 
@@ -267,13 +267,15 @@ Route::post('admin/delete_partenaire', [Ctrpartenaire::class, 'destroy'])->name(
 // root de rabby__________________________________________________________________________________________
 Route::get('admin/transfert_banque', [Ctrpartenaire::class, 'index_partenaire_trans'])->name('transfert_banque');
 Route::post('admin/transfert_banque', [Ctrpartenaire::class, 'transfert_insert'])->name('transfert_banque_insert');
+Route::get('admin/liste_rapport/{d},{f}', [Ctrpartenaire::class, 'get_rapport']);
+Route::get('admin/rapport_cash', [Ctrpartenaire::class, 'index_rapport_s'])->name('index_statistique');
 Route::get('admin/liste_transfert_banque', [CtrTransfert::class, 'get_liste_transfert'])->name('get_list_transfert');
 //Route::post('admin/get_partenaire', [CtrTransfert::class, 'get_id'])->name('get_partenaire');
 
 
 //root rapport -----------------------------------------------------------------------------------------
 Route::get('admin/rapport_banque', [CtrTransfert::class, 'index_rapport'])->name('index_rapport');
-Route::get('admin/liste_rapport/{d},{f}', [CtrTransfert::class, 'get_rapport']);
+//Route::get('admin/liste_rapport/{d},{f}', [Ctrpartenaire::class, 'get_rapport']);
 Route::get('admin/liste_rapportG/{d},{f}', [CtrTransfert::class, 'get_rapportG']);
 Route::get('admin/rapport_general', [CtrTransfert::class, 'index_general'])->name('index_general');
 

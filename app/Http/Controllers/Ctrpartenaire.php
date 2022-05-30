@@ -138,7 +138,7 @@ public function index_partenaire_trans(){
     }
        public function get_all_part()
     {
-        $resultat=tbl_partenaire::orderBy('id_partenaire','DESC')->get(); 
+        $resultat=tbl_partenaire::orderBy('id_partenaire','desc')->get(); 
            return response()->json(['data'=>$resultat]);
     }
 
@@ -162,6 +162,37 @@ public function index_partenaire_trans(){
     }
 
 
+    public function get_rapport($d,$f)
+    {
+            $resultat=DB::table('tbl_transfert_banques','tbl_transfert')
+            ->join('tbl_agences','tbl_transfert.numagence','=','tbl_agences.numagence')
+            ->join('tbl_partenaires','tbl_transfert.id_partenaire','=','tbl_partenaires.id_partenaire')
+            ->whereBetween('date_T', [$d,$f]) 
+            ->select(DB::raw('SUM(montant) as montant'),'type','nomagence','id_devise','date_T','operation')
+            ->groupBy('date_T','nomagence','type','operation','id_devise')
+            ->get();
+            return response()->json(['data'=>$resultat]);
+    }
+
+    public function index_rapport_s()
+    {
+        if (Auth::check()) {  
+            $this->entete();
+            $resultat=DB::table('tbl_transfert_banques','tbl_transfert')->join('tbl_partenaires','tbl_transfert.id_partenaire','=','tbl_partenaires.id_partenaire')
+            ->where('date_T','=', $this->date->format('Y-m-d'))
+            ->orderBy('type','asc')
+            ->select(DB::raw('SUM(montant) as montant'),'type','id_devise','operation')
+            ->groupBy('type','operation','id_devise')
+            ->get();
+            ///dd($resultat);
+             return view('view_cash_s',compact('resultat'));
+        }
+        else{
+            return redirect()->route('login');
+        }
+    }
+
+
 
  public function index_cloturecapital()
     {
@@ -172,6 +203,5 @@ public function index_partenaire_trans(){
             return view('view_cloturecapital');
         }
     }
-
 
      }

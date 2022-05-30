@@ -9,9 +9,22 @@
         <div class="card-body">
             <form action="#" method="POST">
             {{csrf_field()}}
-                <div id="affichage" style='color:red; font-size:15px;'>
+            <div class="col-md-4">
+                  <label class="form-label"> Agence de Provenance</label>
+                  <select class="custom-select flex-grow-1" id='name_agence' name="agence" required>
+                     <option value='-1'>Choisir une agence</option>
+                     @foreach($don as $ligne_agence)
+                     <option value='{!! $ligne_agence->numagence !!}'>{!! $ligne_agence->nomagence !!}</option>
+                     @endforeach
+                  </select>
+                  @foreach($don as $ligne_agence)
+                  <input type="hidden"  class="form-control"  name="{{'agence'.$ligne_agence->numagence}}"  id="{{'agence'.$ligne_agence->numagence}}" value="{{$ligne_agence->nomagence}}">
+                   <input type="hidden"  class="form-control"  name="{{'ag_init'.$ligne_agence->numagence}}"  id="{{'ag_init'.$ligne_agence->numagence}}" value="{{$ligne_agence->initial}}">
+                  @endforeach
+               </div></br>
+                
 
-                </div>
+                
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label class="form-label">Date Debut</label>
@@ -46,6 +59,8 @@
     
         </table>
         </div>
+
+        
     </div>
 </div>        
 @endsection
@@ -66,13 +81,15 @@ $('#btndisplay').click(function(){
        $('#affichage').html('la date debut ne peux pas etre superieure à la date de la fin'); 
     }
 });
+
+
 function afficher_rapport(date_debut,date_fin){
 var tableau=[date_debut,date_fin];
     var otableau=$('#tab_transfert').DataTable({
             "bProcessing":true,
             "sAjaxSource":"/admin/liste_rapport/"+tableau,
             "columns":[
-                {"data":'date_T'},
+                {"data":'date_T'}, 
                 {"data":'nomagence'},
                 {"data":'type'},
                 {"data":'montant'},

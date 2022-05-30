@@ -8,7 +8,7 @@ use App\Models\tbl_menu;
 use App\Models\tbl_sous_menu;
 use App\Models\tbl_fonction;
 use App\Models\tbl_droitacces;
-use App\Models\tbl_fonction;
+
 
 use App\Models\tbl_vile;
 use App\Models\tbl_ong;
