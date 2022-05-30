@@ -19,7 +19,6 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-
                                   @foreach ($resultat as $resultats)
                                   <tr>
                                     <td>{{$resultats->id}}</td>
