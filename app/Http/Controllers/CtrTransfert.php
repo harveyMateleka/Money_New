@@ -574,21 +574,21 @@ public function index_entree()
     //________________________________________________code de rabby_____________________________________________________
    
 
-public function get_liste_transfert()
-{
-    $resultat=DB::table('tbl_affectations')
-                  ->join('tbl_agences','tbl_affectations.numagence','=','tbl_agences.numagence')
-                  ->join('tbl_transfert_banques','tbl_affectations.numagence','=','tbl_transfert_banques.numagence')
-                  ->join('tbl_partenaires','tbl_partenaires.id_partenaire','=','tbl_transfert_banques.id_partenaire')
-                  ->join('tbl_devises','tbl_devises.id','=','tbl_transfert_banques.id_devise')
-                  ->where('tbl_affectations.matricule','=',Auth::user()->matricule)
-                  ->where('tbl_affectations.statut','=','1')
-                  ->orderBy('id_tranfert','DESC')
-                  ->select('tbl_affectations.numagence','nomagence','tbl_transfert_banques.date_T','montant','tbl_transfert_banques.id_devise','intitule','operation','tbl_transfert_banques.matricule','tbl_transfert_banques.id_partenaire' ,'type')
-                  ->get();
-              return response()->json(['data'=>$resultat]);
+//public function get_liste_transfert()
+ //{
+   /// $resultat=DB::table('tbl_affectations')
+                  ////->join('tbl_agences','tbl_affectations.numagence','=','tbl_agences.numagence')
+                  //->join('tbl_transfert_banques','tbl_affectations.numagence','=','tbl_transfert_banques.numagence')
+                  //->join('tbl_partenaires','tbl_partenaires.id_partenaire','=','tbl_transfert_banques.id_partenaire')
+                  //->join('tbl_devises','tbl_devises.id','=','tbl_transfert_banques.id_devise')
+                  //->where('tbl_affectations.matricule','=',Auth::user()->matricule)
+                  //->where('tbl_affectations.statut','=','1')
+                  //->orderBy('id_tranfert','DESC')
+                  //->select('tbl_affectations.numagence','nomagence','tbl_transfert_banques.date_T','montant','tbl_transfert_banques.id_devise','intitule','operation','tbl_transfert_banques.matricule','tbl_transfert_banques.id_partenaire' ,'type')
+                  //->get();
+              //return response()->json(['data'=>$resultat]);
 
-}
+//}
 
     
 //____________________________code_raphael______________________________________
@@ -706,36 +706,7 @@ public function get_liste_transfert()
     }
     
     
-    public function partenaire_trans(){
-        if (Auth::check()) {
-            $this->entete();
-            $date = date('Y-m-d');
-           $banques = DB::table('tbl_transfert_banques', 'tbl_transfert_banque')->join('tbl_partenaires', 'tbl_partenaires.id_partenaire', '=', 'tbl_transfert_banque.id_partenaire')
-            ->select(DB::raw('SUM(montant) as montants'),'tbl_transfert_banque.id_partenaire', 'id_devise', 'operation', 'date_T', 'type')
-            ->where('date_T', '=', $date)
-           ->groupBy('tbl_transfert_banque.id_partenaire','operation', 'id_devise', 'date_T', 'type' )
-           ->get();
-
-
-           $retraitusd = DB::table('tbl_transfert_banques')->where('operation', 2)->where('id_devise', 1)->where('date_T', date('Y-m-d'))->where('id_partenaire', 1)->sum('montant');
-           $depotusd = DB::table('tbl_transfert_banques')->where('operation', 1)->where('id_devise', 1)->where('date_T', date('Y-m-d'))->where('id_partenaire', 1)->sum('montant');
-
-           $retraitcdf = DB::table('tbl_transfert_banques')->where('operation', 2)->where('id_devise', 2)->where('date_T', date('Y-m-d'))->where('id_partenaire', 1)->sum('montant');
-           $depotcdf = DB::table('tbl_transfert_banques')->where('operation', 1)->where('id_devise', 2)->where('date_T', date('Y-m-d'))->where('id_partenaire', 1)->sum('montant');
-           $totusdEquity = $depotusd - $retraitusd;
-           $totcdfEquity = $retraitcdf - $depotcdf;
-           //Acess banque
-           $retraitusdA = DB::table('tbl_transfert_banques')->where('operation', 2)->where('id_devise', 1)->where('date_T', date('Y-m-d'))->where('id_partenaire', 7)->sum('montant');
-           $depotusdA = DB::table('tbl_transfert_banques')->where('operation', 1)->where('id_devise', 1)->where('date_T', date('Y-m-d'))->where('id_partenaire', 7)->sum('montant');
-
-           $retraitcdfA = DB::table('tbl_transfert_banques')->where('operation', 2)->where('id_devise', 2)->where('date_T', date('Y-m-d'))->where('id_partenaire', 7)->sum('montant');
-           $depotcdfA = DB::table('tbl_transfert_banques')->where('operation', 1)->where('id_devise', 2)->where('date_T', date('Y-m-d'))->where('id_partenaire', 7)->sum('montant');
-           $totusdAcess = $depotusdA - $retraitusdA;
-           $totcdfAcess = $retraitcdfA - $depotcdfA;
-           return view('view_cloture_partenaire', compact('banques', 'totusdEquity', 'totcdfEquity', 'totusdAcess', 'totcdfAcess'));
-        }
-    }
-
+    
 
   public function recu_agence(){
                 $donnees=DB::table('tbl_affectations')->join('tbl_agences','tbl_affectations.numagence','=','tbl_agences.numagence')

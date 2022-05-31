@@ -27,8 +27,6 @@
                                 $depotcdf=0.0;
                                 $retraitcdf=0.0;
                                 $retraitusd=0.0;
-                                $totalusd =0.0;
-                                $totalcdf=0.0;
                                 @endphp
                                 @foreach($resultat as $ligne_requette)
                                     @if($banque=='')
@@ -136,31 +134,31 @@
                                         </td>
                                      </tr>
                                             @php
-                                                $depotusd=0.0;
-                                                $depotcdf=0.0;
-                                                $retraitcdf=0.0;
-                                                $retraitusd=0.0;
+                                                $depotusd1=0.0;
+                                                $depotcdf1=0.0;
+                                                $retraitcdf1=0.0;
+                                                $retraitusd1=0.0;
                                                 
                                             @endphp
                                         @if($ligne_requette->operation=='2' && $ligne_requette->id_devise==1)
                                                 @php
                                                 $banque=$ligne_requette->type;
-                                                $depotusd=$ligne_requette->montant;
+                                                $depotusd1=$ligne_requette->montant;
                                                 @endphp
                                             @elseif($ligne_requette->operation=='2' && $ligne_requette->id_devise==2)
                                                 @php
                                                 $banque=$ligne_requette->type;
-                                                $depotcdf=$ligne_requette->montant;
+                                                $depotcdf1=$ligne_requette->montant;
                                                 @endphp 
                                             @elseif($ligne_requette->operation=='1' && $ligne_requette->id_devise==1)
                                                 @php
                                                 $banque=$ligne_requette->type;
-                                                $retraitusd=$ligne_requette->montant;
+                                                $retraitusd1=$ligne_requette->montant;
                                                 @endphp
                                             @else
                                                 @php
                                                 $banque=$ligne_requette->type;
-                                                $retraitcdf=$ligne_requette->montant;
+                                                $retraitcdf1=$ligne_requette->montant;
                                                 @endphp
                                             @endif
                                     @endif
@@ -214,7 +212,27 @@
                                         <div class="col-md-6">
                                             <h3 class="font-weight py-3 mb-0">Total Depot CDF : {{$depotcdf}}</h3>
                                         </div>
+                                  </div>
+                                  <hr class="border-light container-m--x my-4">
+                                  <h2>TOTAL ACCESS BANK CASH EXPRESS</h2>
+                                  <div class="col-lg-12">
+                                   <div class="row">
+                                        <div class="col-md-6">
+                                        <h3 class="font-weight py-3 mb-0"> Total Retait USD  : {{$retraitusd}}</h3>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h3 class="font-weight py-3 mb-0">Total Retrait CDF : {{$retraitcdf}}</h3>
+                                        </div>
                                   </div> 
+                                  <div class="row">
+                                        <div class="col-md-6">
+                                        <h3 class="font-weight py-3 mb-0">Total Depot USD  : {{$depotusd}}</h3>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h3 class="font-weight py-3 mb-0">Total Depot CDF : {{$depotcdf}}</h3>
+                                        </div>
+                                  </div>
+                                  
                             </div> 
                         </div> 
                                

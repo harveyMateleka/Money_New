@@ -267,15 +267,15 @@ Route::post('admin/delete_partenaire', [Ctrpartenaire::class, 'destroy'])->name(
 // root de rabby__________________________________________________________________________________________
 Route::get('admin/transfert_banque', [Ctrpartenaire::class, 'index_partenaire_trans'])->name('transfert_banque');
 Route::post('admin/transfert_banque', [Ctrpartenaire::class, 'transfert_insert'])->name('transfert_banque_insert');
-Route::get('admin/liste_rapport/{d},{f}', [Ctrpartenaire::class, 'get_rapport']);
+Route::get('admin/liste_rapport/{d},{f},{codeagence1}', [Ctrpartenaire::class, 'get_rapport']);
 Route::get('admin/rapport_cash', [Ctrpartenaire::class, 'index_rapport_s'])->name('index_statistique');
-Route::get('admin/liste_transfert_banque', [CtrTransfert::class, 'get_liste_transfert'])->name('get_list_transfert');
+Route::get('admin/liste_transfert_banque/{codeagence}', [Ctrpartenaire::class, 'get_liste_transfert'])->name('get_list_transfert');
+Route::get('admin/partenaire_trans', [Ctrpartenaire::class, 'partenaire_trans'])->name('partenaire');
 //Route::post('admin/get_partenaire', [CtrTransfert::class, 'get_id'])->name('get_partenaire');
 
 
 //root rapport -----------------------------------------------------------------------------------------
 Route::get('admin/rapport_banque', [CtrTransfert::class, 'index_rapport'])->name('index_rapport');
-//Route::get('admin/liste_rapport/{d},{f}', [Ctrpartenaire::class, 'get_rapport']);
 Route::get('admin/liste_rapportG/{d},{f}', [CtrTransfert::class, 'get_rapportG']);
 Route::get('admin/rapport_general', [CtrTransfert::class, 'index_general'])->name('index_general');
 
@@ -286,7 +286,7 @@ Route::get('admin/liste_rapport_restitution/{d},{f}', [CtrTransfert::class, 'get
 
 Route::get("admin/barcharts", [CtrTransfert::class,'get_all_entree']);
 //---------------------------------cloture de transaction -----------------------
-Route::get('admin/partenaire_trans', [CtrTransfert::class, 'partenaire_trans'])->name('partenaire');
+Route::get('admin/partenaire_trans', [Ctrpartenaire::class, 'partenaire_trans'])->name('partenaire');
 
 Route::post('admin/password_oublie', [Ctrpersonnel::class, 'email_oublie'])->name('email_oublie');
 

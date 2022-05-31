@@ -68,7 +68,6 @@
                     <th>Montant</th>  
                     <th>Devise</th>
                     <th>Operation</th>
-                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -89,7 +88,15 @@ $(document).ready(function() {
             });
             $("#agence,#operation,#devise,#partenaire").select2();
 
-  affiche_transfert_partenaire();
+
+                     $('#agence').change(function() {
+                     if ($('#agence').val() != '-1') {
+                        affiche_transfert_partenaire($('#agence').val());
+                     } else {
+                     }
+                     });
+
+
 
   $('#btnsave_trans').click(function() { 
         if($("#montant").val()!='' && $("#agence").val()!='-1' && $("#operation").val()!='-1' && $("#devise").val()!='-1' && $("#partenaire").val()!='-1'){ 
@@ -143,7 +150,7 @@ $(document).ready(function() {
         }
     });
 });
-function affiche_transfert_partenaire()
+function affiche_transfert_partenaire(codeagence)
          {
          var otableau=$('#transfert').DataTable({
             dom: 'Bfrtip',
@@ -151,7 +158,7 @@ function affiche_transfert_partenaire()
             'print', 'copy', 'excel', 'pdf'
              ],
              "bProcessing":true,
-             "sAjaxSource":"{{route('get_list_transfert')}}",
+             "sAjaxSource":"/admin/liste_transfert_banque/"+codeagence,
              "columns":[
                  {"data":'date_T'},
                  {"data":'nomagence'},
@@ -166,10 +173,7 @@ function affiche_transfert_partenaire()
                              return 'retrait';
                          }
                  }},
-                 {"data":'id_tranfert',"autoWidth":true,"render":function (data) {
-                          return '<button data-id='+data+' class="btn btn-warning btn-circle supprimer_trans" ><i class="fa fa-times"></i></button>';
-                             
-                     }}
+                
              ],
              "pageLength": 10,
              "bDestroy":true
