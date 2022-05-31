@@ -6,7 +6,7 @@
 
     </div>
 
-    <div class="card col-md-8">
+    <div class="card col-md-12">
         <h3 class="card-header">Créer Un Utilisateur</h3>
         <div class="card-body">
             <form action="#" method="POST" id="form_utilisateur">
@@ -30,7 +30,7 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <input type="email" class="form-control" name="name_email" placeholder="Saisir votre Email" id="name_email">
-                        <div class="clearfix"></div>
+                        <div class="clearfix" id="emailErr"></div>
                     </div>
 
                 </div>
@@ -51,7 +51,7 @@
         </div>
     </div>
     <hr class="border-light container-m--x my-4">
-    <div class="card col-md-8">
+    <div class="card col-md-12">
         <h6 class="card-header">Liste des Utilisateur</h6>
         <div class="card-body">
             <table class="table card-table" id="tab_users">
@@ -75,6 +75,10 @@
 @section('javascript')
 
 <script type="text/javascript">
+    // Pattern pour un email valide
+    let pattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+    let emailErr = $('#emailErr');
+
     if ($('#name_email').val() === "") {
         $('#btnsave_users').prop('disabled', true);
     } else {
@@ -86,6 +90,17 @@
             $('#btnsave_users').prop('disabled', true);
         } else {
             $('#btnsave_users').prop('disabled', false);
+        }
+
+        if ($('#name_email').val().match(pattern)) {
+            $('#btnsave_users').prop('disabled', false);
+            $('#emailErr').text('');
+            $('#emailErr').text('Adresse email valide');
+            $('#emailErr').css('color', 'green');
+        } else {
+            $('#btnsave_users').prop('disabled', true);
+            $('#emailErr').text('Adresse email non valide');
+            $('#emailErr').css('color', 'red');
         }
     });
 
@@ -132,7 +147,11 @@
                     "data": 'id',
                     "autoWidth": true,
                     "render": function(data) {
-                        return '<button data-id=' + data + ' class="btn btn-warning btn-circle supprimer_users" ><i class="fa fa-times"></i></button>';
+                        return `
+                            <button data-id=${data} class="btn btn-success btn-circle editerUser" ><i class="fa fa-edit"></i></button>
+                            <button data-id=${data} class="btn btn-warning btn-circle deleteUser" ><i class="fa fa-trash"></i></button>
+                            <button data-id=${data} class="btn btn-warning btn-circle deleteUser" ><i class="fa fa-info"></i></button>
+                        `;
                     }
                 }
             ],
@@ -140,6 +159,32 @@
             "bDestroy": true
         });
     }
+
+    let dataUser = {};
+
+    let email = $('#name_email').val();
+    let name_passe = $('#name_passe').val();
+
+    dataUser.email = email;
+    dataUser.name_passe = name_passe;
+
+    $('#btnsave_users').click(() => {
+
+        console.log("User saved :: ", dataUser)
+
+        const save_users = () => {
+            $.ajax({
+                url: '{{ route("saveUser") }}',
+                method: "POST",
+                data: dataUser,
+                cache: false,
+                success: function(res) {
+                    console.log("DATA ::: ", res)
+                }
+            })
+        }
+
+    });
 </script>
 
 
