@@ -1,170 +1,93 @@
 @extends('layouts.header')
 @section('content')
-
-
 <div class="container-fluid flex-grow-1 container-p-y">
-                        <h3 class="font-weight-bold py-3 mb-0">Page Mouvement</h3>
+                        <h3 class="font-weight-bold py-3 mb-0">MOUVEMENT BANQUE</h3>
                         <div class="text-muted small mt-0 mb-4 d-block breadcrumb">
                         </div>
-                        <div class="card col-md-12">
-                            <h4 class="card-header">Mouvement Banque</h4>
+                        <div class="card col-md-8">
+                            <h4 class="card-header">Mouvement</h4>
                             <div class="card-body">
                                 <form action="#" method="POST" id="form_personnel">
                                 {{csrf_field()}}
                                 <div id="message" style='color:red; font-size:15px;'>
                                 </div>
-
-                                    <div class="row">
-
-                                    <div class="col-md-4">
+                                    <div class="form-row">
+                                    <div class="form-group col-md-12">
                                                 <div class="form-check form-check-inline">
             
                                                     <input class="form-check-input" type="radio" name="etat" checked id="etat_ag" value="1">
                                                     <label class="form-check-label"  for="inlineRadio1"  checked >Agence/Agence</label>
                                                 </div>
-                                    </div>
-                                     <div class="col-md-4">
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="etat" id="etat_bank" value="2">
+                                            <input style="border: 1px solid silver !important; padding-left: 8px !important"  class="form-check-input" type="radio" name="etat" id="etat_bank" value="2">
                                             <label class="form-check-label" for="inlineRadio2">Agence/Banque</label>
                                         </div>
-                                    </div>
-                                        <div class="col-md-4">
-                                           <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="etat" id="etat_BA" value="3">
+
+                                        <div class="form-check form-check-inline">
+                                            <input  style="border: 1px solid silver !important; padding-left: 8px !important"  class="form-check-input" type="radio" name="etat" id="etat_BA" value="3">
                                             <label class="form-check-label" for="inlineRadio3">Bank/Agence</label>
-                                        </div> 
-                                        </div>    
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-4" id='premiere'>
-                                                   <div class="form-group" >
-                                                    <select class="custom-select flex-grow-1" id='name_prov'>
-                                                        <option value='-1'>Agence de Provenance</option>
-                                                        @foreach($resul_ag as $ligne_ag)
-                                                        <option value='{!! $ligne_ag->numagence !!}'>{!! $ligne_ag->nomagence !!}</option>
-                                                        @endforeach
-                                                    </select>
-                                                        @foreach($resul_ag as $ligne_ag)
-                                                        <input type="hidden"  class="form-control"  name="{{'prov_ag'.$ligne_ag->numagence}}"  id="{{'prov_ag'.$ligne_ag->numagence}}" value="{{$ligne_ag->nomagence}}">
-                                                        @endforeach
-                                                     </div>
-                                       </div>
-
-                                       <div class="col-md-4" id='premieres'>
-                                                <div class="form-group">
-                                                <select class="custom-select flex-grow-1" id='name_desti'>
-                                                    <option value='-1'>Agence de Destination</option>
-                                                    @foreach($resul_ag as $ligne_dest)
-                                                    <option value='{!! $ligne_dest->numagence !!}'>{!! $ligne_dest->nomagence !!}</option>
-                                                    @endforeach
-                                                </select>
-                                                @foreach($resul_ag as $ligne_dest)
-                                                <input type="hidden"  class="form-control"  name="{{'desti_ag'.$ligne_dest->numagence}}"  id="{{'desti_ag'.$ligne_dest->numagence}}" value="{{$ligne_dest->nomagence}}">
-                                                @endforeach
                                         </div>
-                                       </div>
-
                                     </div>
-                                      <div class="row">
-                                                 <div class="col-md-4" id='deuxieme'>
-                                                      <div class="form-group">
-                                                            <select class="custom-select flex-grow-1" id='name_prov1'>
-                                                                <option value='-1'>Agence de Provenance</option>
-                                                                @foreach($resul_ag as $ligne_ag2)
-                                                                <option value='{!! $ligne_ag2->numagence !!}'>{!! $ligne_ag2->nomagence !!}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        @foreach($resul_ag as $ligne_banque)
-                                                        <input type="hidden"  class="form-control"  name="{{'prov_ag1'.$ligne_ag2->numagence}}"  id="{{'prov_ag1'.$ligne_ag2->numagence}}" value="{{$ligne_ag2->nomagence}}">
-                                                        @endforeach
-                                                     </div>  
-                                                 </div>
-                                              <div class="col-md-4" id='deuxiemes'>
-                                                      <div class="form-group" id='prov_bank'>
-                                                            <select class="custom-select flex-grow-1" id='name_bank'>
-                                                            <option value='-1'>Banque de Destination</option>
-                                                            @foreach($resul_bank as $ligne_banque)
-                                                            <option value='{!! $ligne_banque->id !!}'>{!! $ligne_banque->intitulecompte !!}</option>
-                                                            @endforeach
-                                                        </select>
-                                                        @foreach($resul_bank as $ligne_banque)
-                                                        <input type="hidden"  class="form-control"  name="{{'bank'.$ligne_banque->id}}"  id="{{'bank'.$ligne_banque->id}}" value="{{$ligne_banque->intitulecompte}}">
-                                                        @endforeach
-                                                     </div>  
-                                                 </div>  
-                                      </div>     
-                                      <div class="row" >
-                                               <div class="col-md-4" id='troisieme'>
-                                                      <div class="form-group" id='prov_bank1'>
-                                                            <select class="custom-select flex-grow-1" id='name_bank1'>
-                                                            <option value='-1'>Banque de Provenance</option>
-                                                            @foreach($resul_bank as $ligne_banque)
-                                                            <option value='{!! $ligne_banque->id !!}'>{!! $ligne_banque->intitulecompte !!}</option>
-                                                            @endforeach
-                                                        </select>
-                                                        @foreach($resul_bank as $ligne_banque)
-                                                        <input type="hidden"  class="form-control"  name="{{'bank1'.$ligne_banque->id}}"  id="{{'bank1'.$ligne_banque->id}}" value="{{$ligne_banque->intitulecompte}}">
+                                           
+                                        <div class="form-group col-md-6" id='prov_ag'>
+                                            <select  style="border: 1px solid silver !important; padding-left: 8px !important"  class="custom-select flex-grow-1" id='name_prov'>
+                                                <option value='-1'>Agence de Provenance</option>
+                                                @foreach($resul_ag as $ligne_banque)
+                                                <option value='{!! $ligne_banque->numagence !!}'>{!! $ligne_banque->nomagence !!}</option>
+                                                @endforeach
+                                            </select>
+                                            @foreach($resul_ag as $ligne_banque)
+                                            <input type="hidden"  class="form-control"  name="{{'prov_ag'.$ligne_banque->numagence}}"  id="{{'prov_ag'.$ligne_banque->numagence}}" value="{{$ligne_banque->nomagence}}">
                                             @endforeach
-                                                     </div>  
-                                                 </div>  
-                                                 <div class="col-md-4" id='troisiemes'>
-                                                      <div class="form-group" id='prov_ag'>
-                                                            <select class="custom-select flex-grow-1" id='name_prov2'>
-                                                                <option value='-1'>Agence de Destination</option>
-                                                                @foreach($resul_ag as $ligne_banque)
-                                                                <option value='{!! $ligne_banque->numagence !!}'>{!! $ligne_banque->nomagence !!}</option>
-                                                                @endforeach
-                                                            </select>
-                                                        @foreach($resul_ag as $ligne_banque)
-                                                        <input type="hidden"  class="form-control"  name="{{'prov_ag2'.$ligne_banque->numagence}}"  id="{{'prov_ag2'.$ligne_banque->numagence}}" value="{{$ligne_banque->nomagence}}">
-                                                        @endforeach
-                                                     </div>  
-                                                 </div>
-                                       
-                                      </div> 
+                                        </div>
+                                        <div class="form-group col-md-6" id='desti_ag'>
+                                            <select style="border: 1px solid silver !important; padding-left: 8px !important"  class="custom-select flex-grow-1" id='name_desti'>
+                                                <option value='-1'>Agence</option>
+                                                @foreach($resul_ag as $ligne_banque)
+                                                <option value='{!! $ligne_banque->numagence !!}'>{!! $ligne_banque->nomagence !!}</option>
+                                                @endforeach
+                                            </select>
+                                            @foreach($resul_ag as $ligne_banque)
+                                            <input type="hidden"  class="form-control"  name="{{'desti_ag'.$ligne_banque->numagence}}"  id="{{'desti_ag'.$ligne_banque->numagence}}" value="{{$ligne_banque->nomagence}}">
+                                            @endforeach
+                                        </div>
+                                        <div class="form-group col-md-6" id='prov_bank'> 
+                                            <select  style="border: 1px solid silver !important; padding-left: 8px !important"  class="custom-select flex-grow-1" id='name_bank'>
+                                                <option value='-1'>Selectionnez une banque</option>
+                                                @foreach($resul_bank as $ligne_banque)
+                                                <option value='{!! $ligne_banque->id !!}'>{!! $ligne_banque->intitulecompte !!}</option>
+                                                @endforeach
+                                            </select>
+                                            @foreach($resul_bank as $ligne_banque)
+                                            <input type="hidden"  class="form-control"  name="{{'bank'.$ligne_banque->id}}"  id="{{'bank'.$ligne_banque->id}}" value="{{$ligne_banque->intitulecompte}}">
+                                            @endforeach
+                                        </div>
                                         
-                                       <div class="row">
+                                      
+                                      <div class="form-group col-md-6">
+                                                <select  style="border: 1px solid silver !important; padding-left: 8px !important"  class="form-control js-states" name="devise" data-validation="" id="devise" data-validation="required">
+                                                <option value='-1'>Selectionnez une devise</option>
+                                                <option value="2">CDF</option>
+                                                <option value="1">USD</option>                                        
+                                                </select>
+                                        </div>
 
-                                            <div class="col-md-4">
-                                                 <label class="form-label">Devise </label>
-                                                    <div class="form-group">
-                                                        <select class="form-control js-states" name="devise" data-validation="" id="devise" data-validation="required">
-                                                        <option value='-1'>Selectionnez la devise</option>
-                                                        <option value="2">CDF</option>
-                                                        <option value="1">USD</option>                                        
-                                                    </select>
-                                                 </div>
-                                            </div> 
-
-                                            <div class="col-md-6">
-                                                   <label class="form-label">MONTANT </label>
-                                             <div class="form-group">
-                                            
-                                            <input type="number" autocomplete="off" class="currency" name="Montant"  id="Montant" data-validation="required">
-                                            <div class="clearfix" id='mvtmont'></div>
-                                             </div>
-                                            </div>
-
-                                        </div> 
-
-                                          <div class="row">
-                                              <div class="form-group col-md-4">
-                                                    <label class="form-label">Motif </label>
-                                                    <textarea class="form-control rounded-0" id="motif" name="motif" rows="1"></textarea>
-                                                     <div class="clearfix" ></div>
-                                              </div>   
-
-                                            <div class="col-md-8">
-                                                    <button type="button" class="btn btn-success" name="btnsave_banque" id="btnsave_transfert">ENREGISTRE</button>
+                                         <div class="form-group col-md-6">
+                                          
+                                            <input  style="border: 1px solid silver !important; padding-left: 8px !important"  type="text" class="form-control" name="Montant" placeholder="ENTREE MONTANT" id="Montant" data-validation="required">
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="form-label">Motif </label>
+                                            <textarea  style="border: 1px solid silver !important; padding-left: 8px !important"  class="form-control rounded-0" id="motif" name="motif" rows="1"></textarea>
+                                             <div class="clearfix"></div>
+                                        </div>                                    
+                                  
+                                    </div>
+  
+                                    <button type="button" class="btn btn-success" name="btnsave_banque" id="btnsave_transfert">ENREGISTRE</button>
                                     <button type="reset" class="btn btn-danger">annule</button>
                                     <input type="hidden" class="form-control" placeholder="Saisir le nom de la personnel" id="code_banque">
-                                             
-                                            </div>
-
-                                        </div> 
-  
                                 </form>
                             </div>
                         </div>
@@ -173,7 +96,7 @@
                             <h6 class="card-header">Tableau du droit d'access</h6>
                             <div class="card-body">
                                 <div style="overflow-x:auto;">
-                                      <table class="table card-table" id="tab_mouvement">
+                            <table class="table card-table" id="tab_mouvement">
                                 <thead class="thead-dark">
                                     <tr>
                                         <th>Id</th>
@@ -191,85 +114,40 @@
                                    
                                 </tbody>
                             </table>
-                                </div>
-                          
+                            </div>
                             </div>
                         </div>
                        
                     </div>        
 @endsection
 
-@section ('javascript')
-<script type="text/javascript">
-(function() {
-    $.ajaxSetup({
-             headers: {
-                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-             }
-                });
-                affiche_mouvement();
-$("#name_bank1").select2();
-$("#name_bank").select2();
-$("#name_prov2").select2();
-$("#name_prov1").select2();
-$("#name_desti").select2();
-$("#name_prov").select2();
-$("#devise").select2();
-document.getElementById("deuxieme").style.display = "none"; 
-document.getElementById("deuxiemes").style.display = "none";
-document.getElementById("troisieme").style.display = "none"; 
-document.getElementById("troisiemes").style.display = "none";   
+@section ('script')
+document.getElementById("prov_bank").style.display = "none"; 
+   
 $('#etat_bank').change(function(){
     if(document.getElementById("etat_bank").checked){
-        document.getElementById("premieres").style.display = "none"; 
-        document.getElementById("premiere").style.display = "none"; 
-        document.getElementById("deuxieme").style.display = "block";
-        document.getElementById("deuxiemes").style.display = "block";
-        document.getElementById("troisieme").style.display = "none"; 
-        document.getElementById("troisiemes").style.display = "none";        
+        document.getElementById("desti_ag").style.display = "none"; 
+        document.getElementById("prov_bank").style.display = "block";
+        document.getElementById("prov_ag").style.display = "block";       
     }
 
 });
 
 $('#etat_ag').change(function(){
     if(document.getElementById("etat_ag").checked){
-         document.getElementById("premieres").style.display = "block"; 
-        document.getElementById("premiere").style.display = "block"; 
-        document.getElementById("deuxieme").style.display = "none";
-        document.getElementById("deuxiemes").style.display = "none";
-        document.getElementById("troisieme").style.display = "none"; 
-        document.getElementById("troisiemes").style.display = "none";
-             
+    document.getElementById("prov_bank").style.display = "none"; 
+    document.getElementById("desti_ag").style.display = "block";     
     }
 
 });
 
 $('#etat_BA').change(function(){
     if(document.getElementById("etat_BA").checked){
-
-        document.getElementById("premieres").style.display = "none"; 
-        document.getElementById("premiere").style.display = "none"; 
-        document.getElementById("deuxieme").style.display = "none";
-        document.getElementById("deuxiemes").style.display = "none";
-        document.getElementById("troisieme").style.display = "block"; 
-        document.getElementById("troisiemes").style.display = "block";    
+    document.getElementById("prov_bank").style.display = "block"; 
+    document.getElementById("desti_ag").style.display = "block";
+    document.getElementById("prov_ag").style.display = "none";      
     }
 
-});
-
-$('#Montant').on('input', function(){
-    if($('#Montant').val()!=''){
-            let formatmont=formateIndianCurrency($("#Montant").val());
-            let new_amount=formatmont.substring(0,formatmont.length - 1);
-            $("#mvtmont").html(new_amount);
-    }
-
-    else if($("#Montant").val() == 0) {
-             $("#mvtmont").html(0);
-         }
-         else {
-             $("#mvtmont").html("");
-         }     
 });
 
 $('#btnsave_transfert').click(function() {   
@@ -289,38 +167,34 @@ if($("#devise").val()!='-1' && $("#Montant").val()!='' && $("#motif").val()!='')
                             indice=1;
                          }
                          else{
-                            $("#message").html("Vous ne pouvez pas faire le mouvement dans une meme agence");
+                            $("#message").html("erreur dans le choix de compte d'agence");
                                return false;
                            }
                        
                     }
-                     else{
-                            $("#message").html("verifiez et remplissez les zones");
-                               return false;
-                           }
               
     }
     else if(document.getElementById("etat_bank").checked){
-             if($("#name_prov1").val()!='-1' && $("#name_bank").val()!='-1'){
-                        provenance=$("#name_prov1").val();
+             if($("#name_prov").val()!='-1' && $("#name_bank").val()!='-1'){
+                        provenance=$("#name_prov").val();
                         destinance=$("#name_bank").val();
-                        detail_prov=$('#prov_ag1'+provenance).val();
+                        detail_prov=$('#prov_ag'+provenance).val();
                         detail_desti=$('#bank'+destinance).val();
                         indice=2;
                 }
                
     }
     else{
-                   if($("#name_bank1").val()!='-1' && $("#name_prov2").val()!='-1'){                  
-                        provenance=$("#name_bank1").val();
-                        destinance=$("#name_prov2").val();
+                   if($("#name_bank").val()!='-1' && $("#name_desti").val()!='-1'){                  
+                        provenance=$("#name_bank").val();
+                        destinance=$("#name_desti").val();
                         detail_prov=$('#bank'+provenance).val();
                         detail_desti=$('#desti_ag'+destinance).val();
                         indice=3;
                     }
                      
        }
-    if(provenance!=0 && destinance!=0 && indice!=0 && detail_desti !='' && detail_prov!=''){
+            if(provenance!=0 && destinance!=0 && indice!=0 && detail_desti !='' && detail_prov!=''){
         swal({
         title: 'La Colombe Money',
         text: "voulez vous faire un mouvement banque?",
@@ -358,22 +232,13 @@ if($("#devise").val()!='-1' && $("#Montant").val()!='' && $("#motif").val()!='')
                       text: 'mouvement banque succeffuly!',
                       type: 'success'
                        })
-                            affiche_mouvement();
-                            $("#name_prov1").val("-1");
-                            $("#name_bank").val("-1");
-                            $("#name_prov").val('-1');
-                            $("#name_desti").val('-1');
-                            $("#name_bank1").val('-1');
-                            $("#name_prov2").val('-1');
-                            $("#devise").val("-1");
-                            $("#Montant").val("");
-                            $("#motif").val("");
+                        window.location.href=("{{route('index_mvtbank')}}");
                       }
                       else{
                          swal({title: 'La Colombe Money!',
-                          text: 'Montant insuffisant pour faire ce mouvement!',
-                          type: 'danger'
-                           });  
+                      text: 'Montant insuffisant pour faire ce mouvement!',
+                      type: 'danger'
+                       });  
                       }  
                      },
                      error:function(data){
@@ -387,7 +252,7 @@ if($("#devise").val()!='-1' && $("#Montant").val()!='' && $("#motif").val()!='')
       }).then(function () {
         swal({
             type: 'info',
-            title: 'ABT COLOMBE',
+            title: 'La Colombe Money',
             html: 'mouvement banque annuler'
         })
     });
@@ -421,46 +286,7 @@ $('body').delegate('.update','click',function(e){
                  });
                  
          });
-        })();
-
-        function affiche_mouvement()
-         {
-           var otableau=$('#tab_mouvement').DataTable({
-             dom: 'Bfrtip',
-            buttons: [
-            'print', 'copy', 'excel', 'pdf'
-             ],
-                 "bProcessing":true,
-                 "sAjaxSource":"{{route('get_mvt')}}",
-                 "columns":[
-                     {"data":'id'},
-                     {"data":'detail_prov'},
-                     {"data":'detail_des'},
-                     {"data":'etatmvt',"autoWidth":true,"render":function (data){
-                         if (data==0) {   
-                             return 'Suspense';
-                         }
-                     }},
-                     {"data":'Montmvt'},
-                     {"data":'devise',"autoWidth":true,"render":function (data){
-                         if (data==1) {   
-                             return 'Usd';
-                         }
-                         else{
-                             return 'Cdf';
-                         }
-                     }},
-                     {"data":'created_at'},
-                     {"data":'id',"autoWidth":true,"render":function (data) {
-                         return '<button data-id='+data+' class="btn btn-info btn-circle update" ><i class="fa fa-check">Confirmer</i></button>';
-                          }}
-                 ],
-                 "pageLength": 10, 
-                 "bDestroy":true
-             });
-         
-         }
-        </script>  
+       
 
 @endsection
 

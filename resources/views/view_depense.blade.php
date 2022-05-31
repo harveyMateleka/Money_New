@@ -1,11 +1,10 @@
 @extends('layouts.header')
 @section('content')
 <div class="container-fluid flex-grow-1 container-p-y">
-                        <h3 class="font-weight-bold py-3 mb-0">Ajout depense</h3>
                         <div class="text-muted small mt-0 mb-4 d-block breadcrumb">
                         </div>
                         <div class="card col-md-8">
-                            <h4 class="card-header">Creer Une Depense</h4>
+                            <h4 class="card-header">Creer une depense</h4>
                             <div class="card-body">
                             
                                 <form action="#" method="POST" id="form_depense">
@@ -13,17 +12,17 @@
                                 <div class="form-row">
                                 <div class="form-group col-md-6">
                                         
-                                       <select class="custom-select flex-grow-1" id='numagence' name="numagence">
-                                       <option value="-1">Choisir l'agence</option>
+                                       <select  style="border: 1px solid silver !important; padding-left: 8px !important" style="text-transform:uppercase;"class="custom-select flex-grow-1" id='numagence' name="numagence">
+                                       <option value="-1">Choisir une agence</option>
                                                 @foreach($don as $ligne_agence)
-                                                <option value='{!! $ligne_agence->numagence !!}'>{!! $ligne_agence->nomagence !!}</option>
+                                                <option style="border: 1px solid silver !important; padding-left: 8px !important" style="text-transform:uppercase;" value='{!! $ligne_agence->numagence !!}'>{!! $ligne_agence->nomagence !!}</option>
                                                 @endforeach
                                             </select>
                                      </div>
                                 </div>
                                     <div class="form-row">
                                        <div class="form-group col-md-6">
-                                        <select class="form-control js-states" name="id_typdep" data-validation="" id="id_typdep" data-validation="required">
+                                        <select  style="border: 1px solid silver !important; padding-left: 8px !important" style="text-transform:uppercase;" class="form-control js-states" name="id_typdep" data-validation="" id="id_typdep" data-validation="required">
                                         <option value="-1">SELECT TYPE DEPENSE</option>
                                         <@foreach($typedep as $data)
                                         <option value="{!! $data->id_typdep !!}">{!! $data->type_dep !!}</option>
@@ -32,7 +31,7 @@
                                         </div>
 
                                       <div class="form-group col-md-6">
-                                        <select class="form-control js-states" name="id_auto" data-validation="" id="id_auto" data-validation="required">
+                                        <select style="border: 1px solid silver !important; padding-left: 8px !important" style="text-transform:uppercase;"  class="form-control js-states" name="id_auto" data-validation="" id="id_auto" data-validation="required">
                                         <option value='-1'>AUTORISATION</option>
                                         <@foreach($auto as $data)
                                         <option value="{!! $data->id_auto !!}">{!! $data->nom_auto !!}</option>
@@ -41,24 +40,21 @@
                                         </div>
                                         
                                       <div class="form-group col-md-6">
-                                        <select class="form-control js-states" name="devise" data-validation="" id="devise" data-validation="required">
+                                        <select  style="border: 1px solid silver !important; padding-left: 8px !important" style="text-transform:uppercase;" class="form-control js-states" name="devise" data-validation="" id="devise" data-validation="required">
                                         <option value="-1">SELECT DEVISE</option>
                                         <option value="2">CDF</option>
                                         <option value="1">USD</option>
                                         </select>
                                         </div>
 
-                                         <div class="col-md-6">
-                                          <label class="form-label">MONTANT </label>
-                                          <div class="form-group">
-                                            <input type="number" autocomplete="off" class="currency" name="montant" id="montant" data-validation="required">
+                                         <div class="form-group col-md-6">
+                                            <input  style="border: 1px solid silver !important; padding-left: 8px !important" style="text-transform:uppercase;" type="number" class="form-control" name="montant" placeholder="ENTREE MONTANT" id="montant" data-validation="required">
                                             <div class="clearfix"></div>
-                                            </div>
                                         </div>
 
                                         <div class="form-group col-md-6">
                                             <label class="form-label">MOTIF DE DEPENSE</label>
-                                              <textarea type="text" class="form-control rounded-0" id="motif" name="motif" rows="1"></textarea>
+                                              <textarea  style="border: 1px solid silver !important; padding-left: 8px !important" style="text-transform:uppercase;" type="text" class="form-control rounded-0" id="motif" name="motif" rows="1"></textarea>
                                             <div class="clearfix"></div>
                                         </div>
 
@@ -74,8 +70,9 @@
                         <div class="card col-md-12">
                             <h6 class="card-header">LISTE DES DEPENSES</h6>
                             <div class="card-body">
+                                <div style="overflow-x:auto;">
                             <table class="table card-table" id="tab_depense">
-                                <thead class="thead-light">
+                                <thead class="thead-dark">
                                     <tr>
                                         <th>ID</th>
                                         <th>MOTIF</th>
@@ -93,19 +90,12 @@
                             </table>
                             </div>
                         </div>
+                        </div>
                     </div>        
 @endsection
 
-@section ('javascript')
-<script type="text/javascript">
-(function() {
-    $.ajaxSetup({
-             headers: {
-                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-             }
-                }); 
+@section ('script')
 $("#numagence").select2();
-
 $('#numagence').change(function() {
   if ($('#numagence').val() != '-1') {
     affiche_depense($('#numagence').val());
@@ -185,8 +175,8 @@ $('#btnsave_depense').click(function() {
       }).then(function() {
         swal({
           type: 'info',
-          title: 'ABT COLOMBE',
-          html: 'depense annuller'
+          title: 'La Colombe Money',
+          html: 'La depense a été annullée'
         })
       });
     } else {
@@ -251,7 +241,7 @@ $('#btnsave_depense').click(function() {
         swal({
           type: 'info',
           title: 'la Colombe Money',
-          html: 'les information de depense ne sont pas mofifier'
+          html: 'les information de depense ne sont pas mofifiées'
         })
       });
     }
@@ -285,57 +275,5 @@ $('body').delegate('.modifier_depense', 'click', function() {
     }
   });
 });
-})();
-function affiche_depense(cod_agence)
-         {
-         var otableau=$('#tab_depense').DataTable({
-            dom: 'Bfrtip',
-            buttons: [
-            'print', 'copy', 'excel', 'pdf'
-             ],
-             "bProcessing":true,
-             "sAjaxSource":"/admin/liste_depense="+ cod_agence,
-             "columns":[
-                 {"data":'id_dep'},
-                 {"data":'motif'},
-                 {"data":'devise',"autoWidth":true,"render":function (data){
-                        if (data==2) {
-                             return 'CDF';
-                         }else{
-                             return 'USD';
-                         }
-                           }},
-                     {"data":'matricule'},
-                     {"data":'montant'},
-                      {"data":'etat',"autoWidth":true,"render":function (data){
-                        if (data==1) {
-                             return 'Approuve';
-                         }else{
-                             return 'Not Approuve';
-                         }
-                           }},
-                     {"data":'id_auto',"autoWidth":true,"render":function (data){
-                        if (data==1) {
-                             return 'PDG';
-                         }
-                         else if(data==2){
-                             return 'DGA'; 
-                         }else if(data==3){
-                             return 'DG';
-                         }else {
-                             return'ENTREPRISE'
-                         }
-         
-                 }},
-                 {"data":'id_dep',"autoWidth":true,"render":function (data) {
-                         return '<button data-id='+data+' class="btn btn-info btn-circle modifier_depense" ><i class="fa fa-check"></i></button>';
-                     }}
-         
-             ],
-             "pageLength": 10,
-             "bDestroy":true
-         }); 
-         }
-</script>
 @endsection
 

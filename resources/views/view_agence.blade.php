@@ -28,7 +28,7 @@
             </div>
             <div class="form-row">
                <div class="form-group col-md-5">
-                  <select class="form-control "  name="ville" data-validation="required" id="ville">
+                  <select class="form-control "  name="id_ville" data-validation="required" id="id_ville">
                      <option value='-1'>SELECTION VILLE</option>
                      @foreach($resultat as $data)
                      <option value="{{$data->id_ville}}" style="text-transform:uppercase;">{{$data->ville}}</option>
@@ -49,7 +49,7 @@
                <div class="form-group col-md-4">
                   <label class="form-label">INITIAL</label>
                   <input type="text" style="text-transform:uppercase;" class="form-control" required="" name="initial" placeholder="" id="initial">
-                  <div id="ms" style="color : red"></div>
+                  <div class="clearfix"></div>
                </div>
             </div>
             <button type="button" class="btn btn-success" name="btnsave_agence" id="btnsave_agence">Enregistre</button>
@@ -62,9 +62,8 @@
    <div class="card col-md-10">
       <h6 class="card-header">Liste des agences</h6>
       <div class="card-body">
-      <div style="overflow-x:auto;">
-      <table class="table card-table" id="tab_agence">
-            <thead class="thead-dark">
+         <table class="table card-table" id="tab_agence">
+            <thead class="thead-light">
                <tr>
                   <th>ID</th>
                   <th>NOM DU agence</th>
@@ -78,7 +77,6 @@
             <tbody>
             </tbody>
          </table>
-    </div>
       </div>
    </div>
 </div>
@@ -86,9 +84,6 @@
    $(document).ready(function() {
     $('#tab_agence').DataTable({
     "lengthMenu": [[10, 25, 50, -1], [5, 25, 50, "All"]],
-    "pageLength": 10, 
-    "bDestroy":true,
-    responsive:true,
      
       dom: 'Bfrtip',
         buttons: [
@@ -102,20 +97,17 @@
 
 
 @endsection
-@section('javascript')
-<script type="text/javascript">
-   (function() {
-      $("#ville").select2();
-      $("#indiceag").select2();
-
-      $('#btnsave_agence').click(function () {
+@section('script')
+$("#id_ville").select2();
+$("#indiceag").select2();
+$('#btnsave_agence').click(function () {
    var nomagence = $("#nomagence").val();
    var adresse = $("#adresse").val();
    var telservice = $("#telservice").val();
-   var id_ville = $("#ville").val();
+   var id_ville = $("#id_ville").val();
    var indiceag = $("#indiceag").val();
    var initial = $("#initial").val();
-   if ($("#nomagence").val() != '' && $("#adresse").val() != '' && $("#ville").val() != '-1' && $("#telservice").val() != '' && $("#indiceag").val() != '' && $("#initial").val() != '') {
+   if ($("#nomagence").val() != '' && $("#adresse").val() != '' && $("#id_ville").val() != '-1' && $("#telservice").val() != '' && $("#indiceag").val() != '' && $("#initial").val() != '') {
       if ($("#code_agence").val() == '') {
 
       swal({
@@ -143,7 +135,7 @@
                adresse: adresse,
                telservice: telservice,
                telservice: telservice,
-               id_ville: $("#ville").val(),
+               id_ville: $("#id_ville").val(),
                indiceag: indiceag,
                initial: initial
             },
@@ -153,7 +145,7 @@
                 text: 'Un nauveau agence ajouter!',
                 type: 'success'
                 })
-                 
+                  window.location.href = ("{{route('index_agence')}}");
                } else {
                   alert('existe deja');
                }
@@ -168,8 +160,8 @@
       }).then(function () {
         swal({
             type: 'info',
-            title: 'ABT COLOMBE',
-            html: 'Agence ne pas ajouter'
+            title: 'La Colombe Money',
+            html: 'Agence n\'est pas ajoutée'
         })
     });
       } else {
@@ -197,7 +189,7 @@
                nomagence: $("#nomagence").val(),
                adresse: $("#adresse").val(),
                telservice: $("#telservice").val(),
-               id_ville: $("#ville").val(),
+               id_ville: $("#id_ville").val(),
                numagence: $("#code_agence").val(),
                indiceag:$("#indiceag").val(),
                initial:$("#initial").val(),
@@ -220,12 +212,10 @@
         swal({
             type: 'info',
             title: 'la colombe Money',
-            html: 'Agence ne pas modifier'
+            html: 'Agence n\'est pas modifiée'
         })
     });
       }
-   }else{
-      $("#ms").html("Vveuillez remplire tout les champs !");
    }
 });
 $('body').delegate('.modifier_agence', 'click', function () {
@@ -241,10 +231,8 @@ $('body').delegate('.modifier_agence', 'click', function () {
          $("#nomagence").val(data.nomagence);
          $("#adresse").val(data.adresse);
          $("#telservice").val(data.telservice);
-         $("#ville").val(data.id_ville);
-         $("#ville").change();
+         $("#id_ville").val(data.id_ville);
          $("#indiceag").val(data.indiceag);
-         $("#indiceag").change();
          $("#initial").val(data.initial);
          $("#code_agence").val(data.numagence);
       }
@@ -268,34 +256,4 @@ $('body').delegate('.supprimer_agence', 'click', function () {
       }
    });
 });
-affiche_agence();
-   })();
-
-   function affiche_agence()
-         {
-         var otableau=$('#tab_agence').DataTable({
-            dom: 'Bfrtip',
-            buttons: [
-            'print', 'copy', 'excel', 'pdf'
-             ],
-             "bProcessing":true,
-             "sAjaxSource":"{{route('get_list_agence')}}",
-             "columns":[
-                 {"data":'numagence'},
-                 {"data":'nomagence'},
-                 {"data":'adresse'},
-                 {"data":'telservice'},
-                 {"data":'indiceag'},
-                 {"data":'initial'},
-                 {"data":'numagence',"autoWidth":true,"render":function (data) {
-                         return '<button data-id='+data+' class="btn btn-warning btn-circle supprimer_agence" ><i class="fa fa-times"></i></button>'+ ' ' +
-                             '<button data-id='+data+' class="btn btn-info btn-circle modifier_agence" ><i class="fa fa-check"></i></button>';
-                     }}
-             ],
-             "pageLength": 10,
-             "bDestroy":true
-         });
-         
-         }
-</script>
 @endsection

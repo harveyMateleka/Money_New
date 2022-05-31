@@ -124,15 +124,8 @@
    </div>
 </div>
 @endsection
-@section ('javascript')
-<script type="text/javascript">
-$(document).ready(function() {
-    $.ajaxSetup({
-             headers: {
-                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-             }
-            });
-            var transact = 0;
+@section('script')
+var transact = 0;
 $('#btn_check').click(function () {
   if ($("#name_transact").val() != '' && $("#agence").val()!='-1') {
     $.ajax({
@@ -171,7 +164,7 @@ $('#btn_check').click(function () {
       }
     });
   } else {
-    $('#message').html('Veuillez saisir le numero de transaction');
+    $('#message').html('Veuillez saisir le numero de transaction !');
   }
 });
 $('#montant').on('input', function () {
@@ -211,7 +204,4 @@ $('#btnsave_sortie').click(function () {
     }
   }
 });
-              
- });
-</script> 
 @endsection

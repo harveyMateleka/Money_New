@@ -19,6 +19,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+
                                   @foreach ($resultat as $resultats)
                                   <tr>
                                     <td>{{$resultats->id}}</td>
@@ -42,15 +43,7 @@
 
 
 @endsection
-@section ('javascript')
-<script type="text/javascript">
-(function() {
-    $.ajaxSetup({
-             headers: {
-                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-             }
-                });
-
+@section ('script')
 $('#tab_historique').DataTable({
      "lengthMenu": [[10, 25, 50, -1], [5, 25, 50, "All"]],
      "pageLength": 10, 
@@ -76,9 +69,6 @@ $('#tab_historique').DataTable({
                         }
                   });
   });
-
-})();
-</script>
 
 @endsection
 

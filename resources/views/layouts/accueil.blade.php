@@ -13,7 +13,7 @@
       <link rel="stylesheet" href="{{ asset('accueil/css/owl.theme.default.min.css')}}">
       <link rel="stylesheet" href="{{asset('accueil/css/jquery.fancybox.min.css')}}">
       <link rel="stylesheet" href="{{asset ('css/bootstrap-datepicker.css')}}">
-      <link rel="stylesheet" href="{{asset('accueil/fonts/flaticon/font/flaticon.css')}}">
+      <link rel="stylesheet" href="{{ asset('accueil/fonts/flaticon/font/flaticon.css')}}">
       <link rel="stylesheet" href="css/aos.css">
       <link href="{{ asset('accueil/css/jquery.mb.YTPlayer.min.css')}}" media="all" rel="stylesheet" type="text/css">
       <link rel="stylesheet" href="{{asset ('accueil/css/style.css')}}">

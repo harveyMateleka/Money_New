@@ -2,10 +2,11 @@
 @section('content')
 <div class="container-fluid flex-grow-1 container-p-y">
                         <div class="card col-md-8">
-                            <h6 class="card-header">Repartition dans les agences</h6>
+                            <h6 class="card-header">Repartition des O.N.G</h6>
                             <div class="card-body">
+                                <div style="overflow-x:auto;">
                             <table class="table card-table" id="tab_paiement">
-                                <thead class="thead-light">
+                                <thead class="thead-black">
                                     <tr>
                                         <th>DATE</th>
                                         <th>ID</th>
@@ -49,15 +50,16 @@
                            
                         </div> 
                          </div>
+                          </div>
                          </br>
                          
                          <div class="card col-md-9">
-                            <h6 class="card-header">Repartition dans les agences</h6>
+                            <h6 class="card-header">Ajouter un O.N.G</h6>
                             <div class="card-body">
                                  <form action="#" method="POST" id="form_affectation">
                                 <div class="form-row">
                                     <div class="form-group col-md-4">
-                                        <label class="form-label">Nom Ong</label>
+                                        <label class="form-label">Nom O.n.G</label>
                                         <input type="text" class="form-control" name="name_ong" placeholder="Nom de l'Ong" id="name_ong" data-validation="required" readOnly>
                                         <div class="clearfix"></div>
                                     </div>
@@ -110,15 +112,7 @@
                         
                            
 @endsection
-@section ('javascript')
-
-<script type="text/javascript">
-    (function() {
-    $.ajaxSetup({
-             headers: {
-                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-             }
-            });
+@section ('script')
  var table = $('#tab_paiement').DataTable({
       "lengthMenu": [
         [10, 25, 50, -1],
@@ -200,7 +194,5 @@ $('#btnsave_ajout').click(function () {
         $('#message').html('verifiez bien les zones de destination');
     }
 });
-})();
-</script> 
 @endsection
 

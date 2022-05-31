@@ -1,7 +1,7 @@
 @extends('layouts.header')
 @section('content')
 <div class="container-fluid flex-grow-1 container-p-y">
-                        <h3 class="font-weight-bold py-3 mb-0">Page de Sortie</h3>
+                        <h3 class="font-weight-bold py-3 mb-0">RETRAIT</h3>
                         <div class="text-muted small mt-0 mb-4 d-block breadcrumb">   
                         </div>
                         <div class="card col-md-12">
@@ -27,7 +27,7 @@
                                                 </div></br>
                                                 <div class="form-row">
                                                       <label class="form-label">Code de Transfert</label>
-                                                      <input type="text" class="form-control"  name="name_transact" placeholder="Saisir le code ici" id="name_transact" value="">
+                                                      <input type="text"  style="border: 1px solid silver !important; padding-left: 8px !important" class="form-control"  name="name_transact" placeholder="Saisir le code ici" id="name_transact" value="">
                                                       <div class="clearfix"></div>
                                                 </div></br>
                                                 <button type="button" class="btn btn-success" name="btnsave_users" id="btn_check">Verifier</button>
@@ -40,14 +40,14 @@
                                                       <div class="col-md-6">
                                                               <div class="form-row"> 
                                                               <label class="form-label">Nom d'expediteur</label>
-                                                              <input type="text" class="form-control"  name="name_expedit" placeholder="Expediteur" id="name_expedit" value="" readonly>
+                                                              <input type="text" class="form-control" style="border: 1px solid silver !important; padding-left: 8px !important" name="name_expedit" placeholder="Expediteur" id="name_expedit" value="" readonly>
                                                                 <div class="clearfix"></div> 
                                                               </div>
                                                       </div>
                                                       <div class="col-md-6">
                                                               <div class="form-row"> 
                                                               <label class="form-label">Nom Beneficiaire</label> 
-                                                              <input type="text" class="form-control"  name="name_ben" placeholder="Beneficiaire" id="name_ben" value="" readonly>
+                                                              <input type="text" class="form-control"  style="border: 1px solid silver !important; padding-left: 8px !important" name="name_ben" placeholder="Beneficiaire" id="name_ben" value="" readonly>
                                                               <div class="clearfix"></div>
                                                               </div>
                                                       </div>
@@ -56,7 +56,7 @@
                                                         <div class="col-md-6">
                                                               <div class="form-row">
                                                                     <label class="form-label">Devise</label> 
-                                                                    <input type="text" class="form-control" placeholder="la devise" name="devise"  id="devise" value="" readonly>
+                                                                    <input type="text" class="form-control"  style="border: 1px solid silver !important; padding-left: 8px !important" placeholder="la devise" name="devise"  id="devise" value="" readonly>
                                                                     <input type="hidden" class="form-control" placeholder="la devise" name="name_devise"  id="name_devise" value="" readonly>
                                                                    
                                                                                   <div class="clearfix"></div>
@@ -66,7 +66,7 @@
                                                         <div class="col-md-6">
                                                               <div class="form-row">
                                                               <label class="form-label">Montant envoyé</label> 
-                                                              <input type="text" class="form-control"  name="name_montant" placeholder="le Montant" id="name_montant" value="" readonly>
+                                                              <input type="text" class="form-control"   style="border: 1px solid silver !important; padding-left: 8px !important" name="name_montant" placeholder="le Montant" id="name_montant" value="" readonly>
                                                                 <div class="clearfix"></div>
                                                               </div> 
                                                         </div>
@@ -75,15 +75,15 @@
                                                         <div class="col-md-6">
                                                               <div class="form-row">
                                                               <label class="form-label">Pourcentage</label>  
-                                                              <input type="text" class="form-control"  name="name_pourc" placeholder="montant Pourc." id="name_pourc" value="" readonly>
+                                                              <input type="text" class="form-control" style="border: 1px solid silver !important; padding-left: 8px !important" name="name_pourc" placeholder="montant Pourc." id="name_pourc" value="" readonly>
                                                                       <div class="clearfix"></div>
                                                               </div> 
                                                         </div>
 
                                                         <div class="col-md-6">
                                                               <div class="form-row">
-                                                              <label class="form-label">Agence d'envois</label>  
-                                                              <input type="text" class="form-control"  name="name_agence" placeholder="Agence d'envois" id="name_agence" value="" readonly>
+                                                              <label class="form-label">Agence d'envoie</label>  
+                                                              <input type="text" class="form-control" style="border: 1px solid silver !important; padding-left: 8px !important" name="name_agence" placeholder="Agence d'envois" id="name_agence" value="" readonly>
                                                                     <div class="clearfix"></div>
                                                               </div> 
                                                         </div>
@@ -91,8 +91,8 @@
                                                   <div class="row">
                                                       <div class="col-md-6">
                                                         <div class="form-row">
-                                                        <label class="form-label">Date de l'envois</label>
-                                                          <input type="date" class="form-control"  name="name_date"  id="name_date" value="" readonly>
+                                                        <label class="form-label">Date d'envoie</label>
+                                                          <input type="date" class="form-control" style="border: 1px solid silver !important; padding-left: 8px !important"  name="name_date"  id="name_date" value="" readonly>
                                                                             <div class="clearfix"></div>
                                                         </div>
                                                            
@@ -111,7 +111,7 @@
                 </div>
                         <hr class="border-light container-m--x my-4">
                         <div class="card col-md-12">
-                            <h6 class="card-header">Liste de Sortie</h6>
+                            <h6 class="card-header">Liste des sorties</h6>
                             <div class="card-body">
                             <div style="overflow-x:auto;">
                             <table class="table card-table" id="tab_sortie">
@@ -136,33 +136,27 @@
                         </div>
 </div>
 @endsection
-@section('javascript')
-<script type="text/javascript">
-  (function() {
-      $.ajaxSetup({
-             headers: {
-                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-             }
-                });
-                $("#agence").select2(); 
-                $('#name_transact').on('input', function () {
-                  if($("#agence").val()=='-1'){
-                    $("#message").html("selectionnez l'agence");
-                    $('#name_transact').val("");
-                    return false; 
-                  }
-                
-                }); 
+@section('script')
+$("#agence").select2();
+$('#name_transact').on('input', function () {
+  if($("#agence").val()=='-1'){
+    $("#message").html("selectionnez l'agence");
+    $('#name_transact').val("");
+    return false; 
+  }
+ 
+});
 
-                $('#agence').change(function () {
-                if ($('#agence').val() != '-1') {
-                  affiche_sortie($('#agence').val());
-                } else {
-                  $('#tab_sortie').dataTable().clear();
-                }
-              });
+$('#agence').change(function () {
+  if ($('#agence').val() != '-1') {
+    affiche_sortie($('#agence').val());
+  } else {
+    $('#tab_sortie').dataTable().clear();
+  }
+});
 
-  $('#btn_check').click(function() { 
+$('#btn_check').click(function() { 
+
        if($("#name_transact").val()!='' && $("#agence").val()!='-1'){ 
          $.ajax({
                      url   : "{{route('route_check')}}",
@@ -184,102 +178,124 @@
                         $("#name_date").val(data.data.created_at);
                         $("#name_devise").val(data.data.id_devise);
                         $("#name_pourc").val(data.data.montpour);
-                        let message="Voulez vous servir cette transaction au code de " + $("#name_transact").val() + " avec qu'un montant de ";
+                        var message="Voulez-vous servir cette transaction au code de " + $("#name_transact").val() + " avec qu'un montant un ";
                         message += $("#name_montant").val() + " " + $("#devise").val() + " à Mr/Madame " + $("#name_ben").val();
-                                Swal.fire({  
-                                title: 'Colombe Money',
-                                html: message, 
-                                width: 600,
-                                padding: '3em',  
-                                showDenyButton: true,   
-                                confirmButtonText: `Retirer`,  
-                                denyButtonText: `Annuler`,
-                          }).then((result) => {   
-                                if (result.isConfirmed) {                             
-                                    $.ajax({
-                                    url   : "{{route('save_sortie')}}",
-                                    type  : 'POST',
-                                    async : false,
-                                    data  : {code:$("#name_transact").val(),
-                                              montant:$("#name_montant").val(),
-                                              devise:$("#name_devise").val(),
-                                              agence:$("#agence").val()
-                                    },   
-                                      success:function(data)
-                                      {
-                                            if(data.success=='1'){
-                                              document.getElementById('name_transact').readOnly = false;
-                                              var tab=['2',$("#name_agence").val(),'ville',
-                                              $("#name_transact").val(),$("#name_expedit").val(),'tel',
-                                              $("#name_ben").val(),'telben', $("#name_montant").val(),$("#name_pourc").val(),$("#devise").val(),'herve'];
-                                              window.location.href=("/pdf/generate/"+ tab);
-                                              $("#name_ben").val("");
-                                              $("#devise").val("");
-                                              $("#name_expedit").val("");
-                                              $("#name_montant").val("");
-                                              $("#name_agence").val("");
-                                              $("#name_date").val("");
-                                              $("#name_pourc").val("");
-                                              $("#name_devise").val("");
-                                              $("#agence").val("");
-                                              $("#name_transact").val("");
-                                                  Swal.fire('operation effectuée', '', 'success') 
-                                                                        
+                        swal({
+                              title: 'ABT-TRANSFERT',
+                              text: message,
+                              type: 'warning',
+                              showCancelButton: true,
+                              confirmButtonColor: '#3085d6',
+                              cancelButtonColor: '#d33',
+                              confirmButtonText: 'Yes,Envoyez!',
+                              cancelButtonText: 'No, ANNULE!',
+                              confirmButtonClass: 'btn btn-success',
+                              cancelButtonClass: 'btn btn-danger',
+                              buttonsStyling: false,
+                              allowOutsideClick: false,
+                              showLoaderOnConfirm: true,
+                              preConfirm: function() {
+                                return new Promise(function(resolve, reject) {
+                                      if($("#name_transact").val()!='' && $("#name_montant").val()!='' && $("#agence").val()!='-1'){
+                                        $.ajax({
+                                              url   : "{{route('save_sortie')}}",
+                                              type  : 'POST',
+                                              async : false,
+                                              data  : {code:$("#name_transact").val(),
+                                                        montant:$("#name_montant").val(),
+                                                        devise:$("#name_devise").val(),
+                                                        agence:$("#agence").val()
+                                              },
+                                              success:function(response)
+                                              {
+                                                swal({
+                                                                        type: 'info',
+                                                                        title: 'La Colombe Money',
+                                                                        html: response.success
+                                                                    })
+                                                if(response.success=='1'){
+                                                                
+                                                  document.getElementById('name_transact').readOnly = false;
+                                                  var tab=['2',$("#name_agence").val(),'ville',
+                                                  $("#name_transact").val(),$("#name_expedit").val(),'tel',
+                                                  $("#name_ben").val(),'telben', $("#name_montant").val(),$("#name_pourc").val(),$("#devise").val(),'herve'];
+                                                  window.location.href=("/pdf/generate/"+ tab);
+                                                      $("#name_ben").val("");
+                                                      $("#devise").val("");
+                                                      $("#name_expedit").val("");
+                                                      $("#name_montant").val("");
+                                                      $("#name_agence").val("");
+                                                      $("#name_date").val("");
+                                                      $("#name_pourc").val("");
+                                                      $("#name_devise").val("");
+                                                      $("#agence").val("");
+                                                      $("#name_transact").val("");
+                                                      swal({
+                                                                        type: 'info',
+                                                                        title: 'La Colombe Money',
+                                                                        html: "L'operation a été reussi"
+                                                                    }) 
+                                                }else if(response.success=='3'){
+                                                                swal({
+                                                                        type: 'info',
+                                                                        title: 'La Colombe Money',
+                                                                        html: "Le coffre est insuffisant pour effectuer cette transaction svp"
+                                                                    })
+                                                }
+                                                else{
+                                                                swal({
+                                                                        type: 'info',
+                                                                        title: 'La Colombe Money',
+                                                                        html: "l'argent est deja servi"
+                                                                    })  
                                                   }
-                                                  else if(data.success=='3'){
-                                                      Swal.fire('Coffre Insuffisant', '', 'error') 
-                                                  } 
-                                                  else{
-                                                    Swal.fire('Argent déja servis', '', 'error') 
-                                                  }
-                                                            },
-                                    error:function(data){
+                                                  
+                                                
+                                              },
+                                              error:function(response){
 
-                                          Swal.fire('error', '', 'error')                              
-                                          }
-                                    });
-                                                                                    
-                                    } else if (result.isDenied) {    
-                                      Swal.fire('Changes are not saved', '', 'info')  
-                                    }
-                                });
+                                                alert(response.success);                              
+                                                }
+                                          });
+                                      }
+                                      else {
+                                          swal({
+                                              type: 'info',
+                                              title: 'La Colombe Money',
+                                              html: "veuillez bien verifiez les valeurs affichées"
+                                          })
+                                      }
+                                 
+                              })
                               }
-                              },
-                                error:function(data){                         
-                          }
-                          });                    
-                             
+
+                          }).then(function() {
+                                      swal({
+                                      type: 'info',
+                                      title: 'La Colombe Money',
+                                      html: "l'operation a été annulée"
+                                      })
+                          }); 
+                      }
+                      else{
+                        $("#message").html(data.success);  
+                      }
+                        
+                       
+                     },
+                     error:function(data){
+
+                       alert(data.success);                              
+                       }
+                 });  
         }
         else{
-            $('#message').html('Veuillez saisir le numero de transaction');
+            $('#message').html('Saisiez le numero de transaction svp !');
         }
    });
 
-  })(); 
 
-   function affiche_sortie(code_agence)
-         {
-           var otableau=$('#tab_sortie').DataTable({
-                 "bProcessing":true,
-                 "sAjaxSource":"/admin/liste_sortie="+code_agence,
-                 "columns":[
-                     {"data":'id'},
-                     {"data":'created_at'},
-                     {"data":'nomagence'},
-                     {"data":'ville'},
-                     {"data":'montenvoi'},
-                     {"data":'intitule'},
-                     {"data":'id',"autoWidth":true,"render":function (data) {
-                         return '<button data-id='+data+' class="btn btn-info btn-circle aff_sortie" ><i class="fa fa-check"></i></button>';
-                          }}
-                 ],
-                 "pageLength": 10, 
-                 "bDestroy":true,
-                 "responsive": true
-             });
-         
-         }
   
    
-</script>
+
 @endsection

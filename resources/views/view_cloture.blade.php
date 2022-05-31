@@ -1,7 +1,7 @@
 @extends('layouts.header')
 @section('content')
 <div class="container-fluid flex-grow-1 container-p-y">
-   <h3 class="font-weight-bold py-3 mb-0">Cloture agence</h3>
+   <h3 class="font-weight-bold py-3 mb-0">CLOTURE AGENCE</h3>
    <div class="text-muted small mt-0 mb-4 d-block breadcrumb">
    </div>
    <div class="card col-md-12">
@@ -12,13 +12,13 @@
             <div class="form-row">
                <div class="form-group col-md-4">
                   <select class="custom-select flex-grow-1" id='name_agence' name="agence">
-                     <option value='-1'>SELECTIONER L'AGENCE</option>
+                     <option  style="border: 1px solid silver !important; padding-left: 8px !important" value='-1'>SELECTIONER L'AGENCE</option>
                      @foreach($don as $ligne_agence)
-                     <option value='{!! $ligne_agence->numagence !!}'>{!! $ligne_agence->nomagence !!}</option>
+                     <option  style="border: 1px solid silver !important; padding-left: 8px !important" value='{!! $ligne_agence->numagence !!}'>{!! $ligne_agence->nomagence !!}</option>
                      @endforeach
                   </select>
                   @foreach($don as $ligne_agence)
-                  <input type="hidden"  class="form-control"  name="{{'agence'.$ligne_agence->numagence}}"  id="{{'agence'.$ligne_agence->numagence}}" value="{{$ligne_agence->nomagence}}">
+                  <input  style="border: 1px solid silver !important; padding-left: 8px !important" type="hidden"  class="form-control"  name="{{'agence'.$ligne_agence->numagence}}"  id="{{'agence'.$ligne_agence->numagence}}" value="{{$ligne_agence->nomagence}}">
                   @endforeach
                </div>
 
@@ -30,44 +30,44 @@
             <div class="form-row">
                <div class="form-group col-md-3">
                   <label class="form-label">Nouveau Depart USD</label>
-                  <input type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="name_nouvusd" value="0" readonly>
+                  <input  style="border: 1px solid silver !important; padding-left: 8px !important" type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="name_nouvusd" value="0" readonly>
                   <div class="clearfix"></div>
                </div>
                <div class="form-group col-md-3">
                   <label class="form-label">Nouveau Depart CDF</label>
-                  <input type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="name_nouvcdf" value="0"readonly>
+                  <input style="border: 1px solid silver !important; padding-left: 8px !important" type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="name_nouvcdf" value="0"readonly>
                   <div class="clearfix"></div>
                </div>
                 <div class="form-group col-md-3">
                   <label class="form-label">Ancienne Depart USD</label>
-                  <input type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="name_ancusd" value="0" readonly>
+                  <input  style="border: 1px solid silver !important; padding-left: 8px !important" type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="name_ancusd" value="0" readonly>
                   <div class="clearfix"></div>
                </div>
                <div class="form-group col-md-3">
                   <label class="form-label">Ancienne Depart CDF</label>
-                  <input type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="name_anccdf" value="0" readonly>
+                  <input  style="border: 1px solid silver !important; padding-left: 8px !important" type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="name_anccdf" value="0" readonly>
                   <div class="clearfix"></div>
                </div>
             </div>
             <div class="form-row">
               <div class="form-group col-md-3">
                   <label class="form-label">Totales entrées USD</label>
-                  <input type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="totalentre_usd" value="0" readonly>
+                  <input style="border: 1px solid silver !important; padding-left: 8px !important"  type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="totalentre_usd" value="0" readonly>
                   <div class="clearfix"></div>
                </div>
                <div class="form-group col-md-3">
                   <label class="form-label">Totales entrées CDF</label>
-                  <input type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="totalentre_cdf" value="0" readonly>
+                  <input  style="border: 1px solid silver !important; padding-left: 8px !important" type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="totalentre_cdf" value="0" readonly>
                   <div class="clearfix"></div>
                </div>
                 <div class="form-group col-md-3">
                   <label class="form-label">Totales Sortie USD</label>
-                  <input type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="sortie_usd" value="0" readonly>
+                  <input style="border: 1px solid silver !important; padding-left: 8px !important" type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="sortie_usd" value="0" readonly>
                   <div class="clearfix"></div>
                </div>
                <div class="form-group col-md-3">
                   <label class="form-label">Totales Sortie CDF</label>
-                  <input type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="sortie_cdf" value="0" readonly>
+                  <input style="border: 1px solid silver !important; padding-left: 8px !important" type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="sortie_cdf" value="0" readonly>
                   <div class="clearfix"></div>
                </div>
 
@@ -75,44 +75,44 @@
             <div class="form-row">
                <div class="form-group col-md-3">
                   <label class="form-label">Total Pourcentage en USD</label>
-                  <input type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="Pourc_usd" value="0" readonly>
+                  <input style="border: 1px solid silver !important; padding-left: 8px !important" type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="Pourc_usd" value="0" readonly>
                   <div class="clearfix"></div>
                </div>
                <div class="form-group col-md-3">
                   <label class="form-label">Total Pourcentage en CDF</label>
-                  <input type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="Pourc_cdf" value="0" readonly>
+                  <input style="border: 1px solid silver !important; padding-left: 8px !important" type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="Pourc_cdf" value="0" readonly>
                   <div class="clearfix"></div>
                </div>
                 <div class="form-group col-md-3">
                   <label class="form-label">Total Entréé Ong en USD</label>
-                  <input type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="Eong_usd" value="" readonly>
+                  <input style="border: 1px solid silver !important; padding-left: 8px !important" type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="Eong_usd" value="" readonly>
                   <div class="clearfix"></div>
                </div>
                <div class="form-group col-md-3">
                   <label class="form-label">Total Entrée Ong en CDF</label>
-                  <input type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="Eong_cdf" value="0" readonly>
+                  <input style="border: 1px solid silver !important; padding-left: 8px !important" type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="Eong_cdf" value="0" readonly>
                   <div class="clearfix"></div>
                </div>
             </div>
             <div class="form-row">
                <div class="form-group col-md-3">
                   <label class="form-label">Total Sortie Ong en USD</label>
-                  <input type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="Song_usd" value="0" readonly>
+                  <input style="border: 1px solid silver !important; padding-left: 8px !important" type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="Song_usd" value="0" readonly>
                   <div class="clearfix"></div>
                </div>
                <div class="form-group col-md-3">
                   <label class="form-label">Total Sortie Ong en CDF</label>
-                  <input type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="Song_cdf" value="0" readonly>
+                  <input  style="border: 1px solid silver !important; padding-left: 8px !important" type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="Song_cdf" value="0" readonly>
                   <div class="clearfix"></div>
                </div>
                 <div class="form-group col-md-3">
                   <label class="form-label">Totale Entrée cash express en USD</label>
-                  <input type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="totalentreecash_usd" value="0" readonly>
+                  <input  style="border: 1px solid silver !important; padding-left: 8px !important" type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="totalentreecash_usd" value="0" readonly>
                   <div class="clearfix"></div>
                </div>
                <div class="form-group col-md-3">
                   <label class="form-label">Totale Entrée cash express en Cdf</label>
-                  <input type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="totalentreecash_cdf" value="0" readonly>
+                  <input  style="border: 1px solid silver !important; padding-left: 8px !important" type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="totalentreecash_cdf" value="0" readonly>
                   <div class="clearfix"></div>
                </div>
 
@@ -120,44 +120,44 @@
             <div class="form-row">
                  <div class="form-group col-md-3">
                   <label class="form-label">Totale Sortie cash express en USD</label>
-                  <input type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="expresse_usd" value="0" readonly>
+                  <input style="border: 1px solid silver !important; padding-left: 8px !important"  type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="expresse_usd" value="0" readonly>
                   <div class="clearfix"></div>
                </div>
                <div class="form-group col-md-3">
                   <label class="form-label">Totale Sortie cash express en Cdf</label>
-                  <input type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="expresse_cdf" value="0" readonly>
+                  <input  style="border: 1px solid silver !important; padding-left: 8px !important" type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="expresse_cdf" value="0" readonly>
                   <div class="clearfix"></div>
                </div>
                 <div class="form-group col-md-3">
                   <label class="form-label">Totale Depense en USD</label>
-                  <input type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="depense_usd" value="0" readonly>
+                  <input  style="border: 1px solid silver !important; padding-left: 8px !important" type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="depense_usd" value="0" readonly>
                   <div class="clearfix"></div>
                </div>
                <div class="form-group col-md-3">
                   <label class="form-label">Totale Depense en Cdf</label>
-                  <input type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="depense_cdf" value="0" readonly>
+                  <input  style="border: 1px solid silver !important; padding-left: 8px !important" type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="depense_cdf" value="0" readonly>
                   <div class="clearfix"></div>
                </div>
             </div>
             <div class="form-row">
               <div class="form-group col-md-3">
                   <label class="form-label">Totale Entrée Bank en USD</label>
-                  <input type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="entreeB_usd" value="0" readonly>
+                  <input style="border: 1px solid silver !important; padding-left: 8px !important"  type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="entreeB_usd" value="0" readonly>
                   <div class="clearfix"></div>
                </div>
                <div class="form-group col-md-3">
                   <label class="form-label">Totale Entrée Bank en Cdf</label>
-                  <input type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="entreeB_cdf" value="0" readonly>
+                  <input style="border: 1px solid silver !important; padding-left: 8px !important" type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="entreeB_cdf" value="0" readonly>
                   <div class="clearfix"></div>
                </div>
                 <div class="form-group col-md-3">
                   <label class="form-label">Totale Sortie Bank en USD</label>
-                  <input type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="sortieB_usd" value="0" readonly>
+                  <input  style="border: 1px solid silver !important; padding-left: 8px !important" type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="sortieB_usd" value="0" readonly>
                   <div class="clearfix"></div>
                </div>
                <div class="form-group col-md-3">
                   <label class="form-label">Totale Sortie Bank en Cdf</label>
-                  <input type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="sortieB_cdf" value="0" readonly>
+                  <input  style="border: 1px solid silver !important; padding-left: 8px !important" type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="sortieB_cdf" value="0" readonly>
                   <div class="clearfix"></div>
                </div>
             </div>
@@ -169,14 +169,7 @@
    </div>
 </div>
 @endsection
-@section('javascript')
-<script type="text/javascript">
-    (function() {
-      $.ajaxSetup({
-             headers: {
-                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-             }
-                }); 
+@section('script')
 $('#btn_checking').click(function() { 
 
            if($("#name_agence").val()!=''){ 
@@ -222,7 +215,7 @@ $('#btn_checking').click(function() {
                  });  
         }
         else{
-            $('#message').html('Veuillez saisir le numero de transaction');
+            $('#message').html('Saisisez le numero transaction svp !');
         }
    });
 
@@ -294,14 +287,13 @@ $('#btn_cloture').click(function () {
       }).then(function () {
         swal({
             type: 'info',
-            title: 'ABT COLOMBE',
-            html: 'la journee ne pas cloture'
+            title: 'La Colombe Money',
+            html: 'La journee n\'est encore pas cloturé'
         })
     });
 
     
    }
 });
-})();
-</script>
+
 @endsection

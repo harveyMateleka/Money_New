@@ -13,17 +13,22 @@ use App\Models\tbl_partenaire;
 use App\Models\tbl_devise;
 use App\Models\tbl_client;
 use App\Models\tbl_depot;
+use App\Models\tbl_retrait;
 use App\Models\tbl_agence;
 use App\Models\tbl_personnel;
 use App\Models\tbl_pourcentage;
 use App\Models\tbl_banque;
+use App\Models\tbl_ong;
+use App\Models\tbl_transfert_ong;
+use App\Models\tbl_detail_t;
+use App\Models\tbl_paiement;
 use App\Models\tbl_transfert_banque;
 use App\Models\tbl_mvtbanques;
 use App\Models\tbl_cloture;
 use DateTime;
+use DB;
 use PDF;
 use App;
-use DB;
 use Illuminate\Support\Carbon;
 
 
@@ -49,11 +54,57 @@ class CtrTransfert extends Controller
         $this->agence=tbl_agence::all();
         $this->banque=tbl_banque::all();
         $this->agence=tbl_agence::where('indiceag','<>',1)->get();
+        $this->ong=tbl_ong::orderBy('name_ong','ASC')->get();
+        $resultat=tbl_transfert_ong::orderBy('id','DESC')->skip(0)->take(1)->first();
+        if ($resultat) {
+            $this->transfert=$resultat->id + 1;
+        }
+        else
+        {
+            $this->transfert=1; 
+        } 
+        
       
     }
-   
+    public function index_restitution()
+    {
+        if (Auth::check()) {  
+            $this->entete();
+            $resultat=DB::table('tbl_depots','tbl_depot')->join('tbl_agences','tbl_depot.numagence','=','tbl_agences.numagence')
+                                                         ->join('tbl_clients','tbl_depot.id_client','=','tbl_clients.id_client')
+                                                         ->join('tbl_viles','tbl_depot.id_ville','=','tbl_viles.id_ville')
+                                                         ->join('tbl_devises','tbl_depot.id_devise','=','tbl_devises.id')
+                                        ->where('tbl_depot.retrait_credit','=','1')
+                                        ->orderBy('tbl_depot.id','DESC')
+                                        ->select('tbl_depot.id','numdepot','nomben','montenvoi','montpour','created_at','nomagence','nomclient','ville','intitule')
+                                        ->get();
+                                        
+            return view('view_restitution',compact('resultat'));
+        }
+    }
 
-  
+    public function repartition_ong(){
+        if (Auth::check()) {  
+            $this->entete();
+
+$resultat=DB::table('tbl_transfert_ongs','tbl_transfert')->join('tbl_ongs','tbl_transfert.id_ong','=','tbl_ongs.id')
+            ->where('tbl_transfert.created_at','=',$this->date->format('Y-m-d'))
+            ->select('mont_trans','tbl_transfert.id','devise','type','taux','name_ong','tbl_transfert.created_at')
+            ->orderBy('tbl_transfert.id','DESC')
+            ->get();
+
+            $data=[
+                'tbl_agence'=>$this->agence,
+                'code_trasanct'=>$this->generateRandomString(),
+                'data_base'=>$resultat
+            ];
+            return view('view_repartitionOng',$data);
+
+        }
+        else {
+            return redirect()->route('index_login');
+        }
+    }
 
     public function index_cloture1()
  { 
@@ -207,7 +258,7 @@ $pourcentage=DB::table('tbl_depots')->select(DB::raw('SUM(montpour) as pourusd')
 
           } 
           else {
-            return redirect()->route('login');
+            return redirect()->route('index_login');
         }
   }
 
@@ -219,7 +270,7 @@ $pourcentage=DB::table('tbl_depots')->select(DB::raw('SUM(montpour) as pourusd')
                                        ->join('tbl_clients','tbl_depots.id_client','=','tbl_clients.id_client')
                                         ->join('tbl_devises','tbl_depots.id_devise','=','tbl_devises.id')  
                                         ->where('tbl_depots.id','=',$id) 
-                                        ->select('tbl_depots.id','numdepot','nomben','montenvoi','montpour','created_at','ville','intitule','nomclient','nomagence','tel','telclient','raison')
+                                        ->select('tbl_depots.id','numdepot','nomben','montenvoi','montpour','created_at','ville','intitule','nomclient','nomagence','tel','telclient')
                                         ->first();
         if ($result) {
              $data = [
@@ -235,8 +286,7 @@ $pourcentage=DB::table('tbl_depots')->select(DB::raw('SUM(montpour) as pourusd')
                    'montant'  => $result->montenvoi,
                    'montantcom'  => $result->montpour,
                    'devise'  => $result->intitule,
-                   'indice'  => '1', 
-                   'raison' => $result->raison       
+                   'indice'  => '1',         
                      ];
             
                     $pdf = PDF::loadView('generate_pdf',$data);
@@ -248,7 +298,7 @@ $pourcentage=DB::table('tbl_depots')->select(DB::raw('SUM(montpour) as pourusd')
           if ($request->ajax()) {
               $resultat=$request->initial_ag;
               $resultat.=$this->recupe_code();
-              $resultat.='-'.$request->initial_vil;
+              $resultat.=$request->initial_vil;
               return response()->json(['success'=>$resultat]);
           }
       } 
@@ -271,12 +321,31 @@ public function index_entree()
             $tab_ville=tbl_vile::orderBy('ville','asc')->get();
             $don=$this->recu_agence();
             $tab_devise=tbl_devise::orderBy('id','DESC')->get();
+            $transact=$this->generateRandomString4();
+            $numero_ag=0;
+            foreach ($don as $value_donnee) {
+                $numero_ag=$value_donnee->numagence;
+            }
+            
             return view('view_entree',compact('don','tab_ville','tab_devise'));
         }
         else{
-            return redirect()->route('login');
+            return redirect()->route('index_login');
           }
     }
+
+  public function index_sortie()
+    {
+        if (Auth::check()) {  
+            $this->entete();
+            $sortie_agence=$this->recu_agence();
+            return view('view_sortie',compact('sortie_agence'));
+        }
+        else{
+            return redirect()->route('index_login');
+        }
+    }
+
 
     public function index_pourcentage()
     {
@@ -292,13 +361,84 @@ public function index_entree()
         }
     }
 
-    
+    public function index_ong()
+    {
+        if (Auth::check()) {  
+            $this->entete();
+             $data=[
+                 'tbl_agence'=>$this->agence,
+                 'tbl_banque'=>$this->banque,
+                 'code_trasanct'=>$this->generateRandomString(),
+                 'ong'=>$this->ong,
+                 'transfert'=>$this->transfert
+             ];
+             return view('view_save_ong',$data);
+          
+        }
+        else{
+            return redirect()->route('index_login');
+        }
+    }
 
-   
+    public function index_paie_ong()
+    {
+        if (Auth::check()) {  
+            $this->entete();
+             $agence=$this->recu_agence();
+             return view('view_sortie_ong',compact('agence'));
+          
+        }
+        else{
+            return redirect()->route('index_login');
+        }
+        
+    }
 
-   
+    public function index_liste()
+    {
+        if (Auth::check()) {  
+            $this->entete();
+            $requette=DB::table('tbl_paiements','paiement')->join('tbl_detail_ts','paiement.code_detail','=','tbl_detail_ts.id')
+                                                           ->join('tbl_agences','tbl_detail_ts.numagence','=','tbl_agences.numagence')
+                                                           ->join('tbl_transfert_ongs','tbl_detail_ts.id_transf','=','tbl_transfert_ongs.id')
+                                                           ->where('paiement.created_at','=',$this->date->format('Y-m-d'))
+                                                           ->select(DB::raw('SUM(Montpay) as mont'),'nomagence','paiement.created_at','devise')
+                                                           ->groupBy('paiement.code_detail','nomagence','devise','paiement.created_at')
+                                                           ->get();
+                                                           //dd($requette);
 
+             return view('view_liste_paie',compact('requette'));
+          
+        }
+        else{
+            return redirect()->route('index_login');
+        }
+    }
 
+   public function index_credit()
+{
+    if (Auth::check()) {  
+        $this->entete();
+         $tab_ville=tbl_vile::orderBy('ville','asc')->get();
+        $tab_devise=tbl_devise::orderBy('id','DESC')->get();
+        $agence=tbl_agence::orderBy('nomagence','asc')->get();
+        $resultat=DB::table('tbl_depots','tbl_depot')->join('tbl_agences','tbl_depot.numagence','=','tbl_agences.numagence')
+                                                     ->join('tbl_clients','tbl_depot.id_client','=','tbl_clients.id_client')
+                                                     ->join('tbl_viles','tbl_depot.id_ville','=','tbl_viles.id_ville')
+                                                     ->join('tbl_devises','tbl_depot.id_devise','=','tbl_devises.id')
+                                    ->where('tbl_depot.etatservi','=','0')
+                                    ->orderBy('tbl_depot.id','DESC')
+                                    ->select('tbl_depot.id','numdepot','montenvoi','montpour','created_at','nomagence','nomclient','ville','intitule','id_devise')
+                                    ->get();
+
+      
+        
+        return view('view_credit',compact('resultat','tab_ville','tab_devise','agence'));
+    }
+    else{
+        return redirect()->route('index_login');
+    }
+}
 
     public function index_cloture_agence()
 {
@@ -315,11 +455,20 @@ public function index_entree()
             return view('view_cloture',compact('don'));
         }
         else{
-            return redirect()->route('login');
+            return redirect()->route('index_login');
           }
        }
 
-    
+    public function chercher(Request $request)
+    {
+        $resultat=DB::table('tbl_transfert_ongs','tbl_transfert')->join('tbl_ongs','tbl_transfert.id_ong','=','tbl_ongs.id')
+            ->where('tbl_transfert.id','=',$request->code_tra)
+            ->select('mont_trans','tbl_transfert.id','devise','type','taux','name_ong','tbl_transfert.created_at')
+            ->orderBy('tbl_transfert.id','DESC')
+            ->first();
+
+            return response()->json($resultat);   
+    }
 
 public function store_cloture_agence(Request $request)
     {
@@ -455,17 +604,18 @@ public function store_cloture_agence(Request $request)
             $operation='';
             $Montantusd=0.0;
             $Montantcdf=0.0;
-            $requette2=$this->get_montAg($request->agence);
-            $Montantusd=$requette2['montantD'];
-            $Montantcdf=$requette2['montantC'];
-            $name_agence=$requette2['nameagence'];
-          
+            $requette2=tbl_agence::whereNumagence($request->agence)->first();
+            if ($requette2) {
+                $Montantusd=$requette2->Montusd;
+                $Montantcdf=$requette2->Montcdf;
+                $name_agence=$requette2->nomagence;
+            }
             while ($a <= 2) {
                 $requette=tbl_client::whereTel($request->expeditel)->first();
                 if ($requette) {
                        $insert=tbl_depot::create(['numdepot'=>$request->transact,
                                                   'telclient'=>$request->tel_ben,
-                                                  'nomben'=>strtoupper($request->benefic),
+                                                  'nomben'=>$request->benefic,
                                                   'montenvoi'=>$request->montenv,
                                                   'montpour'=>$request->montcom,
                                                   'etatservi'=>'0',
@@ -475,7 +625,6 @@ public function store_cloture_agence(Request $request)
                                                   'created_at'=>$this->date->format('Y-m-d'),
                                                   'matricule'=>Auth::user()->matricule,
                                                   'id_client'=>$requette->id_client,
-                                                  'raison'=> $request->raison
                                                  ]);
                                         
                                         if($request->devise==1){
@@ -492,7 +641,7 @@ public function store_cloture_agence(Request $request)
                                     break;   
                 }
                 else{
-                    $requette1=tbl_client::create(['nomclient'=>strtoupper($request->expediteur),'tel'=>$request->expeditel]);
+                    $requette1=tbl_client::create(['nomclient'=>$request->expediteur,'tel'=>$request->expeditel]);
                        $a++;
                        
                               //Nexmo::message()->send([
@@ -539,9 +688,68 @@ public function store_cloture_agence(Request $request)
 
     }
 
-  
+    public function show_sortie($id)
+    {
+        $requette=DB::table('tbl_agences')->where('numagence','=',$id)->select('numagence','id_ville')->first();
+        if ($requette) {
+            $req=DB::table('tbl_depots')->join('tbl_agences','tbl_depots.numagence','=','tbl_agences.numagence')
+                                        ->join('tbl_viles','tbl_depots.id_ville','=','tbl_viles.id_ville')
+                                        ->join('tbl_devises','tbl_depots.id_devise','=','tbl_devises.id')  
+                                        ->where('tbl_depots.id_ville','=',$requette->id_ville) 
+                                        ->where('tbl_depots.etatservi','=','0') 
+                                        ->select('tbl_depots.id','tbl_depots.id_devise','montenvoi','created_at','ville','intitule','nomagence')
+                                        ->get();
+            return response()->json(['data'=>$req]);      
+            }
 
-     
+    }
+
+        public function save_sortie(Request $request)
+    {
+        if ($request->ajax()) {
+            $montdollars=0.0;
+            $value=0;
+            $montcdf=0.0;
+            $name_agence='';
+            $operation='';
+            $requette=DB::table('tbl_agences')->where('numagence','=',$request->agence)
+             ->select('numagence','nomagence','Montusd','Montcdf')->first();
+                if ($requette) {
+                   $this->numagence=$request->agence;
+                   $montdollars=$requette->Montusd;
+                   $montcdf=$requette->Montcdf;
+                   $name_agence=$requette->nomagence;
+                  }
+                   
+            if ($request->devise==1 && $montdollars >= $request->montant) { 
+                $montdollars-=$request->montant;
+                $value=1;
+                $operation="Sortie du code ".$request->code." du montant de ".$request->montant." Usd dans l'agence ".$name_agence; 
+            }elseif ($request->devise==2 && $montcdf >= $request->montant) {
+                $montcdf-=$request->montant;
+                $value=1;
+                $operation="Sortie du code ".$request->code." du montant de ".$request->montant." Cdf dans l'agence ".$name_agence; 
+               
+            }
+            if ($value==1) {
+                $update=tbl_agence::whereNumagence($request->agence)->update(['Montusd'=> $montdollars,'Montcdf'=>$montcdf]);
+                $insert= new tbl_retrait;
+                $insert->matricule=Auth::user()->matricule;
+                $insert->numagence=$request->agence;
+                $insert->id_depot=$request->code;
+                $insert->date_servis=$this->date->format('Y-m-d');
+                $insert->save();
+                $requet=tbl_depot::whereNumdepot($request->code)->update(['etatservi'=>'1']);
+                $this->historique(Auth::user()->matricule,$operation);
+                return response()->json(['success'=>'1']);
+            }
+            else {
+                return response()->json(['success'=>'3']);
+            }
+           
+          
+        }
+    }
   function generateRandomString4($length = 4) {
         $characters ='A'.mt_rand(1000000000, 9999999999); 
         $charactersLength = strlen($characters);
@@ -553,28 +761,12 @@ public function store_cloture_agence(Request $request)
         return $randomString;
       }
 
-      public function get_montAg($request){
-
-        $requette=tbl_agence::whereNumagence($request)->first();
-        if ($requette){
-            $data=[
-                'montantD'=>$requette->Montusd,
-                'montantC'=>$requette->Montcdf,
-                'nameagence'=>$requette->nomagence,
-            ];
-           return $data;
-          }
-          else {
-              return false;
-          }
-      }
-
-    public function generatePDF($id,$a,$v,$t,$e,$te,$b,$tb,$m,$mc,$dev,$raison)
+   public function generatePDF($id,$a,$v,$t,$e,$te,$b,$tb,$m,$mc,$dev,$r)
     {
         if ($id=='1') {
              $data = [
                  'entete' => "Bon d'envoie",
-                   'date' => $this->date->format('d-m-Y'),
+                   'date' => $this->date->format('Y-m-d'),
                    'agence'  => $a,
                    'ville'  => $v,
                    'trans'  => $t,
@@ -585,8 +777,8 @@ public function store_cloture_agence(Request $request)
                    'montant'  => $m,
                    'montantcom'  => $mc,
                    'devise'  => $dev,
-                   'indice'  => $id,
-                   'raison' => $raison        
+                   'indice'  => $id, 
+                   'raison'  => $r,           
                      ];
             
                     $pdf = PDF::loadView('generate_pdf',$data);
@@ -602,7 +794,7 @@ public function store_cloture_agence(Request $request)
                     if ($requette) {
                         $data = [
                              'entete' => "Bon de Sortie",
-                              'date' => $this->date->format('d-m-Y'),
+                              'date' => $this->date->format('Y-m-d'),
                               'agence'  => $a,
                               'ville'  => $v,
                               'villedes'  => $requette->ville,
@@ -613,8 +805,8 @@ public function store_cloture_agence(Request $request)
                               'montant'  => $m,
                               'montantcom'  => $mc,
                               'devise'  => $dev,
-                              'indice'  => $id,
-                              'raison' => $raison          
+                              'indice'  => $id,  
+                              'raison'  => $r,           
                                 ];
                                 $pdf = PDF::loadView('generate_pdf',$data);
                                 return $pdf->download('codingdriver.pdf');
@@ -624,6 +816,7 @@ public function store_cloture_agence(Request $request)
 
         }
     }
+
 
     // public function genera_ong($id,$o,$m,$dev,$mm,$f,$e,$na)
     // {
@@ -649,14 +842,203 @@ public function store_cloture_agence(Request $request)
     //           return $pdf->download('bon_transfert.pdf');
     // }
 
-    
+    public function save_detail(Request $request)
+    {
+            if ($request->ajax()) {
 
-    
+                $requette=DB::table('tbl_detail_ts')->where('id_transf','=',$request->code)
+                   ->select(DB::raw('SUM(montp) as montant'))
+                    ->first();
+                    if ($requette) {
+                        if ($requette->montant < $request->total_Mont) {
+                             $requet=tbl_detail_t::where('id_transf','=',$request->code)->where('numagence','=',$request->desti)
+                             ->first();
+                                if (!$requet) {
+                                    $insert=tbl_detail_t::create([
+                                    'id_transf'=>$request->code,
+                                    'montp'=>$request->montant,
+                                    'numagence'=>$request->desti,
+                                    'code_tr'=>$request->code_tra,
+                                    'created_at'=>$this->date->format('Y-m-d')
+                                   ]);
+                                     return response()->json(['success'=>$this->generateRandomString()]);
+                                } else {
+                                    return response()->json(['success'=>'2']);
+                                }
+                                
+
+                        }
+                        else{
+                            return response()->json(['success'=>'2']);
+                        }
+
+                    } else {
+                          $requet=tbl_detail_t::where('id_transf','=',$request->code)->where('numagence','=',$request->desti)
+                             ->first();
+                                if (!$requet) {
+                                    $insert=tbl_detail_t::create([
+                                    'id_transf'=>$request->code,
+                                    'montp'=>$request->montant,
+                                    'numagence'=>$request->desti,
+                                    'code_tr'=>$request->code_tra,
+                                    'created_at'=>$this->date->format('Y-m-d')
+                                   ]);
+                                     return response()->json(['success'=>$this->generateRandomString()]);
+                                } else {
+                                    return response()->json(['success'=>'2']);
+                                }
+                    }
+                    
+               
+                
+                
+                }
+    }
+
+    public function save_ong(Request $request)
+    {
+            if ($request->ajax()) {
+                $montdollars=0.0;
+                $montcdf=0.0;
+                $operation='';
+                $name='';
+                    $insert=tbl_transfert_ong::create(['id_ong'=>$request->ong,'mont_trans'=>$request->montant,'mont_com'=>$request->pour,'mont_dep'=>$request->frais,
+                    'devise'=>$request->devise,'type'=>$request->etat,'prov'=>$request->prov,'taux'=>$request->taux,
+                   'created_at'=>$this->date->format('Y-m-d')]);
+
+                    if ($request->etat==1) {
+                        $result=tbl_agence::whereNumagence($request->prov)->first();
+                        if ($result) {
+                            $montdollars=$result->Montusd;
+                            $montcdf=$result->Montcdf; 
+                            $name=$result->nomagence;  
+                        }
+                                if ($request->devise==1) {
+                                    $montant=$request->montant + $request->pour + $request->frais;
+                                    $montdollars+= $montant;
+                                    $operation="Entrée pour le compte de l'ong du montant ".$montant." Usd dans l'agence ".$name;
+                                        
+                                }
+                                    else{
+                                        $montant=$request->montant + $request->pour + $request->frais; 
+                                        $montcdf+=$montant; 
+                                        $operation="Entrée pour le compte de l'ong du montant ".$montant." Usd dans l'agence ".$name;
+                                    }
+                                    $sult=tbl_agence::whereNumagence($request->prov)->update(['Montusd'=>$montdollars,'Montcdf'=>$montcdf]);
+                                    $this->historique(Auth::user()->matricule,$operation);
+                                   
+                                    return response()->json(['success'=>'1']);
+                       }
+                    else{
+                        $student_marks = tbl_banque::where('id','=',$request->prov)->first();
+                        $montantt=$request->montant + $request->pour + $request->frais;
+                        if ($student_marks) {
+                                if ($student_marks->devise==$request->devise) {
+                                    $student_marks->Montant +=$montantt;
+                                    $operation= "Entrée pour le compte de l'ong du montant ".$montantt." dans le compte ".$student_marks->intitulecompte;
+                                    $student_marks->save();
+                                    $this->historique(Auth::user()->matricule,$operation);
+                                    return response()->json(['success'=>'1']);
+                                  }
+                                  else{
+                                    return response()->json(['success'=>'2']); 
+                                  }
+                           
+                            
+                        }
+                       }
+            }
+    }
+    public function charger_ong(){
+        $resultat=DB::table('tbl_transfert_ongs','tbl_transfert')->join('tbl_ongs','tbl_transfert.id_ong','=','tbl_ongs.id')
+                                                                 ->select('mont_trans','tbl_transfert.id','mont_com','mont_dep','devise','type','taux','montpayé','name_ong','tbl_transfert.created_at')
+                                                                 ->orderBy('tbl_transfert.id','DESC')
+                                                                 ->get();
+ 
+   return response()->json(['data'=>$resultat]); 
+        
+    }
+
+public function check_sortie(Request $request)
+    {
+        $reponse='';
+
+        $requette=DB::table('tbl_agences')
+                        ->where('numagence','=',$request->agence)
+                        ->select('tbl_agences.nomagence','tbl_agences.id_ville','Montcdf','Montusd')->first();
+
+            if ($requette) {
+                $req=DB::table('tbl_depots')->join('tbl_agences','tbl_depots.numagence','=','tbl_agences.numagence')
+                                        ->join('tbl_viles','tbl_depots.id_ville','=','tbl_viles.id_ville')
+                                        ->join('tbl_clients','tbl_depots.id_client','=','tbl_clients.id_client')
+                                        ->join('tbl_devises','tbl_depots.id_devise','=','tbl_devises.id')  
+                                        ->where('tbl_depots.id_ville','=',$requette->id_ville) 
+                                        ->where('tbl_depots.etatservi','=','0')
+                                        ->where('tbl_depots.numdepot','=',$request->code)  
+                                        ->select('tbl_depots.id','numdepot','nomben','montenvoi','montpour','created_at','ville','intitule','nomclient','nomagence','tbl_depots.id_devise')
+                                        ->first();
+                                        if ($req) {
+                                            $reponse='1';
+                                            $this->MontCdf=$requette->Montcdf;
+                                            $this->MontUsd=$requette->Montusd;
+                                            $this->agence=$requette->nomagence;
+                                            $this->devise=$req->id_devise;
+                                            return response()->json(['data'=>$req,'success'=>$reponse]);
+                                        }
+                                        else{
+                                           $reque1=DB::table('tbl_depots')->where('tbl_depots.numdepot','=',$request->code)->first();
+                                           if ($reque1) {
+                                                        if ($reque1->etatservi=='0') {
+                                                            $reponse="ce code doit etre servi dans une autre ville";
+                                                            return response()->json(['success'=>$reponse]);
+                                                        }
+                                                        else{
+                                                            $reponse="ce code a été deja servi";
+                                                            return response()->json(['success'=>$reponse]);
+                                                        }
+                                            }
+                                            else{
+                                                $reponse="ce code n'existe pas dans le systeme";
+                                                return response()->json(['success'=>$reponse]);  
+                                            }  
+                                        }
+                 }
+                  
+    }
 
 
+    public function check_ong(Request $request)
+    {
 
+        if ($request->ajax()) {
 
-    
+            $requette=DB::table('tbl_detail_ts')->join('tbl_transfert_ongs','tbl_detail_ts.id_transf','=','tbl_transfert_ongs.id')
+                                                ->join('tbl_ongs','tbl_transfert_ongs.id_ong','=','tbl_ongs.id')
+                                                ->where('code_tr','=',$request->code)
+                                                ->where('numagence','=',$request->agence)
+                                                ->select('montp','mont_trans','devise','tbl_detail_ts.id as id_detail','name_ong')
+                                                ->first();
+            if ($requette) {
+                $total=0.0;
+                $result = DB::table('tbl_paiements')
+                             ->where('code_detail','=',$requette->id_detail)
+                             ->select(DB::raw('SUM(Montpay) as mont'))
+                             ->first();
+                             if ($result) {
+                                $total= $result->mont;
+                              }
+                              else{
+                                $total=0.0; 
+                              }
+                              return response()->json(['data'=>$requette,'total'=>$total,'success'=>'1']);  
+              }
+              else{
+                return response()->json(['success'=>"il se peut que ce code n'existe pas ou qui ne doit pas etre payé dans cet agence"]);
+              }
+           
+         }
+                  
+    }
     
       public function index_retrait()
     {
@@ -758,9 +1140,96 @@ public function store_cloture_agence(Request $request)
                  }
 
 
-   
+    public function update_credit(Request $request)
+    {
+    
+      if ($request->ajax()) {
+            $montantdolars=0.0;
+            $montantcdf=0.0;
+              $data=tbl_depot::where('id','=',$request->code)->first();
+              if($data){
+                  $data->etatservi=1;
+                  $data->retrait_credit=1;
+                  $data->updated_at;
+                  $data->save();
 
-   
+          $requette=DB::table('tbl_affectations','tbl_affect')->join('tbl_agences','tbl_affect.numagence','=','tbl_agences.numagence')
+            ->where('tbl_affect.matricule','=',Auth::user()->matricule)
+            ->where('statut','=','1')
+            ->select('tbl_affect.numagence','tbl_agences.nomagence','Montusd','Montcdf')->first();
+
+                                if ($requette) {
+
+                                    $montantdolars=$requette->Montusd - $data->montenvoi;
+                                    $montantcdf=$requette->Montcdf - $data->montenvoi;  
+                              
+                                if ($data->id_devise == 1) {
+                                    $update=tbl_agence::whereNumagence($data->numagence)->update(['Montusd'=>$montantdolars]); 
+                                    return response()->json(['success'=>'1']);    
+                                  }
+                                else{
+                                    $update=tbl_agence::whereNumagence($data->numagence)->update(['Montcdf'=>$montantcdf]); 
+
+                                    return response()->json(['success'=>'1']);    
+                                    }   
+      
+                            }
+
+                        }
+       
+                      }
+
+                 }
+
+    public function sortie_ong(Request $request)
+    {
+        if ($request->ajax()) {
+            $montdollars=0.0;
+            $montcdf=0.0; 
+            $name_agence='';
+            $operation=''; 
+            $requette1=tbl_detail_t::where('id','=',$request->code_detail)->first();
+            if ($requette1) {
+                $requette2=tbl_transfert_ong::where('id','=',$requette1->id_transf)->first();
+                    if ($requette2) {
+                        $result=tbl_agence::whereNumagence($requette1->numagence)->first();
+                        if ($result) {
+                            $montdollars=$result->Montusd;
+                            $montcdf=$result->Montcdf; 
+                            $name_agence=$result->nomagence;  
+                        }
+
+                        if ($requette2->devise=='1') {
+                                if ($montdollars < $request->montant) {
+                                    return response()->json(['success'=>"l'agence n'a pas assez de montant pour faire la sortie"]);
+                                    exit();
+                                }
+                                else {
+                                  $montdollars-=$request->montant;
+                                  $operation="paiement de l'ong du montant de ".$request->montant." Usd dans l'agence de ".$name_agence;
+                                }   
+                         } 
+                        else{
+                                if ($montcdf < $request->montant) {
+                                    return response()->json(['success'=>"l'agence n'a pas assez de montant pour faire la sortie"]);
+                                    exit();
+                                }
+                                else {
+                                $montcdf-=$request->montant;
+                                $operation="paiement de l'ong du montant de ".$request->montant." Cdf dans l'agence de ".$name_agence;   
+                               
+                                }
+                        } 
+                        $requette2->montpayé+=$request->montant;
+                        $requette2->save();
+                        $requette=tbl_paiement::create(['code_detail'=>$request->code_detail,'Montpay'=>$request->montant,'created_at'=>$this->date->format('Y-m-d')]);
+                        $result1=tbl_agence::whereNumagence($requette1->numagence)->update(['Montcdf'=>$montcdf,'Montusd'=>$montdollars]);
+                        $this->historique(Auth::user()->matricule,$operation);
+                        return response()->json(['success'=>'1']);     
+                      }
+            }
+         }             
+    }
 
     function generateRandomString($length = 4) {
         $characters ='A'.mt_rand(1000000000, 9999999999); 
@@ -807,7 +1276,23 @@ public function store_cloture_agence(Request $request)
     }
 
     //________________________________________________code de rabby_____________________________________________________
-   
+    public function transfert_banque(){
+        if (Auth::check()) {
+            $this->entete();
+        
+             $part=tbl_partenaire::orderBy('id_partenaire','DESC')->get();
+             $resultat=DB::table('tbl_affectations')->join('tbl_agences','tbl_affectations.numagence','=','tbl_agences.numagence')
+            ->where('tbl_affectations.matricule','=',Auth::user()->matricule)
+             ->where('tbl_affectations.statut','=','1')
+             ->orderBy('id','DESC')
+             ->select('tbl_affectations.numagence','tbl_agences.nomagence')
+             ->get();
+             $devise=tbl_devise::orderBy('id','DESC')->get();
+             
+             return view('view_transfert_banque',compact('resultat','devise','part'));
+
+        }
+    }
 
 public function get_liste_transfert()
 {
@@ -825,8 +1310,137 @@ public function get_liste_transfert()
 
 }
 
-    
+    public function transfert_insert(Request $request){
+            if($request->devise == 2){
+                if ($request->operation  == '1') {
+                    $ajout = tbl_transfert_banque::create([
+                        'numagence' => $request->agence,
+                        'id_partenaire' => $request->partenaire,
+                        'id_devise' => $request->devise,
+                        'montant' => $request->montant,
+                        'date_T' => date('Y-m-d'),
+                        'matricule' => Auth::user()->matricule,
+                        'operation' => $request->operation
+                    ]); 
+                    $agence = tbl_agence::whereNumagence($request->agence)->first();
+                      if ($agence){
+                          $montantCDF = $agence->Montcdf;
+                      }
+                      $totoCDF = $montantCDF + $request->montant;
+                      $mod_agence = tbl_agence::whereNumagence($request->agence)->update(['Montcdf' => $totoCDF]);
+                }elseif ($request->operation  == '2') {
+                    $ajout = tbl_transfert_banque::create([
+                        'numagence' => $request->agence,
+                        'id_partenaire' => $request->partenaire,
+                        'id_devise' => $request->devise,
+                        'montant' => $request->montant,
+                        'date_T' => date('Y-m-d'),
+                        'matricule' => Auth::user()->matricule,
+                        'operation' => $request->operation
+                    ]); 
+                    $agence = tbl_agence::whereNumagence($request->agence)->first();
+                      if ($agence){
+                          $montantCDF = $agence->Montcdf;
+                      }
+                      $totoCDF = $montantCDF - $request->montant;
+                      $mod_agence = tbl_agence::whereNumagence($request->agence)->update(['Montcdf' => $totoCDF]);
+                }
+            }elseif ($request->devise == 1) {
+                if ($request->operation  == '1') {
+                    $ajout = tbl_transfert_banque::create([
+                        'numagence' => $request->agence,
+                        'id_partenaire' => $request->partenaire,
+                        'id_devise' => $request->devise,
+                        'montant' => $request->montant,
+                        'date_T' => date('Y-m-d'),
+                        'matricule' => Auth::user()->matricule,
+                        'operation' => $request->operation
+                    ]); 
+                    $agence = tbl_agence::whereNumagence($request->agence)->first();
+                      if ($agence){
+                          $montantCDF = $agence->Montusd;
+                      }
+                      $totoCDF = $montantCDF + $request->montant;
+                      $mod_agence = tbl_agence::whereNumagence($request->agence)->update(['Montusd' => $totoCDF]);
+                }elseif ($request->operation  == '2') {
+                    $ajout = tbl_transfert_banque::create([
+                        'numagence' => $request->agence,
+                        'id_partenaire' => $request->partenaire,
+                        'id_devise' => $request->devise,
+                        'montant' => $request->montant,
+                        'date_T' => date('Y-m-d'),
+                        'matricule' => Auth::user()->matricule,
+                        'operation' => $request->operation
+                    ]); 
+                    $agence = tbl_agence::whereNumagence($request->agence)->first();
+                      if ($agence){
+                          $montantCDF = $agence->Montusd;
+                      }
+                      $totoCDF = $montantCDF - $request->montant;
+                      $mod_agence = tbl_agence::whereNumagence($request->agence)->update(['Montusd' => $totoCDF]);
+                }
+            }
+            return redirect()->route('transfert_banque');    
+       
+    }
 //____________________________code_raphael______________________________________
+public function index_partenaire()
+{
+      if (Auth::check()) {
+            $this->entete();
+            return view("view_partenaire");
+        }
+               
+}
+
+public function store_partenaire(Request $request)
+{      
+if ($request->ajax()) {
+    $table=tbl_partenaire::whereId_partenaire($request->id_partenaire)->first();
+    if (!$table) {
+        $record= new tbl_partenaire;
+        $record->type=$request->type;
+        $record->save();
+        return response()->json(['success'=>'1']);
+    }  
+    else{
+        return response()->json(['success'=>'0']);
+    }
+}  
+}
+
+public function update_partenaire(Request $request)
+{
+if ($request->ajax()) {
+    $this->validate($request,['type'=>'required']);
+    $resultat=tbl_partenaire::whereId_partenaire($request->id_partenaire)->update(['type'=>$request->type]);
+    return response()->json(['success'=>'1']);   
+} 
+}
+public function get_list()
+{
+$resultat=tbl_partenaire::orderBy('id_partenaire','DESC')->get(); 
+   return response()->json(['data'=>$resultat]);
+}
+
+
+public function get_id(Request $request)
+{
+if ($request->ajax()) {
+    $resultat=tbl_partenaire::whereId_partenaire($request->code)->first();
+    return response()->json($resultat); 
+}
+}
+
+
+
+public function destroy_partenaire(Request $id)
+{
+if ($id->ajax()) {
+    $resultat=tbl_partenaire::whereId_partenaire($id->code)->delete();
+    return response()->json(['success'=>'1']); 
+}
+}
 
 ///////++++++++++++++++++++++++++++++++DEBUT RAPPORT+++++++++++++++++++++++++++++++++++++++++++++
     public function get_rapport($d,$f)
@@ -848,7 +1462,7 @@ public function get_liste_transfert()
              return view('view_rapport_cash');
         }
         else{
-            return redirect()->route('login');
+            return redirect()->route('index_login');
         }
     }
 
@@ -859,7 +1473,7 @@ public function get_liste_transfert()
              return view('view_rapport_general');
         }
         else{
-            return redirect()->route('login');
+            return redirect()->route('index_login');
         }
     }
 
@@ -897,7 +1511,21 @@ public function get_liste_transfert()
     }
     
               
+   public function get_id_credit(Request $request)
+{
+    if ($request->ajax()) {
+    // $resultat=tbl_depot::whereId($request->code)->first();
+        $resultat= DB::table('tbl_depots','tbl_depot')
+        ->join('tbl_clients','tbl_depot.id_client','=','tbl_clients.id_client')
+        ->whereId($request->code)
+        ->select('tbl_depot.id','numdepot','montenvoi','nomben','montpour','created_at','numagence','nomclient','id_ville','id_devise','tel','telclient')
+        ->first();
 
+
+        return response()->json($resultat); 
+       
+    }
+}
 
 
      public function index_rapport_s()
@@ -914,13 +1542,177 @@ public function get_liste_transfert()
              return view('view_cash_s',compact('resultat'));
         }
         else{
-            return redirect()->route('login');
+            return redirect()->route('index_login');
         }
     }
     
     
+    
 
-
+public function up_credit_client(Request $request)
+{
+    if ($request->ajax()) {
+        $montdollars=0.0;
+        $montcdf=0.0;
+        $agence=tbl_agence::whereNumagence($request->agence)->first();
+        if ($agence) {
+            $montdollars=$agence->Montusd;
+            $montcdf=$agence->Montcdf;
+        }
+            if ($request->id_devise==$request->code_devise) {
+                if ($request->montenvoi==$request->montenvoi_code) {
+                    $resultat=tbl_depot::whereId($request->id_code)->first();
+                    if ($resultat) {
+                        $resultat->id_ville=$request->ville;
+                        $resultat->nomben=$request->ben;
+                        $resultat->telclient=$request->telben;
+                        $resultat->save();
+                    }
+                    return response()->json(['success'=>'operation reussie']); 
+                } elseif ($request->montenvoi > $request->montenvoi_code) {
+                    $taux=0;
+                    $pourc=0.0;
+                    $devise=tbl_devise::whereId($request->id_devise)->first();
+                    if ($devise) {
+                        $taux=$devise->taux;
+                    }
+                    $pourc=$request->montenvoi * $taux/ 100;
+                    $montantanc=$request->montenvoi_code + $request->pourc;
+                    $montantnouv=$request->montenvoi+$pourc-$montantanc;
+                    if ($request->id_devise==1) {
+                        $montdollars+=$montantnouv;
+                     }
+                     else{
+                        $montcdf+=$montantnouv;
+                     }
+                     $resultat=tbl_depot::whereId($request->id_code)->first();
+                     if ($resultat) {
+                         $resultat->id_ville=$request->ville;
+                         $resultat->nomben=$request->ben;
+                         $resultat->telclient=$request->telben;
+                         $resultat->montenvoi=$request->montenvoi;
+                         $resultat->montpour=$pourc;
+                         $resultat->save();
+                     }
+                     $update=tbl_agence::whereNumagence($request->agence)->update(['Montcdf'=>$montcdf,'Montusd'=>$montdollars]);
+                     return response()->json(['success'=>'operation reussie']);
+                }
+                else{
+                    $taux=0;
+                    $pourc=0.0;
+                    $devise=tbl_devise::whereId($request->id_devise)->first();
+                    if ($devise) {
+                        $taux=$devise->taux;
+                    }
+                    $pourc=$request->montenvoi * $taux/ 100;
+                    $montantanc=$request->montenvoi_code + $request->pourc;
+                    $mont=$request->montenvoi + $pourc;
+                    $montantnouv=$montantanc-$mont;
+                    if ($request->id_devise==1) {
+                        $montdollars-=$montantnouv;
+                     }
+                     else{
+                        $montcdf-=$montantnouv;
+                     }
+                     $resultat=tbl_depot::whereId($request->id_code)->first();
+                     if ($resultat) {
+                         $resultat->id_ville=$request->ville;
+                         $resultat->nomben=$request->ben;
+                         $resultat->telclient=$request->telben;
+                         $resultat->montenvoi=$request->montenvoi;
+                         $resultat->montpour=$pourc;
+                         $resultat->save();
+                     }
+                     $update=tbl_agence::whereNumagence($request->agence)->update(['Montcdf'=>$montcdf,'Montusd'=>$montdollars]);
+                     return response()->json(['success'=>'operation reussie']);
+                } 
+                
+            } else {
+                if ($request->montenvoi==$request->montenvoi_code) {
+                    if ($request->id_devise==1) {
+                        $montdollars+=$request->montenvoi+$request->pourc;
+                        $montcdf-=$request->montenvoi+$request->pourc;
+                    }
+                    else {
+                        $montdollars-=$request->montenvoi+$request->pourc;
+                        $montcdf+=$request->montenvoi+$request->pourc;
+                    }
+                    $resultat=tbl_depot::whereId($request->id_code)->first();
+                    if ($resultat) {
+                        $resultat->id_ville=$request->ville;
+                        $resultat->nomben=$request->ben;
+                        $resultat->telclient=$request->telben;
+                        $resultat->id_devise=$request->id_devise;
+                        $resultat->save();
+                    }
+                    $update=tbl_agence::whereNumagence($request->agence)->update(['Montcdf'=>$montcdf,'Montusd'=>$montdollars]);
+                    return response()->json(['success'=>'operation reussie']); 
+                } elseif ($request->montenvoi > $request->montenvoi_code) {
+                    $taux=0;
+                    $pourc=0.0;
+                    $devise=tbl_devise::whereId($request->id_devise)->first();
+                    if ($devise) {
+                        $taux=$devise->taux;
+                    }
+                    $pourc=$request->montenvoi * $taux/ 100;
+                    $montantanc=$request->montenvoi_code + $request->pourc;
+                    $montantnouv=$request->montenvoi+$pourc;
+                    if ($request->id_devise==1) {
+                        $montcdf-=$montantanc;
+                        $montdollars+=$montantnouv;
+                     }
+                     else{
+                        $montcdf+=$montantnouv;
+                        $montdollars-=$montantanc;
+                     }
+                     $resultat=tbl_depot::whereId($request->id_code)->first();
+                     if ($resultat) {
+                         $resultat->id_ville=$request->ville;
+                         $resultat->nomben=$request->ben;
+                         $resultat->telclient=$request->telben;
+                         $resultat->montenvoi=$request->montenvoi;
+                         $resultat->id_devise=$request->id_devise;
+                         $resultat->montpour=$pourc;
+                         $resultat->save();
+                     }
+                     $update=tbl_agence::whereNumagence($request->agence)->update(['Montcdf'=>$montcdf,'Montusd'=>$montdollars]);
+                     return response()->json(['success'=>'operation reussie']);
+                }
+                else{
+                    $taux=0;
+                    $pourc=0.0;
+                    $devise=tbl_devise::whereId($request->id_devise)->first();
+                    if ($devise) {
+                        $taux=$devise->taux;
+                    }
+                    $pourc=$request->montenvoi * $taux/ 100;
+                    $montantanc=$request->montenvoi_code + $request->pourc;
+                    $montantnouv=$request->montenvoi+$pourc;
+                    if ($request->id_devise==1) {
+                        $montdollars+=$montantnouv;
+                        $montcdf-=$montantanc;
+                     }
+                     else{
+                        $montcdf+=$montantnouv;
+                        $montdollars-=$montantanc;
+                     }
+                     $resultat=tbl_depot::whereId($request->id_code)->first();
+                     if ($resultat) {
+                         $resultat->id_ville=$request->ville;
+                         $resultat->nomben=$request->ben;
+                         $resultat->telclient=$request->telben;
+                         $resultat->montenvoi=$request->montenvoi;
+                         $resultat->id_devise=$request->id_devise;
+                         $resultat->montpour=$pourc;
+                         $resultat->save();
+                     }
+                     $update=tbl_agence::whereNumagence($request->agence)->update(['Montcdf'=>$montcdf,'Montusd'=>$montdollars]);
+                     return response()->json(['success'=>'operation reussie']);
+                }
+            }
+       
+    }
+}
 
      public function get_rapportG($d,$f)
     {

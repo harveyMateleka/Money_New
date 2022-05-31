@@ -5,7 +5,7 @@
     <div class="card col-md-12">
         <h6 class="card-header">Transaction</h6>
         <div class="card-body">
-        <table class="table card-table"  id='update'>
+        <table class="table card-table" id='update'>
             <thead class="thead-lisght">
                 <tr>
                     <th>Date</th>
@@ -73,12 +73,10 @@
     </div>
 </div>
 @endsection
-@section('javascript')
-<script type="text/javascript">
-    (function() {
+@section('script')
+$(document).ready(function() {
     $('#update').DataTable({
      "lengthMenu": [[10, 25, 50, -1], [5, 25, 50, "All"]],
-       });
-    })();
-</script>
+  });
+} );
 @endsection
