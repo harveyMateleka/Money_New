@@ -97,7 +97,7 @@ Route::get('admin/get_list_droit', [Ctrparemetre::class, 'get_list_droit'])->nam
 //_____________________________________debut users____________________________________________________________
 Route::get('admin/users', [Ctruser::class, 'index'])->name('index_users');
 Route::get('admin/get_list_users', [Ctruser::class, 'get_list_users'])->name('get_list_users');
-Route::post('admin/save_users', [Ctruser::class, 'store'])->name('saveUser');
+Route::post('admin/save_users', [Ctruser::class, 'save_users'])->name('save_users');
 Route::post('admin/update_users', [Ctruser::class, 'update'])->name('update_users');
 Route::post('admin/destroy_users', [Ctruser::class, 'destroy'])->name('destroy_users');
 Route::post('admin/profil', [Ctruser::class, 'update_profil'])->name('update');

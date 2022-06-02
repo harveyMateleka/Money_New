@@ -43,7 +43,7 @@
                 </div>
 
                 <hr class="border-light container-m--x my-4">
-                <button type="button" class="btn btn-success" name="btnsave_users" id="btnsave_users">Enregistre</button>
+                <button type="button" class="btn btn-success" name="btnsave_users" id="btnsave_users">Enregistrer</button>
                 <button type="button" class="btn btn-danger" id="btnreset_users">annule</button>
                 <input type="hidden" class="form-control" id="code_users">
                 <input type="hidden" class="form-control" id="matr_users">
@@ -79,6 +79,8 @@
     let pattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
     let emailErr = $('#emailErr');
 
+    let dataUser = {};
+
     if ($('#name_email').val() === "") {
         $('#btnsave_users').prop('disabled', true);
     } else {
@@ -97,6 +99,15 @@
             $('#emailErr').text('');
             $('#emailErr').text('Adresse email valide');
             $('#emailErr').css('color', 'green');
+
+            let matricule = $('#name_matr').val();
+            let email = $('#name_email').val();
+            let name_passe = $('#name_password').val();
+
+            dataUser.email = email;
+            dataUser.password = name_passe;
+            dataUser.matricule = matricule = matricule;
+
         } else {
             $('#btnsave_users').prop('disabled', true);
             $('#emailErr').text('Adresse email non valide');
@@ -160,29 +171,53 @@
         });
     }
 
-    let dataUser = {};
-
-    let email = $('#name_email').val();
-    let name_passe = $('#name_passe').val();
-
-    dataUser.email = email;
-    dataUser.name_passe = name_passe;
-
     $('#btnsave_users').click(() => {
 
-        console.log("User saved :: ", dataUser)
+        console.log("User saved :: ", dataUser);
+        $('#btnsave_users').text('Patientez...')
 
-        const save_users = () => {
-            $.ajax({
-                url: '{{ route("saveUser") }}',
-                method: "POST",
-                data: dataUser,
-                cache: false,
-                success: function(res) {
-                    console.log("DATA ::: ", res)
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            url: "{{route('save_users')}}",
+            type: 'POST',
+            async: false,
+            data: {
+                name_matr: $("#matr_users").val(),
+                name_email: $("#name_email").val(),
+                name_passe: $("#name_password").val()
+            },
+            success: function(res) {
+
+                if (res.status === 200) {
+                    Swal.fire(
+                        'Ajouté',
+                        res.message,
+                        'success'
+                    )
+                    $("#name_matr").val('');
+                    $("#name_email").val('');
+                    $("#matr_users").val('');
+                    affiche_users();
+                } else {
+                    $('#affichage_message').html("l'utilisateur existe deja");
+                    $('#modal_message').modal('show');
+                    $("#name_matr").val('');
+                    $("#name_email").val('');
+                    $("#matr_users").val('');
                 }
-            })
-        }
+                $('#btnsave_users').text('Enregistrer')
+                $('#emailErr').text('');
+                $('#btnsave_users').prop('disabled', true);
+            },
+            error: function(err) {
+                console.log(err.message);
+                $('#btnsave_users').text('Enregistrer')
+                $('#emailErr').text('');
+                $('#btnsave_users').prop('disabled', true);
+            }
+        });
 
     });
 </script>

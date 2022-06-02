@@ -15,7 +15,7 @@ class Ctruser extends Controller
 {
     private $admin;
     private $personnel;
-    
+
     public function index()
     {
         if (Auth::check()) {
@@ -34,9 +34,11 @@ class Ctruser extends Controller
     }
 
 
-    public function store(Request $request)
+    public function save_users(Request $request)
     {
+        
         if ($request->ajax()) {
+            
             $resultat = user::whereMatricule($request->name_matr)->first();
             if (!$resultat) {
                 $ii = 0;
@@ -50,9 +52,13 @@ class Ctruser extends Controller
                     'matricule' => $request->name_matr,
                     'remember_token' => $request->name_passe
                 ]);
-                return response()->json(['success' => '1']);
+                return response()->json([
+                    'message' => "L'utilisateur a été enregistré avec succès",
+                    'status'  => 200
+                ]);
             } else {
-                return response()->json(['success' => '0']);
+                return response()->json([
+                    'status' => 'Erreur !!! L\enregistrement de l\'utilisateur a échoué']);
             }
         }
     }
