@@ -101,6 +101,8 @@ Route::post('admin/save_users', [Ctruser::class, 'save_users'])->name('save_user
 Route::post('admin/update_users', [Ctruser::class, 'update'])->name('update_users');
 Route::post('admin/destroy_users', [Ctruser::class, 'destroy'])->name('destroy_users');
 Route::post('admin/profil', [Ctruser::class, 'update_profil'])->name('update');
+Route::post('admin/get_id_user', [Ctruser::class, 'get_id_user'])->name('get_id_user');
+
 //_____________________________________fin____________________________________________________________________
 //________________________________debut_affectation___________________________________________________________
 Route::get('admin/affectation', [Ctraffectation::class, 'index'])->name('index_affectation');

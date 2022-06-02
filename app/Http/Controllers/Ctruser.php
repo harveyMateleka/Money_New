@@ -64,6 +64,15 @@ class Ctruser extends Controller
     }
 
 
+
+    public function get_id_user(Request $request){
+        $id = $request->id;
+
+        $result = User::find($id);
+        return response()->json($result);
+    }
+
+
     public function update_profil(Request $request)
     {
 

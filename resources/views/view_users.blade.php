@@ -43,7 +43,9 @@
                 </div>
 
                 <hr class="border-light container-m--x my-4">
-                <button type="button" class="btn btn-success" name="btnsave_users" id="btnsave_users">Enregistrer</button>
+                <button type="button" class="btn btn-success" name="btnsave_users" id="btnsave_users">Créer</button>
+                <button type="button" class="btn btn-success" name="updateUser" id="updateUser">Modifier</button>
+
                 <button type="button" class="btn btn-danger" id="btnreset_users">annule</button>
                 <input type="hidden" class="form-control" id="code_users">
                 <input type="hidden" class="form-control" id="matr_users">
@@ -161,7 +163,6 @@
                         return `
                             <button data-id=${data} class="btn btn-success btn-circle editerUser" ><i class="fa fa-edit"></i></button>
                             <button data-id=${data} class="btn btn-warning btn-circle deleteUser" ><i class="fa fa-trash"></i></button>
-                            <button data-id=${data} class="btn btn-warning btn-circle deleteUser" ><i class="fa fa-info"></i></button>
                         `;
                     }
                 }
@@ -171,9 +172,9 @@
         });
     }
 
-    $('#btnsave_users').click(() => {
+    // CREATION D'UN NOUVEL UTILISATEUR
 
-        console.log("User saved :: ", dataUser);
+    $('#btnsave_users').click(() => {
         $('#btnsave_users').text('Patientez...')
 
         $.ajax({
@@ -220,6 +221,41 @@
         });
 
     });
+
+    // EDITION DE L'USER, APPEL DU FORM POUR REMPLIR LES DATA DU USER SELON SON ID
+
+    let editBtn = $('.editerUser');
+
+    $('body').delegate('.editerUser', 'click', function() {
+        let idUser = $(this).data('id');
+
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            url: "{{ route('get_id_user')}}",
+            method: 'POST',
+            data: {
+                id: idUser,
+            },
+            success: function(res) {
+                $('#code_users').val(res.id)
+                $('#name_matr').val(res.matricule)
+                $('#name_email').val(res.email)
+                $('#matr_users').val(res.matricule)
+                $('#btnsave_users').prop('disabled', false);
+            },
+            error: function(err) {
+                console.log("ERREURS ::: ", err);
+            }
+        })
+    });
+
+    // UPDATE USER 
+
+    $('#updateUser').click(function(){
+
+    })
 </script>
 
 
