@@ -1,10 +1,20 @@
 @extends('layouts.header')
 @section('content')
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <div class="container-fluid flex-grow-1 container-p-y">
-   <h3 class="font-weight-bold py-3 mb-0"></h3>
+  <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#home">Créer une gance</a></li>
+    <li><a data-toggle="tab" href="#menu1">Ajouter une ville</a></li>
+    <li><a data-toggle="tab" href="#menu2">Droit d'acees</a></li>
+  </ul>
+  <div class="tab-content">
+    <div id="home" class="tab-pane fade in active">
+    <h3 class="font-weight-bold py-3 mb-0"></h3>
    <div class="text-muted small mt-0 mb-4 d-block breadcrumb">
    </div>
-   <div class="card col-md-8">
+   <div class="card col-md-12">
       <h4 class="card-header">AGENCES</h4>
       <div class="card-body">
          <form action="#" method="POST" id="form_agence">
@@ -59,7 +69,7 @@
       </div>
    </div>
    <hr class="border-light container-m--x my-4">
-   <div class="card col-md-10">
+   <div class="card col-md-12">
       <h6 class="card-header">Liste des agences</h6>
       <div class="card-body">
          <table class="table card-table" id="tab_agence">
@@ -79,6 +89,16 @@
          </table>
       </div>
    </div>
+    </div>
+    <div id="menu1" class="tab-pane fade">
+      <h3>Menu 1</h3>
+      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    </div>
+    <div id="menu2" class="tab-pane fade">
+      <h3>Menu 2</h3>
+      <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+    </div>
+  </div>
 </div>
 <script type="text/javascript">
    $(document).ready(function() {

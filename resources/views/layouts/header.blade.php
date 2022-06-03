@@ -11,14 +11,14 @@
       <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
       <!-- Google fonts -->
       <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
-      <!-- Icon fonts -->
+      <!-- Icon fonts -->0
       <link rel="icon" type="text/css" href="../abt_app/public/colombelogo.jpeg">
       <link rel="stylesheet" href="{{ asset('assets/fonts/fontawesome.css')}}">
       <link rel="stylesheet" href="{{ asset('assets/fonts/ionicons.css')}}">
       <link rel="stylesheet" href="{{ asset('assets/fonts/linearicons.css')}}">
       <link rel="stylesheet" href="{{ asset('assets/fonts/open-iconic.css')}}">
       <link rel="stylesheet" href="{{ asset('assets/fonts/pe-icon-7-stroke.css')}}">
-      <link rel="stylesheet" href="{{ asset('assets/fonts/feather.css')}}">
+      <ink rel="stylesheet" href="{{ asset('assets/fonts/feather.css')}}">
       <link rel="stylesheet" href="{{ asset('DataTables/css/dataTables.bootstrap.css')}}">
       <link rel="stylesheet" href="{{ asset('DataTables/css/dataTables.bootstrap.min.css')}}">
       <link rel="stylesheet" href="{{ asset('css/dropzone.min.css')}}">

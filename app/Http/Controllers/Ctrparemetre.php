@@ -122,7 +122,11 @@ public function index_ville()
     {
        if (Auth::check()) {
         $this->entete();
-        return view("view_menu");
+        $resultat=tbl_fonction::all();
+        $resul_smenu=DB::table('tbl_sous_menus')->select('id_sous','item_sous')
+        ->orderBy('id_sous','DESC')
+        ->get();
+        return view("view_menu", compact('resultat','resultat','resul_smenu'));
        }
        else{
         return redirect()->route('index_login'); 
@@ -133,7 +137,11 @@ public function index_ville()
       if (Auth::check()) {
         $this->entete();
         $resultat=tbl_menu::all();
-        return view("view_sous_menu",compact('resultat'));
+        $resultata=tbl_fonction::all();
+        $resul_smenu=DB::table('tbl_sous_menus')->select('id_sous','item_sous')
+        ->orderBy('id_sous','DESC')
+        ->get();
+        return view("view_sous_menu",compact('resultata','resultat','resul_smenu'));
       } 
       else{
         return redirect()->route('index_login');
