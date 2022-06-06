@@ -202,7 +202,7 @@
       </div> 
       </div>         
    
-    </br>  </br>
+    </br></br>
    <hr class="border-light container-m--x my-4">
    <div class="card col-md-12">
       <h6 class="card-header">Tableau du droit d'access</h6>
