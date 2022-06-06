@@ -51,7 +51,11 @@ public function index_ville()
         if (Auth::check()) {
             $this->entete();
             $resultat=tbl_vile::orderBy('ville','ASC')->get();
-            return view("view_agence",compact('resultat'));
+            $resultat_f=tbl_fonction::all();
+            $resul_smenu=DB::table('tbl_sous_menus')->select('id_sous','item_sous')
+                                                     ->orderBy('id_sous','DESC')
+                                                     ->get();
+            return view("view_agence",compact('resultat', 'resultat_f', 'resul_smenu'));
         }
         else{
             return redirect()->route('index_login');
