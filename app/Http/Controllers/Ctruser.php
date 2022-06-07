@@ -36,9 +36,9 @@ class Ctruser extends Controller
 
     public function save_users(Request $request)
     {
-        
+
         if ($request->ajax()) {
-            
+
             $resultat = user::whereMatricule($request->name_matr)->first();
             if (!$resultat) {
                 $ii = 0;
@@ -58,14 +58,16 @@ class Ctruser extends Controller
                 ]);
             } else {
                 return response()->json([
-                    'status' => 'Erreur !!! L\enregistrement de l\'utilisateur a échoué']);
+                    'status' => 'Erreur !!! L\enregistrement de l\'utilisateur a échoué'
+                ]);
             }
         }
     }
 
 
 
-    public function get_id_user(Request $request){
+    public function get_id_user(Request $request)
+    {
         $id = $request->id;
 
         $result = User::find($id);
@@ -116,15 +118,27 @@ class Ctruser extends Controller
 
     public function update(Request $request)
     {
-        $resultat = User::whereId($request->code_users)
-            ->update([
-                'email' => $request->name_email,
-                'password' => Hash::make($request->name_passe),
+        if ($request->ajax()) {
+            $id = $request->id;
+
+            $result = User::findOrFail($id);
+
+            // Mail::to('kikonistephane@gmail.com')->send(new SendMail());
+
+            $dataForm = [
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
                 'etatcon' => '0',
                 'etat' => '0',
-                'matricule' => $request->name_matr
+                'matricule' => $request->matricule,
+            ];
+
+            $result->update($dataForm);
+            return response()->json([
+                'status' => 200,
+                'message' => "Utilisateur modifié avec succès"
             ]);
-        return response()->json(['success' => '1']);
+        }
     }
 
     public function get_list_users(Request $request)

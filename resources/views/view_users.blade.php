@@ -43,11 +43,13 @@
                 </div>
 
                 <hr class="border-light container-m--x my-4">
-                <button type="button" class="btn btn-success" name="btnsave_users" id="btnsave_users">Créer</button>
-                <button type="button" class="btn btn-success" name="updateUser" id="updateUser">Modifier</button>
+                <div class="d-flex">
+                    <button type="button" class="btn btn-success" style='margin-right:10px' name="btnsave_users" id="btnsave_users">Créer</button>
+                    <button type="button" class="btn btn-success" style='display:none; margin-right:10px' name="updateUser" id="updateUser">Modifier</button>
 
-                <button type="button" class="btn btn-danger" id="btnreset_users">annule</button>
-                <input type="hidden" class="form-control" id="code_users">
+                    <button type="button" class="btn btn-danger" id="btnreset_users">annuler</button>
+                </div>
+                <input type="hidden" class="form-control" id="code_users" name='code_users'>
                 <input type="hidden" class="form-control" id="matr_users">
             </form>
         </div>
@@ -85,19 +87,24 @@
 
     if ($('#name_email').val() === "") {
         $('#btnsave_users').prop('disabled', true);
+        $('#updateUser').prop('disabled', true);
     } else {
         $('#btnsave_users').prop('disabled', false);
+        $('#updateUser').prop('disabled', false);
     }
 
     $('#name_email').change(function() {
         if ($('#name_email').val() === "") {
             $('#btnsave_users').prop('disabled', true);
+            $('#updateUser').prop('disabled', true);
         } else {
             $('#btnsave_users').prop('disabled', false);
+            $('#updateUser').prop('disabled', false);
         }
 
         if ($('#name_email').val().match(pattern)) {
             $('#btnsave_users').prop('disabled', false);
+            $('#updateUser').prop('disabled', false);
             $('#emailErr').text('');
             $('#emailErr').text('Adresse email valide');
             $('#emailErr').css('color', 'green');
@@ -112,6 +119,7 @@
 
         } else {
             $('#btnsave_users').prop('disabled', true);
+            $('#updateUser').prop('disabled', true);
             $('#emailErr').text('Adresse email non valide');
             $('#emailErr').css('color', 'red');
         }
@@ -161,8 +169,8 @@
                     "autoWidth": true,
                     "render": function(data) {
                         return `
-                            <button data-id=${data} class="btn btn-success btn-circle editerUser" ><i class="fa fa-edit"></i></button>
-                            <button data-id=${data} class="btn btn-warning btn-circle deleteUser" ><i class="fa fa-trash"></i></button>
+                            <button data-id=${data} class="btn btn-success btn-circle editerUser"><i class="fa fa-edit"></i></button>
+                            <button data-id=${data} class="btn btn-warning btn-circle deleteUser" id='deleteUser'><i class="fa fa-trash"></i></button>
                         `;
                     }
                 }
@@ -228,6 +236,9 @@
 
     $('body').delegate('.editerUser', 'click', function() {
         let idUser = $(this).data('id');
+        $('#btnsave_users').css('display', 'none');
+
+        $('#updateUser').css('display', 'block');
 
         $.ajax({
             headers: {
@@ -253,7 +264,57 @@
 
     // UPDATE USER 
 
-    $('#updateUser').click(function(){
+    $('#updateUser').click(function() {
+        let dataUser = {};
+
+        let id = $('#code_users').val();
+        let email = $("#name_email").val();
+        let matricule = $("#name_matr").val();
+        let pwd = $("#name_password").val();
+        let new_password = 'Mtp-' + parseInt(Math.random() * 10000);
+
+        dataUser.id = id;
+        dataUser.email = email;
+        dataUser.password = new_password;
+        dataUser.matricule = matricule;
+
+        console.log('Données users ::: ', dataUser)
+
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            url: "{{route('update_users')}}",
+            method: 'POST',
+            data: dataUser,
+            success: function(res) {
+                if (res.status == 200) {
+                    Swal.fire(
+                        'Modifié',
+                        res.message,
+                        'success',
+                    )
+                    affiche_users();
+                }
+                $('#btnsave_users').css('display', 'block');
+                $('#updateUser').css('display', 'none');
+                $('#code_users').val('')
+                $('#name_matr').val('')
+                $('#name_email').val('')
+                $('#matr_users').val('')
+                $('#btnsave_users').prop('disabled', true);
+                $('#emailErr').text('');
+            },
+            error: function(error) {
+                console.log("ERREURS : " + error);
+            }
+        });
+
+
+        $('body').delegate('#deleteUser', 'click', function() {
+            let idUser = $(this).data('id');
+            console.log("USER ID ::: " + idUser);
+        });
 
     })
 </script>
