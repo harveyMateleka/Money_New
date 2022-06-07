@@ -205,8 +205,8 @@ Route::post('admin/get_id_credit', [Ctrcredit_client::class, 'get_id_credit'])->
 Route::post('admin/up_credit_client', [Ctrcredit_client::class, 'up_credit_client'])->name('up_credit_client');
 
 
-Route::post('admin/update_credit', [CtrTransfert::class, 'update_credit'])->name('update_credit');
-Route::post('admin/update_credit_liste', [CtrTransfert::class, 'update_credit_liste'])->name('update_credit_liste');
+Route::post('admin/update_credit', [Ctrcredit_client::class, 'update_credit'])->name('update_credit');
+Route::post('admin/update_credit_liste', [Ctrcredit_client::class, 'update_credit_liste'])->name('update_credit_liste');
 
 
 Route::get('admin/credit_restitution', [Ctrcredit_client::class, 'index_restitution'])->name('index_restitution');

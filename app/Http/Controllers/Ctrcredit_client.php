@@ -84,7 +84,7 @@ class Ctrcredit_client extends Controller
                   $data->updated_at;
                   $data->save();
 
-          $requette=DB::table('tbl_affectations','tbl_affect')->join('tbl_agences','tbl_affect.numagence','=','tbl_agences.numagence')
+            $requette=DB::table('tbl_affectations','tbl_affect')->join('tbl_agences','tbl_affect.numagence','=','tbl_agences.numagence')
             ->where('tbl_affect.matricule','=',Auth::user()->matricule)
             ->where('statut','=','1')
             ->select('tbl_affect.numagence','tbl_agences.nomagence','Montusd','Montcdf')->first();
@@ -111,16 +111,21 @@ class Ctrcredit_client extends Controller
                       }
 
                  }
+public function get_id_credit(Request $request)
+{
+    if ($request->ajax()) {
+    // $resultat=tbl_depot::whereId($request->code)->first();
+        $resultat= DB::table('tbl_depots','tbl_depot')
+        ->join('tbl_clients','tbl_depot.id_client','=','tbl_clients.id_client')
+        ->whereId($request->code)
+        ->select('tbl_depot.id','numdepot','montenvoi','nomben','montpour','created_at','numagence','nomclient','id_ville','id_devise','tel','telclient')
+        ->first();
 
-                 public function get_id_credit(Request $request)
-                 {
-                     if ($request->ajax()) {
-                          $resultat=DB::table('tbl_depots','depot')->join('tbl_clients','depot.id_client','=','tbl_clients.id_client')
-                          ->join('tbl_agences','depot.numagence','=','tbl_agences.numagence')->where('depot.numdepot','=',$request->code)->first();
-                         return response()->json($resultat); 
-                        
-                     }
-                 }
+
+        return response()->json($resultat); 
+       
+    }
+}
 
     /**
      * Show the form for creating a new resource.
