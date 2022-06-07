@@ -178,7 +178,7 @@
             "pageLength": 7,
             "bDestroy": true
         });
-    }
+    } 
 
     // CREATION D'UN NOUVEL UTILISATEUR
 
