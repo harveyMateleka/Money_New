@@ -162,7 +162,7 @@
                         } else {
                             return 'Deconnecté';
                         }
-                    }
+                    } 
                 },
                 {
                     "data": 'id',
