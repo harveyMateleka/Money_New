@@ -201,7 +201,6 @@
       <button type="submit" class="btn btn-success" id="btnactualise" >SAUVERGARDE LE SOUS MENU</button>
       </div> 
       </div>         
-   
     </br></br>
    <hr class="border-light container-m--x my-4">
    <div class="card col-md-12">
