@@ -161,7 +161,7 @@
                             return 'Connecté';
                         } else {
                             return 'Deconnecté';
-                        }
+                        } 
                     } 
                 },
                 {
