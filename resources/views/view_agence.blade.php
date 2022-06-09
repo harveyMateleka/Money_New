@@ -37,7 +37,7 @@
                </div>
             </div>
             <div class="form-row">
-               <div class="form-group col-md-5">
+               <div class="form-group col-md-4">
                   <select class="form-control "  name="id_ville" data-validation="required" id="id_ville">
                      <option value='-1'>SELECTION VILLE</option>
                      @foreach($resultat as $data)
@@ -45,7 +45,7 @@
                      @endforeach
                   </select>
                </div>
-                <div class="form-group col-md-5">
+                <div class="form-group col-md-4">
                   <select class="form-control "  name="indiceag" data-validation="required" id="indiceag">
                      <option value='-1'>INDICE AGENCE</option>
                      <option value='0'>AGENCE</option>
@@ -53,14 +53,13 @@
                      <option value='2'>COFFRE DE CREANCE</option>
                      <option value='3'>COFFRE ONG</option>
                      <option value='4'>COFFRE DE DEPENSE</option>
-                    
                   </select>
                </div>
                <div class="form-group col-md-4">
                   <label class="form-label">INITIAL</label>
                   <input type="text" style="text-transform:uppercase;" class="form-control" required="" name="initial" placeholder="" id="initial">
-                  <div class="clearfix"></div>
                </div>
+               <div class="clearfix" id="mes_naex" style="color:red"></div>
             </div>
             <button type="button" class="btn btn-success" name="btnsave_agence" id="btnsave_agence">Enregistre</button>
             <button type="reset" class="btn btn-danger">annule</button>
@@ -360,6 +359,8 @@ $('#btnsave_agence').click(function () {
         })
     });
       }
+   }else{
+    $("#mes_naex").html("tout les champs doivent etre obligatoirement remplire !");
    }
 });
 $('body').delegate('.modifier_agence', 'click', function () {
