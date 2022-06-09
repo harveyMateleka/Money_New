@@ -24,18 +24,16 @@
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <label class="form-label">NOM DU SOUS MENU</label>
-                                            <input type="text" class="form-control" name="name_menu" placeholder="" id="name_smenu">
-                                            <div class="clearfix"></div>
+                                            <input type="text" style="text-transform:uppercase;" class="form-control" name="name_menu" placeholder="" id="name_smenu">
                                         </div>
 
                                         <div class="form-group col-md-6">
                                             <label class="form-label">LIEN DU ROUTE</label>
-                                            <input type="text" class="form-control" name="name_lien" placeholder="" id="name_lien">
-                                            <div class="clearfix"></div>
+                                            <input type="text" style="text-transform:uppercase;" class="form-control" name="name_lien" placeholder="" id="name_lien">
                                         </div>
-                                       
+                                        <div style="color :red" id="ms"></div>
                                     </div>
-
+                                    
                                     <button type="button" class="btn btn-success" name="btnsave_smenu" id="btnsave_smenu">Enregistre</button>
                                     <button type="reset" class="btn btn-danger">annule</button>
                                     <input type="hidden" class="form-control" placeholder="Saisir le nom de la ville" id="code_smenu">
@@ -136,6 +134,8 @@ $(document).ready(function() {
             }
             
           
+        }else{
+            $("#ms").html(" champ Veuillez saisir tout les champs !");
         }
     });
     $('body').delegate('.modifier_smenu','click',function(){
