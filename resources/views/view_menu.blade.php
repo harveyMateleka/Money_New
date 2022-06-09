@@ -18,12 +18,14 @@
                     <div class="form-row">
                         <div class="form-group col-md-4">
                             <label class="form-label">Nom du menu</label>
-                            <input type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="name_menu" style="border:1px solid silver; padding-left: 8px !important">
+                            <input type="text" style="text-transform:uppercase;" class="form-control" name="name_menu" placeholder="Saisir le menu" id="name_menu" style="border:1px solid silver; padding-left: 8px !important">
                             <div class="clearfix"></div>
+                            <div class="clearfix" id="mes_naex" style="color:red;"></div>
+
                         </div>
                         <div class="form-group col-md-4">
                             <label class="form-label">Icon de Menu</label>
-                            <input type="text" class="form-control" name="name_icon" placeholder="Saisir le menu" id="name_icon" style="border:1px solid silver; padding-left: 8px !important">
+                            <input type="text" style="text-transform:uppercase;" class="form-control" name="name_icon" placeholder="Saisir le menu" id="name_icon" style="border:1px solid silver; padding-left: 8px !important">
                             <div class="clearfix"></div>
                         </div>
                     </div>
@@ -57,6 +59,7 @@
             </div>
         </div>
     </div>
+    </div>
     <div id="menu1" class="tab-pane fade">
         <div class="card col-md-12">
             <h4 class="card-header">Ajout de Sous Menu</h4>
@@ -77,12 +80,12 @@
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label class="form-label">NOM DU SOUS MENU</label>
-                            <input type="text" class="form-control" name="name_menu" placeholder="Sous menu" id="name_smenu" * style="border:1px solid silver; padding-left: 8px !important">
-                            <div class="clearfix"></div>
+                            <input type="text" style="text-transform:uppercase;" class="form-control" name="name_menu" placeholder="Sous menu" id="name_smenu" * style="border:1px solid silver; padding-left: 8px !important">
+                            <div class="clearfix" id="mes_naex" style="color:red;"></div>
                         </div>
                         <div class="form-group col-md-6">
                             <label class="form-label">LIEN DU ROUTE</label>
-                            <input type="text" class="form-control" style="border:1px solid silver; padding-left: 8px !important" placeholder="Lien" name="name_lien" placeholder="" id="name_lien">
+                            <input type="text" style="text-transform:uppercase;" class="form-control" style="border:1px solid silver; padding-left: 8px !important" placeholder="Lien" name="name_lien" placeholder="" id="name_lien">
                             <div class="clearfix"></div>
                         </div>
                     </div>
@@ -120,101 +123,89 @@ $('#btnsave_menu').click(function() {
 var name_menu=$("#name_menu").val();
 var name_icon=$("#name_icon").val();
 if(name_menu!='' && name_icon!=''){
-if ($("#code_menu").val()=='') {
-
-$.ajax({
-url : "{{route('create_menu')}}",
-type : 'POST',
-async : false,
-data : {name_menu:name_menu,
-name_icon:name_icon
-},
-success:function(data)
-{
-if(data.success=='1'){
-affiche_menu();
-$("#name_menu").val("");
-$("#name_icon").val("");
-}
-else{
-$('#affichage_message').html('la donnée existe deja');
-$('#modal_message').modal('show');
-}
-},
-error:function(data){
-
-alert(data.success);
-}
-});
-}
-else{
-$.ajax({
-url : "{{route('update_menu')}}",
-type : 'POST',
-async : false,
-data : {menu: $("#name_menu").val(),
-name_icon:name_icon,
-code_menu:$("#code_menu").val(),
-},
-success:function(data)
-{
-if(data.success=='1'){
-affiche_menu();
-$("#name_menu").val("");
-$("#name_icon").val("");
-$("#code_menu").val("");
-}
-
-
+    if ($("#code_menu").val()=='') {
+        $.ajax({
+            url : "{{route('create_menu')}}",
+            type : 'POST',
+            async : false,
+            data : {name_menu:name_menu,
+            name_icon:name_icon
+            },      
+            success:function(data)
+            {
+            if(data.success=='1'){
+                affiche_menu();
+                $("#name_menu").val("");
+                $("#name_icon").val("");
+            }else{
+                $('#affichage_message').html('la donnée existe deja');
+                $('#modal_message').modal('show');
+            }
+            },
+            error:function(data){
+                alert(data.success);
+            }
+        });
+    }else{
+        $.ajax({
+            url : "{{route('update_menu')}}",
+            type : 'POST',
+            async : false,
+            data : {menu: $("#name_menu").val(),
+            name_icon:name_icon,
+            code_menu:$("#code_menu").val(),
+            },
+            success:function(data){
+                if(data.success=='1'){
+                    affiche_menu();
+                    $("#name_menu").val("");
+                    $("#name_icon").val("");
+                    $("#code_menu").val("");
+                }
+            }
+        });
+    }
+}else{
+    $("#mes_naex").html("tout les champs doivent etre obligatoirement remplire !");
 }
 });
-}
+    $('body').delegate('.modifier_menu','click',function(){
+        var ids=$(this).data('id');
+        alert(ids);
+        $.ajax({
+            url : "{{route('get_id_menu')}}",
+            type : 'POST',
+            async : false,
+            data : {code: ids
+            },
+            success:function(data){
+                $("#code_menu").val(data.id_menu);
+                $("#name_icon").val(data.icon);
+                $("#name_menu").val(data.item_menu);
+            }
+        });
+    });
 
-
-}
-});
-$('body').delegate('.modifier_menu','click',function(){
-var ids=$(this).data('id');
-alert(ids);
-$.ajax({
-url : "{{route('get_id_menu')}}",
-type : 'POST',
-async : false,
-data : {code: ids
-},
-success:function(data)
-{
-$("#code_menu").val(data.id_menu);
-$("#name_icon").val(data.icon);
-$("#name_menu").val(data.item_menu);
-}
-});
-});
-
-$('body').delegate('.supprimer_menu','click',function(){
-var ids=$(this).data('id');
-$.ajax({
-url : "{{route('delete_menu')}}",
-type : 'POST',
-async : false,
-data : {code: ids
-},
-success:function(data)
-{
-if(data.success=='1'){
-affiche_menu();
-}
-else{
-$('#affichage_message').html('operation non effectué');
-$('#modal_message').modal('show');
-}
-},
-error:function(data){
-
-alert(data.success);
-}
-});
-});
+    $('body').delegate('.supprimer_menu','click',function(){
+        var ids=$(this).data('id');
+        $.ajax({
+            url : "{{route('delete_menu')}}",
+            type : 'POST',
+            async : false,
+            data : {code: ids},
+            success:function(data){
+                if(data.success=='1'){
+                    affiche_menu();
+                }else{
+                    $('#affichage_message').html('operation non effectué');
+                    $('#modal_message').modal('show');
+                }
+            },
+            error:function(data){
+                alert(data.success);
+            }
+        });
+    });
 
 
 //le sous menu
@@ -281,6 +272,8 @@ alert('operation non effectuée');
 }
 
 
+}else{
+    $("#mes_naex").html("tout les champs doivent etre obligatoirement remplire !");
 }
 });
 $('body').delegate('.modifier_smenu','click',function(){
