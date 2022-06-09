@@ -15,11 +15,12 @@
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <label class="form-label">Type Depense</label>
-                                            <input type="text" class="form-control" name="name_typedep" placeholder="Saisir le type Depense" id="name_typedep">
+                                            <input type="text" style="text-transform:uppercase;" class="form-control" name="name_typedep" placeholder="Saisir le type Depense" id="name_typedep">
                                             <div class="clearfix"></div>
-                                        </div>
-                                       
+                                        </div>                                       
                                     </div>
+                                    <div id="ms" style="color:red"></div>
+
                                     <button type="button" class="btn btn-success" name="btnsave_typedep" id="btnsave_typedep">Enregistre</button>
                                     <button type="reset" class="btn btn-danger">annule</button>
                                     <input type="hidden" class="form-control" placeholder="Saisir le nom de la ville" id="code_typedep">
@@ -106,6 +107,8 @@
             }
             
           
+        }else{
+            $("#ms").html("Vveuillez remplire tout les champs !");
         }
     });
     

@@ -30,7 +30,7 @@
                                             <input type="text" style="text-transform:uppercase;" class="form-control" name="initial" placeholder="Saisir l'initial de la ville" id="initial">
                                             <div class="clearfix"></div>
                                         </div>
-                                       
+                                        <div id="ms" style="color:red"></div>
                                     </div>
                                     <button type="button" class="btn btn-success" name="btnsave_ville" id="btnsave_ville">Enregistre</button>
                                     <button type="button" class="btn btn-danger">annule</button>
@@ -173,6 +173,8 @@
             }
             
           
+        }else{
+            $("#ms").html("Vveuillez remplire tout les champs !");
         }
     });
 

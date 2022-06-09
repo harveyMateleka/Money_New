@@ -4,7 +4,7 @@
                         <h3 class="font-weight-bold py-3 mb-0">Ajout taux</h3>
                         <div class="text-muted small mt-0 mb-4 d-block breadcrumb">
                         </div>
-                        <div class="card col-md-8">
+                        <div class="card col-md-6">
                             <h4 class="card-header">Mise à Jour tauxs</h4>
                             <div class="card-body">
                                 <form action="#" method="POST" id="form_taux">
@@ -12,14 +12,17 @@
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <label class="form-label">INTITULE DEVISE</label>
-                                            <input type="text" class="form-control" name="intitule" placeholder="Saisi intitule" id="intitule">
+                                            <input type="text" style="text-transform:uppercase;" class="form-control" name="intitule" placeholder="Saisi intitule" id="intitule">
+                                            <div id="mes_ex" style="color:red; font-size:10px;" class="clearfix"></div>
+
                                             <div class="clearfix"></div>
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label class="form-label">Taux</label>
-                                            <input type="text" class="form-control" name="taux" placeholder="Saisir Taux" id="taux">
-                                            <div class="clearfix"></div>
+                                            <input type="number" class="form-control" name="taux" placeholder="Saisir Taux" id="taux">
                                         </div>
+                                        <div id="ms" style="color:red">ss</div>
+
                                     </div>
                                     <button type="button" class="btn btn-success" name="btnsave_taux" id="btnsave_taux">Enregistre</button>
                                     <button type="reset" class="btn btn-danger">annule</button>
@@ -28,7 +31,7 @@
                             </div>
                         </div>
                         <hr class="border-light container-m--x my-4">
-                        <div class="card col-md-8">
+                        <div class="card col-md-6      ">
                             <h6 class="card-header">Liste de taux</h6>
                             <div class="card-body">
                             <table class="table card-table" id="tab_taux">
@@ -112,7 +115,7 @@ $(document).ready(function() {
         swal({
             type: 'info',
             title: 'la colombe Money',
-            html: 'taux ne pas ajouter'
+            html: 'taux n\'est pas ajouté'
         })
     });
             }
@@ -168,7 +171,9 @@ $(document).ready(function() {
             }
             
           
-        }
+        }else{
+        $("#ms").html("Vveuillez remplire tout les champs !");
+    }
     });
   
     $('body').delegate('.modifier_taux','click',function(){
