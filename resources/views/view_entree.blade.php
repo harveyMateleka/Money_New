@@ -322,6 +322,7 @@
 
       // VALIDATE FOR INPUT TEXT NAME BENEFICIAIRE
 
+
       if ($('#name_benefic').val() === "") {
          $('#errNomBenefic').text('Veuillez entrer le nom du bénéficiaire svp !!!');
          $('#errNomBenefic').css('color', 'red');
@@ -685,6 +686,556 @@
       }
 
    }
+
+
+   $("#name_agence").on('change', () => {
+      let value = $("#name_agence").val();
+      if (isValidBtn) {
+         if (value === '-1') {
+            isValidNameAgence = false;
+            $('#errNameAgence').text('Veuillez choisir une agence svp !!!');
+         } else {
+            $('#errNameAgence').text('');
+         }
+      }
+   });
+
+   $("#name_ville").on('change', () => {
+      let value = $("#name_ville").val();
+      if (isValidBtn) {
+         if (value === '-1') {
+            isValidNameAgence = false;
+            $('#errNameVill').text('Veuillez choisir une ville svp !!!');
+            $('#errNameVill').css('color', 'red');
+            $('#errNameVill').css({
+               'font-size': '12px',
+               "margin-left": '10px'
+            });
+         } else {
+            $('#errNameVill').text('');
+         }
+      }
+   })
+
+   // VALIDATE FOR SELECT NAME VILLE
+
+   $("#name_ville").on('change', () => {
+      let value = $("#name_ville").val();
+      if (isValidBtn) {
+         if (value === '-1') {
+            isValidNameAgence = false;
+            $('#errNameVill').text('Veuillez choisir une ville svp !!!');
+            $('#errNameVill').css('color', 'red');
+            $('#errNameVill').css({
+               'font-size': '12px',
+               "margin-left": '10px'
+            });
+         } else {
+            $('#errNameVill').text('');
+         }
+      }
+   })
+
+   // VALIDATE FOR INPUT TEXT NAME EXP, EVENT ONCHANGE
+
+   $("#name_expedit").on('change', () => {
+      let value = $("#name_expedit").val();
+      if (isValidBtn) {
+         if (value === '') {
+            isValidNameAgence = false;
+            $('#errCodeTransact').text('Veuillez entrer le nom de l\'expéditeur svp !!!');
+            $('#errCodeTransact').css('color', 'red');
+            $('#errCodeTransact').css({
+               'font-size': '12px',
+               "margin-left": '10px'
+            });
+         } else {
+            $('#errCodeTransact').text('');
+         }
+      }
+   })
+
+   // VALIDATE FOR INPUT NUMBER PHONE EXP, EVENT ONCHANGE
+
+   $("#tel_expedit").on('change', () => {
+      let value = $("#tel_expedit").val();
+      let pattern = /[0-9]/g;
+      if (isValidBtn) {
+         if (value === '') {
+            isValidNameAgence = false;
+            $('#errPhoneExp').text('Veuillez entrer un numéro de téléphone svp !!!');
+            $('#errPhoneExp').css({
+               'font-size': '12px',
+               "margin-left": '10px',
+               "color": "red"
+            });
+         } else if (!value.match(pattern)) {
+            $('#errPhoneExp').text('Veuillez entrer un numéro de téléphone valide svp !!!');
+            $('#errPhoneExp').css({
+               'font-size': '12px',
+               "margin-left": '10px',
+               "color": "red"
+            });
+         } else if (value.length < 10) {
+            $('#errPhoneExp').text('Le numéro de téléphone assez court, minimum 10 chiffres !!!');
+            $('#errPhoneExp').css({
+               'font-size': '12px',
+               "margin-left": '10px',
+               "color": "red"
+            });
+         } else {
+            $('#errPhoneExp').text('');
+         }
+      }
+   })
+
+   // VALIDATE FOR INPUT NUMBER PHONE BEN, EVENT ONCHANGE
+
+   $("#tel_benefic").on('change', () => {
+      let value = $("#tel_benefic").val();
+      let pattern = /[0-9]/g;
+      if (isValidBtn) {
+         if (value === '') {
+            isValidNameAgence = false;
+            $('#errPhoneBenefic').text('Veuillez entrer un numéro de téléphone svp !!!');
+            $('#errPhoneBenefic').css({
+               'font-size': '12px',
+               "margin-left": '10px',
+               "color": "red"
+            });
+         } else if (!value.match(pattern)) {
+            $('#errPhoneBenefic').text('Veuillez entrer un numéro de téléphone valide svp !!!');
+            $('#errPhoneBenefic').css({
+               'font-size': '12px',
+               "margin-left": '10px',
+               "color": "red"
+            });
+         } else if (value.length < 10) {
+            $('#errPhoneBenefic').text('Le numéro de téléphone assez court, minimum 10 chiffres !!!');
+            $('#errPhoneBenefic').css({
+               'font-size': '12px',
+               "margin-left": '10px',
+               "color": "red"
+            });
+         } else {
+            $('#errPhoneBenefic').text('');
+         }
+      }
+   })
+
+   // VALIDATE FOR INPUT TEXT NAME BENEFICIAIRE, EVENT ONCHANGE
+
+   $("#name_benefic").on('change', () => {
+      let value = $("#name_benefic").val();
+      if (isValidBtn) {
+         if (value === '') {
+            isValidNameAgence = false;
+            $('#errNomBenefic').text('Veuillez entrer le nom du bénéficiaire svp !!!');
+            $('#errNomBenefic').css({
+               'font-size': '12px',
+               "margin-left": '10px',
+               "color": "red"
+            });
+         } else {
+            $('#errCodeTransact').text('');
+         }
+      }
+   })
+
+   $('.btnEnvoi').on('click', function() {
+      isValidBtn = true;
+
+      // VALIDATE FOR SELECT NAME AGENCE
+
+      if ($("#name_agence").val() === "-1") {
+         $('#errNameAgence').text('Veuillez choisir une agence svp !!!');
+         $('#errNameAgence').css('color', 'red');
+         $('#errNameAgence').css({
+            'font-size': '12px',
+            "margin-left": '10px'
+         });
+      } else {
+         $('#errNameAgence').text('');
+      }
+
+      // VALIDATE FOR SELECT NAME VILLE
+
+      if ($('#name_ville').val() === "-1") {
+         $('#errNameVill').text('Veuillez choisir une ville svp !!!');
+         $('#errNameVill').css('color', 'red');
+         $('#errNameVill').css({
+            'font-size': '12px',
+            "margin-left": '10px'
+         });
+      } else {
+         $('#errNameVill').text('');
+      }
+
+      // VALIDATE FOR INPUT TEXT NAME EXP
+
+      if ($('#name_expedit').val() === "") {
+         $('#errCodeTransact').text('Veuillez entrer le nom de l\'expéditeur svp !!!');
+         $('#errCodeTransact').css('color', 'red');
+         $('#errCodeTransact').css({
+            'font-size': '12px',
+            "margin-left": '10px'
+         });
+      } else {
+         $('#errCodeTransact').text('');
+      }
+
+      // VALIDATE FOR INPUT NUMBER PHONE NUMBER
+
+      if ($('#tel_expedit').val() === "") {
+         $('#errPhoneExp').text('Veuillez entrer un numéro de téléphone svp !!!');
+         $('#errPhoneExp').css('color', 'red');
+         $('#errPhoneExp').css({
+            'font-size': '12px',
+            "margin-left": '10px'
+         });
+      } else {
+         $('#errPhoneExp').text('');
+      }
+
+      // VALIDATE FOR INPUT NUMBER PHONE NUMBER
+
+      if ($('#tel_benefic').val() === "") {
+         $('#errPhoneBenefic').text('Veuillez entrer un numéro de téléphone svp !!!');
+         $('#errPhoneBenefic').css('color', 'red');
+         $('#errPhoneBenefic').css({
+            'font-size': '12px',
+            "margin-left": '10px'
+         });
+      } else {
+         $('#errPhoneBenefic').text('');
+      }
+
+      // VALIDATE FOR INPUT TEXT NAME BENEFICIAIRE
+
+      if ($('#name_benefic').val() === "") {
+         $('#errNomBenefic').text('Veuillez entrer le nom du bénéficiaire svp !!!');
+         $('#errNomBenefic').css('color', 'red');
+         $('#errNomBenefic').css({
+            'font-size': '12px',
+            "margin-left": '10px'
+         });
+      } else {
+         $('#errNomBenefic').text('');
+      }
+
+   })
+
+
+
+   (function() {
+      $.ajaxSetup({
+         headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+         }
+      });
+      $("#tel_expedit").val("+243");
+      $('#tel_benefic').val("+243");
+
+      $("#tel_expedit").focusout(function() {
+         let telephone = $('#tel_expedit').val();
+         if (telephone.length < 13) {
+            $("#mes_ex").html(" le numero telephone doit avoir au moins 12 chiffres");
+         } else {
+            return $("#mes_ex").html("");
+         }
+      });
+
+      $("#tel_benefic").focusout(function() {
+         let teleben = $('#tel_benefic').val();
+         if (teleben.length < 13) {
+            $("#mes_ben").html(" le numero telephone doit avoir au moins 12 chiffres");
+         } else {
+            return $("#mes_ben").html("");
+         }
+      });
+
+      $("#name_expedit").focusout(function() {
+         if (regexverification($("#name_expedit").val())) {
+            return $("#mes_naex").html("");
+         } else {
+
+            $("#mes_naex").html("ecrivez toutes l'identité tout en le separant par espace");
+         }
+      });
+      $("#name_expedit").focusin(function() {
+         return $("#mes_naex").html("");
+      });
+
+      $("#name_benefic").focusout(function() {
+         if (regexverification($("#name_benefic").val())) {
+            return $("#id_ben").html("");
+         } else {
+
+            $("#id_ben").html("ecrivez toutes l'identité tout en le separant par espace");
+         }
+      });
+      $("#name_expedit").focusin(function() {
+         return $("#mes_naex").html("");
+      });
+
+      $("#name_benefic").focusin(function() {
+         return $("#mes_naex").html("");
+      });
+
+      $('#name_devise').change(function() {
+         $('#name_montcom').val(calcul_com());
+      });
+
+      $('#name_ville').change(function() {
+         if ($('#name_ville').val() != '-1') {
+            code_transfert();
+         } else {
+            return '';
+         }
+      });
+
+      $('#name_agence').change(function() {
+         if ($('#name_agence').val() != '-1') {
+            $("#msgmont").html("");
+            affiche_entree($('#name_agence').val());
+            code_transfert();
+         } else {
+            return '';
+         }
+      });
+      $("#name_agence").select2();
+      $("#name_ville").select2();
+
+
+      $('#name_montexp').on('input', function() {
+         if (!isNaN($('#name_montexp').val()) && $('#name_devise').val() != '-1') {
+            $('#name_montcom').val(calcul_com());
+
+         } else {
+            $("#msgmont").html("veuillez choisir la devise").css("color", "red");
+            $('#name_montexp').val('');
+         }
+      });
+
+      $('#tel_benefic').on('input', function() {
+         var teleben = $('#tel_benefic').val();
+         if (!isNaN($('#tel_benefic').val())) {
+            if (teleben.length < 4 || teleben.substring(0, 4) != '+243') {
+               $('#tel_benefic').val('+243');
+            } else if (teleben.length > 13) {
+               $("#mes_ben").html("Vous avez depassé le nombre");
+            } else {
+               return $("#mes_ben").html("");
+            }
+         } else {
+            $('#tel_benefic').val('+243');
+         }
+      });
+
+      $('#tel_expedit').on('input', function() {
+         var telephone = $('#tel_expedit').val();
+         if (!isNaN($('#tel_expedit').val())) {
+            if (telephone.length < 4 || telephone.substring(0, 4) != '+243') {
+               $('#tel_expedit').val('+243');
+            } else if (telephone.length > 13) {
+               $("#mes_ex").html("Vous avez depassé le nombre");
+            } else {
+               $("#mes_ex").html("");
+            }
+
+         } else {
+            $('#tel_expedit').val('+243');
+         }
+
+      });
+
+      $('body').delegate('.print', 'click', function(e) {
+         var ids = $(this).data('id');
+         window.location.href = ("/admin/print/" + ids);
+      });
+
+      $('#btnsave_envois').click(function() {
+         if ($("#name_expedit").val() != '' && $("#tel_expedit").val() != '' && $("#name_benefic").val() != '' && $("#tel_benefic").val() != '' && $("#name_montexp").val() != '' && $("#name_montcom").val() != '') {
+
+            if ($('#name_devise').val() != '-1' && $('#name_ville').val() != '-1' && $('#name_agence').val() != '-1' && $('#raison').val() != '') {
+               let id_vil = $("#name_ville").val();
+               let dev = $('#name_devise').val();
+               let message = "vous voulez envoyer de l'argent à ";
+               message += $('#ville' + id_vil).val() + ' provenant de ';
+               message += $("#name_expedit").val() + ', destiné à ' + $("#name_benefic").val();
+               message += ' au code de transfert de ' + $("#name_transact").val() + ' pour un montant de ' + $("#name_montexp").val() + ' ' + $('#devise' + dev).val();
+               Swal.fire({
+                  title: 'Colombe Money',
+                  html: message,
+                  width: 600,
+                  padding: '3em',
+                  showDenyButton: true,
+                  confirmButtonText: `Enregistrer`,
+                  denyButtonText: `Annuler`,
+               }).then((result) => {
+                  if (result.isConfirmed) {
+
+                     $.ajax({
+                        url: "{{route('route_entree')}}",
+                        type: 'POST',
+                        async: false,
+                        data: {
+                           agence: $("#name_agence").val(),
+                           ville: $("#name_ville").val(),
+                           devise: $("#name_devise").val(),
+                           expediteur: $("#name_expedit").val(),
+                           expeditel: $("#tel_expedit").val(),
+                           benefic: $("#name_benefic").val(),
+                           tel_ben: $("#tel_benefic").val(),
+                           montenv: $("#name_montexp").val(),
+                           montcom: $("#name_montcom").val(),
+                           transact: $("#name_transact").val(),
+                           raison: $("#raison").val(),
+                        },
+                        success: function(data) {
+                           if (data.success == '1') {
+                              affiche_entree($('#name_agence').val());
+                              let id_ag = $('#name_agence').val();
+                              let tab = ['1', $('#agence' + id_ag).val(), $('#ville' + id_vil).val(),
+                                 $("#name_transact").val(), $("#name_expedit").val(), $("#tel_expedit").val(),
+                                 $("#name_benefic").val(), $("#tel_benefic").val(), $("#name_montexp").val(), $("#name_montcom").val(), $('#devise' + dev).val(), $("#raison").val()
+                              ];
+                              window.location.href = ("/pdf/generate/" + tab);
+                              Swal.fire('operation effectuée', '', 'success')
+                              $("#name_transact").val("");
+                              $("#name_ville").val('-1');
+                              $("#name_devise").val('-1');
+                              $("#name_expedit").val('');
+                              $("#name_montcom").val('');
+                              $("#name_benefic").val('');
+                              $("#name_montexp").val('');
+                              $("#tel_expedit").val('+243');
+                              $("#tel_benefic").val('+243');
+                              $("#raison").val("");
+                              $("#msgmont").html("");
+                              $("#msgpour").html("");
+                           } else {
+                              alert('existe deja');
+                           }
+                        },
+                        error: function(data) {
+
+                           Swal.fire('error', '', 'succerroress')
+                        }
+                     });
+
+
+                  } else if (result.isDenied) {
+                     Swal.fire('Changes are not saved', '', 'info')
+                  }
+               });
+
+            }
+         }
+      });
+
+
+   })();
+
+
+   function affiche_entree(code_agence) {
+      var otableau = $('#tab_entree').DataTable({
+         dom: 'Bfrtip',
+         buttons: [
+            'print', 'copy', 'excel', 'pdf'
+         ],
+         "bProcessing": true,
+         "sAjaxSource": "/admin/liste_agence=" + code_agence,
+         "columns": [{
+               "data": 'created_at'
+            },
+            {
+               "data": 'numdepot'
+            },
+            {
+               "data": 'nomagence'
+            },
+            {
+               "data": 'ville'
+            },
+            {
+               "data": 'montenvoi'
+            },
+            {
+               "data": 'montpour'
+            },
+            {
+               "data": 'intitule'
+            },
+
+            {
+               "data": 'id',
+               "autoWidth": true,
+               "render": function(data) {
+                  return '<button data-id=' + data + ' class="btn btn-warning btn-circle print" >Print</button>';
+               }
+            }
+
+         ],
+         "pageLength": 10,
+         "bDestroy": true,
+         responsive: true,
+      });
+
+   }
+
+   function calcul_com() {
+      if ($('#name_devise').val() != '-1' && $('#name_montexp').val() != '') {
+         var id_devise = $('#name_devise').val();
+         var taux = $('#taux' + id_devise).val();
+         var montant = $('#name_montexp').val() * taux / 100;
+         var montantt = parseFloat(montant).toFixed(2);
+         let montfloat = parseFloat($('#name_montexp').val()).toFixed(2);
+         let aff = formateIndianCurrency(montfloat);
+         let new_value1 = formateIndianCurrency(montantt);
+         let new_pour = new_value1.substring(0, new_value1.length - 1);
+         let devise = $('#name_devise').val();
+         let value_devise = $('#devise' + devise).val();
+         let new_value = aff.substring(0, aff.length - 1);
+         new_value += value_devise
+         new_pour += value_devise;
+         $("#msgmont").html(new_value);
+         $("#msgpour").html(new_pour);
+         return montantt;
+      } else {
+         $("#msgmont").html('');
+         $("#msgpour").html('');
+         return '';
+      }
+   }
+
+   function code_transfert() {
+
+      if ($('#name_agence').val() != '-1' && $("#name_ville").val() != '-1') {
+         var code_vil = $("#name_ville").val();
+         var code_ag = $("#name_agence").val();
+         var init_ag = $('#ag_init' + code_ag).val();
+         var init_vil = $('#vil_init' + code_vil).val();
+         $.ajax({
+            url: "{{route('route_generate')}}",
+            type: 'POST',
+            async: false,
+            data: {
+               initial_ag: init_ag,
+               initial_vil: init_vil
+
+            },
+            success: function(data) {
+               $("#name_transact").val(data.success);
+            },
+            error: function(data) {
+               alert(data.success);
+            }
+         });
+      }
+
+   }
+
 </script>
 
 @endsection
