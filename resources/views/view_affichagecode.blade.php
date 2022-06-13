@@ -59,9 +59,7 @@
   </div>
   <hr class="border-light container-m--x my-4">
 <div class="container-fluid flex-grow-1 container-p-y">
-        <h3 class="font-weight-bold py-3 mb-0">Affichage des codes servis</h3>
-        <div class="text-muted small mt-0 mb-4 d-block breadcrumb">  
-        </div>
+        
         <hr class="border-light container-m--x my-4">
         <div class="card col-md-12">
             <h6 class="card-header">Liste des codes servvis</h6>
@@ -90,7 +88,7 @@
                         <th>Id</th>
                         <th>Agence</th>
                         <th>Agent</th>
-                        <th>Codes</th>
+                        <th>Code</th>
                         <th>Montant</th>
                         <th>Devise</th>
                         <th>Date</th>

@@ -54,7 +54,6 @@
    </div>
 </div>
 <div class="container-fluid flex-grow-1 container-p-y">
-                        <h3 class="font-weight-bold py-3 mb-0">Confirmationn depense</h3>
                         <div class="text-muted small mt-0 mb-4 d-block breadcrumb">
                         </div>
                         
@@ -70,23 +69,24 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label class="form-label">Date Debut</label>
-                                        <input type="date" class="form-control" name="name_datdep" id='name_datdep'>
+                                        <input  style="border: 1px solid silver !important; padding-left: 8px !important" style="text-transform:uppercase;" type="date" class="form-control" name="name_datdep" id='name_datdep'>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label class="form-label">Date Fin</label>
-                                        <input type="date" class="form-control" name="name_datdepfin" id='name_datdepfin'>
+                                        <input  style="border: 1px solid silver !important; padding-left: 8px !important" style="text-transform:uppercase;" type="date" class="form-control" name="name_datdepfin" id='name_datdepfin'>
                                     </div>
                                 </div>
                                 <button type="button" class="btn btn-success" name="btndisplay" id='btnaff'>Afficher</button>
                                 <button type="reset" class="btn btn-danger">annule</button>
                             </form>
                             <hr class="border-light container-m--x my-4">
+                            <div style="overflow-x:auto;">
                             <table class="table card-table" id="tab_depenseconfi">
-                                <thead class="thead-light">
+                                <thead class="thead-dark">
                                     <tr>
-                                        <th>id</th>
-                                        <th>Date</th>
-                                        <th>Agence</th>
+                                        <th>ID</th>
+                                        <th>DATE</th>
+                                        <th>AGENCE</th>
                                         <th>DEVISE</th>
                                         <th>MONTANT</th>
                                         <th>TYPE DEP.</th>
@@ -100,24 +100,20 @@
                                 </tbody>
                             </table>
                             </div>
+                            </div>
+                            
                         </div>
                     </div>        
 @endsection
 
-@section ('javascript')
-<script type="text/javascript">
-(function() {
-    $.ajaxSetup({
-             headers: {
-                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-             }
-                }); 
+@section ('script')
+
 $('#btnaff').click(function(){
     if($('#name_datdepfin').val() >= $('#name_datdep').val()){
         affiche_confirm($('#name_datdep').val(),$('#name_datdepfin').val());
     }
     else {
-       $('#affichage').html('la date debut ne peux pas etre superieure à la date de la fin'); 
+       $('#affichage').html('La date debut ne peut pas etre superieure à la date de la fin'); 
     }
 });
 
@@ -274,7 +270,7 @@ $('body').delegate('.modifier_app','click',function(){
                         affiche_confirm($('#name_datdep').val(),$('#name_datdepfin').val());
                         }
                         else {
-                        $('#affichage').html('la date debut ne peux pas etre superieure à la date de la fin'); 
+                        $('#affichage').html('La date debut ne peut pas etre superieure à la date de la fin'); 
                         }
                     }
                 },
@@ -285,7 +281,5 @@ $('body').delegate('.modifier_app','click',function(){
             });
         }
     });
-})();
-</script>
 @endsection
 
