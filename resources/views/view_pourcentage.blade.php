@@ -82,7 +82,7 @@
                                             <div class="clearfix"></div>
                                         </div>
 
-                                        <div class="form-group col-md-3">
+                                        <div class="form-group col-md-3"
                                             <input type="hidden"  class="form-control" data-validation="required" name="numagence" placeholder="Saisir le nom de la agence" id="numagence">
                                             <div class="clearfix"></div>
                                         </div>
@@ -98,8 +98,7 @@
 
 
 @endsection
-@section ('javascript')
-<script type="text/javascript">
+@section ('script')
 $(document).ready(function() {
  
     $('#update').DataTable({
@@ -134,23 +133,26 @@ $.fn.dataTable.ext.search.push(
         return false;
     }
 );
-
-minDate = new DateTime($('#min'),{
+ 
+$(document).ready(function() {
+    // Create date inputs
+    minDate = new DateTime($('#min'),{
         format: 'MMMM Do YYYY'
     });
     maxDate = new DateTime($('#max'),{
         format: 'MMMM Do YYYY'
     });
+ 
+    // DataTables initialisation
     var table = $('#update').DataTable();
  
- // Refilter the table
- $('#min, #max').on('change', function () {
-     table.draw();
- });
- 
+    // Refilter the table
+    $('#min, #max').on('change', function () {
+        table.draw();
+    });
+});
 
-
-
+} );
 
 
 
@@ -302,7 +304,6 @@ $('body').delegate('.update_credit','click',function(){
             }
         });
     });
-});
-</script>  
+
 @endsection
 
