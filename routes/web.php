@@ -297,7 +297,7 @@ Route::post('admin/password_oublie', [Ctrpersonnel::class, 'email_oublie'])->nam
 
 
 Route::get('admin/index_retrait', [CtrTransfert::class, 'index_retrait'])->name('index_retrait');
-Route::post('admin/update_retrait_code', [CtrTransfert::class, 'update_retrait'])->name('update_retrait');
+Route::post('admin/update_retrait_code', [Ctrcredit_client::class, 'update_retrait'])->name('update_retrait');
 
 
 

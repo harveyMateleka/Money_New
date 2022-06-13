@@ -127,6 +127,48 @@ public function get_id_credit(Request $request)
     }
 }
 
+public function update_retrait(Request $request)
+{
+
+  if ($request->ajax()) {
+        $montantdolars=0.0;
+        $montantcdf=0.0;
+          $data=tbl_depot::where('id','=',$request->code)->first();
+          if($data){
+              $data->etatservi=1;
+              $data->updated_at;
+              $data->save();
+
+        $requette=DB::table('tbl_affectations','tbl_affect')->join('tbl_agences','tbl_affect.numagence','=','tbl_agences.numagence')
+        ->where('tbl_affect.matricule','=',Auth::user()->matricule)
+        ->where('statut','=','1')
+        ->select('tbl_affect.numagence','tbl_agences.nomagence','Montusd','Montcdf')->first();
+
+                            if ($requette) {
+
+                               $montantdolars=$requette->Montusd - $data->montenvoi;
+                                $montantcdf=$requette->Montcdf - $data->montenvoi;  
+                          
+                            if ($data->id_devise == 1) {
+                                $update=tbl_agence::whereNumagence($data->numagence)->update(['Montusd'=>$montantdolars]); 
+                                return response()->json(['success'=>'1']);    
+                              }
+                            else{
+                                $update=tbl_agence::whereNumagence($data->numagence)->update(['Montcdf'=>$montantcdf]); 
+
+                                return response()->json(['success'=>'1']);    
+                                }   
+  
+                             }
+
+                        }
+
+                     
+   
+                  }
+
+             }
+
     /**
      * Show the form for creating a new resource.
      *

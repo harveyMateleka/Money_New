@@ -83,12 +83,13 @@ $(document).ready(function() {
             
         ]
   });
-} );
+});
 
 $(".checking").click(function(e){ 
     var ids = $(e.target).attr("data-id");
-    swal({
+    swal.fire({
         title: 'Voulez vous restitutue le credit client?',
+        icon: 'info',
         text: "il sont restituer seulement au cas de reclamations!",
         type: 'warning',
         showCancelButton: true,
@@ -112,7 +113,7 @@ $(".checking").click(function(e){
                       },
                       success:function(data)
                       {
-                        swal({title: 'la colombe Money!',
+                        swal.fire({title: 'la colombe Money!',
                         text: 'credit client restituer avec success!',
                         type: 'success'
                 })
@@ -124,8 +125,9 @@ $(".checking").click(function(e){
 
    }
  }).then(function () {
-        swal({
+        swal.fire({
             type: 'info',
+            icon: 'info',
             title: 'la colombe Money',
             html: 'credit ne pas encore restituer'
         })

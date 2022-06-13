@@ -78,9 +78,9 @@ $(document).ready(function() {
   });
 } );
 
-$(".checking").click(function(e){ 
+$(".checkings").click(function(e){ 
     var ids = $(e.target).attr("data-id");
-    swal({
+    swal.fire({
         title: 'La Colombe Money',
         text: "Vous Voulez faire un retrait code",
         type: 'warning',
@@ -105,7 +105,7 @@ $(".checking").click(function(e){
                       },
                       success:function(data)
                       {
-                        swal({title: 'La Colombe Moneys!',
+                        swal.fire({title: 'La Colombe Moneys!',
                         text: 'code retire avec success!',
                         type: 'success'
                 })
@@ -117,7 +117,7 @@ $(".checking").click(function(e){
 
    }
  }).then(function () {
-        swal({
+        swal.fire({
             type: 'info',
             title: 'la colombe Money',
             html: 'Code Retrait annuler avec success'

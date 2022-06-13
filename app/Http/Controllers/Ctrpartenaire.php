@@ -225,21 +225,18 @@ public function index_partenaire_trans(){
            $retraitusd = DB::table('tbl_transfert_banques')
                         ->where('operation', 2)
                         ->where('id_devise', 1)
-                        ->where('type', 1)
                         ->where('date_T', date('Y-m-d'))
                         ->where('id_partenaire', 1)->sum('montant');
 
            $depotusd = DB::table('tbl_transfert_banques')
                        ->where('operation', 1)
                        ->where('id_devise', 1)
-                       ->where('type', 1)
                        ->where('date_T', date('Y-m-d'))
                        ->where('id_partenaire', 1)->sum('montant');
 
            $retraitcdf = DB::table('tbl_transfert_banques')
                             ->where('operation', 2)
                             ->where('id_devise', 2)
-                            ->where('type', 1)
                             ->where('date_T', date('Y-m-d'))
                             ->where('id_partenaire', 1)->sum('montant');
 
@@ -257,6 +254,7 @@ public function index_partenaire_trans(){
                              ->where('id_devise', 1)
                              ->where('date_T', date('Y-m-d'))
                              ->where('id_partenaire', 7)->sum('montant');
+                             
            $depotusdA = DB::table('tbl_transfert_banques')
                             ->where('operation', 1)
                             ->where('id_devise', 1)
