@@ -21,17 +21,6 @@ use App\Http\Controllers\Ctrpartenaire;
 use App\Http\Controllers\Ctrcloture;
 use Illuminate\Support\Facades\Auth;
 
-//use Session;
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 Route::get('/', function () {
    return redirect()->route('login');
@@ -108,10 +97,12 @@ Route::get('admin/get_list_droit', [Ctrparemetre::class, 'get_list_droit'])->nam
 //_____________________________________debut users____________________________________________________________
 Route::get('admin/users', [Ctruser::class, 'index'])->name('index_users');
 Route::get('admin/get_list_users', [Ctruser::class, 'get_list_users'])->name('get_list_users');
-Route::post('admin/save_users', [Ctruser::class, 'store'])->name('save_users');
+Route::post('admin/save_users', [Ctruser::class, 'save_users'])->name('save_users');
 Route::post('admin/update_users', [Ctruser::class, 'update'])->name('update_users');
 Route::post('admin/destroy_users', [Ctruser::class, 'destroy'])->name('destroy_users');
 Route::post('admin/profil', [Ctruser::class, 'update_profil'])->name('update');
+Route::post('admin/get_id_user', [Ctruser::class, 'get_id_user'])->name('get_id_user');
+
 //_____________________________________fin____________________________________________________________________
 //________________________________debut_affectation___________________________________________________________
 Route::get('admin/affectation', [Ctraffectation::class, 'index'])->name('index_affectation');
@@ -293,13 +284,6 @@ Route::get("admin/barcharts", [CtrTransfert::class,'get_all_entree']);
 Route::get('admin/partenaire_trans', [CtrTransfert::class, 'partenaire_trans'])->name('partenaire');
 
 Route::post('admin/password_oublie', [Ctrpersonnel::class, 'email_oublie'])->name('email_oublie');
-
-
-
-
-
-
-
 Route::get('admin/index_retrait', [CtrTransfert::class, 'index_retrait'])->name('index_retrait');
 Route::post('admin/update_retrait_code', [CtrTransfert::class, 'update_retrait'])->name('update_retrait');
 
