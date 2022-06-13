@@ -262,64 +262,12 @@ $('#btnsave_ong').click(function () {
             } else {
                 $('#message').html('selectionnez agence');
             }
-        });
-        document.getElementById("name_prov").style.display = "none";
-        $('#etat_bank').change(function() {
-            if (document.getElementById("etat_bank").checked) {
-                document.getElementById("name_prov").style.display = "none";
-                document.getElementById("name_bank").style.display = "block";
-            }
-        });
-        $('#etat_ag').change(function() {
-            if (document.getElementById("etat_ag").checked) {
-                document.getElementById("name_prov").style.display = "block";
-                document.getElementById("name_bank").style.display = "none";
-            }
-        });
-        $('#Montant').on('input', function() {
-            if (!isNaN($('#Montant').val())) {
-                $('#montant_pourc').val(calcul_com());
+        } else {
+            if ($('#name_bank').val() != '-1') {
+                provenance = $('#name_bank').val();
+                indice = 2;
             } else {
-                $('#Montant').val('');
-            }
-        });
-        $('#Montpaye').on('input', function() {
-            if (!isNaN($('#Montpaye').val())) {} else {
-                $('#Montpaye').val('');
-            }
-        });
-        $('#taux').on('input', function() {
-            if (!isNaN($('#taux').val())) {
-                $('#montant_pourc').val(calcul_com());
-            } else {
-                $('#taux').val(3);
-            }
-        });
-        $('#frais').on('input', function() {
-            if (!isNaN($('#frais').val())) {} else {
-                $('#frais').val('');
-            }
-        });
-
-        $('#Montpaye').on('input', function() {
-            if (!isNaN($('#Montpaye').val())) {
-                if (parseFloat($('#Montpaye').val()) > parseFloat($('#Montant').val())) {
-                    $('#Montpaye').val('');
-                }
-            } else {
-                $('#Montpaye').val('');
-            }
-        });
-
-        function calcul_com() {
-            if ($('#Montant').val() != '' && $('#taux').val() != '') {
-                var mont = $('#Montant').val();
-                var taux = $('#taux').val();
-                var montant = mont * taux / 100;
-                var montantt = parseFloat(montant).toFixed(2);
-                return montantt;
-            } else {
-                return '';
+                $('#message').html('selectionnez la banque');
             }
         }
 
@@ -380,37 +328,33 @@ $('#btnsave_ong').click(function () {
                 });
                
             }
-        });
+       
+    } else {
+        $('#message').html('verifiez bien les zones de saisie');
+    }
+});
 
+              
+ });
 
-    });
-
-    function affiche_ong() {
-        var otableau = $('#tab_save_ong').DataTable({
-            dom: 'Bfrtip',
+ function affiche_ong()
+    {
+    var otableau=$('#tab_save_ong').DataTable({
+        dom: 'Bfrtip',
             buttons: [
-                'print', 'copy', 'excel', 'pdf'
-            ],
-            "bProcessing": true,
-            "sAjaxSource": "{{route('charger_ong')}}",
-            "columns": [{
-                    "data": 'id'
-                },
-                {
-                    "data": 'created_at'
-                },
-                {
-                    "data": 'name_ong'
-                },
-                {
-                    "data": 'devise',
-                    "autoWidth": true,
-                    "render": function(data) {
-                        if (data == 2) {
-                            return 'CDF';
-                        } else {
-                            return 'USD';
-                        }
+            'print', 'copy', 'excel', 'pdf'
+             ],
+        "bProcessing":true,
+        "sAjaxSource":"{{route('charger_ong')}}",
+        "columns":[
+            {"data":'id'},
+            {"data":'created_at'},
+            {"data":'name_ong'},
+             {"data":'devise',"autoWidth":true,"render":function (data){
+                   if (data==2) {
+                        return 'CDF';
+                    }else{
+                        return 'USD';
                     }
                       }},
             {"data":'mont_trans',"autoWidth":true,"render":function (data){
@@ -441,5 +385,5 @@ $('#btnsave_ong').click(function () {
         "bDestroy":true
     }); 
     }
-</script>
+</script> 
 @endsection
