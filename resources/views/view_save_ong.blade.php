@@ -4,7 +4,7 @@
    <h3 class="font-weight-bold py-3 mb-0">TRANFERT ONG </h3>
    <div class="text-muted small mt-0 mb-4 d-block breadcrumb">   
    </div>
-   <div class="card col-md-12">
+   <div class="card col-md-8">
       <div class="card -header">    
       </div>
       <div class="card-body">
@@ -15,7 +15,7 @@
             <div class="form-row">
                <div class="form-group col-md-6">
                   <label class="form-label"></label> 
-                  <select class="custom-select flex-grow-1" id='name_ong' name="name_ong">
+                  <select style="border: 1px solid silver !important; padding-left: 8px !important" class="custom-select flex-grow-1" id='name_ong' name="name_ong">
                      <option value='-1'>SELECTIONER ONG</option>
                      @foreach($ong as $ligne_ong)
                      <option value='{!! $ligne_ong->id !!}'>{!! $ligne_ong->name_ong !!}</option>
@@ -24,25 +24,25 @@
                </div>
                <div class="form-group col-md-6">
                   <label class="form-label"></label>         
-                     <input type="text" class="form-control"  name="name_transact"  style="text-transform:uppercase;" placeholder="EXPEDITEUR" id="name_exp" value="" >
+                     <input style="border: 1px solid silver !important; padding-left: 8px !important" type="text" class="form-control"  name="name_transact"  style="text-transform:uppercase;" placeholder="EXPEDITEUR" id="name_exp" value="" >
                      <div class="clearfix"></div>
                </div>
             </div>
             <div class="form-row">
                <div class="form-group col-md-12">
                   <div class="form-check form-check-inline">
-                     <input class="form-check-input" type="radio" name="etat" id="etat_ag" value="1">
+                     <input  style="border: 1px solid silver !important; padding-left: 8px !important" class="form-check-input" type="radio" name="etat" id="etat_ag" value="1">
                      <label class="form-check-label"  for="inlineRadio1">Agence</label>
                   </div>
                   <div class="form-check form-check-inline">
-                     <input class="form-check-input" checked type="radio" name="etat" id="etat_bank" value="2">
+                     <input  style="border: 1px solid silver !important; padding-left: 8px !important" class="form-check-input" checked type="radio" name="etat" id="etat_bank" value="2">
                      <label class="form-check-label" for="inlineRadio2">Banque</label>
                   </div>
                </div>
             </div>
             <div class="form-row">
                <div class="form-group col-md-6" id='prov_bank'>
-                  <select class="custom-select flex-grow-1" id='name_bank'>
+                  <select style="border: 1px solid silver !important; padding-left: 8px !important" class="custom-select flex-grow-1" id='name_bank'>
                      <option value='-1'>Selectionnez Bank</option>
                      @foreach($tbl_banque as $ligne_banque)
                      <option value='{!! $ligne_banque->id !!}'>{!! $ligne_banque->intitulecompte !!}</option>
@@ -50,7 +50,7 @@
                   </select>
                </div>
                <div class="form-group col-md-6" id='prov_ag'>
-                  <select class="custom-select flex-grow-1" id='name_prov'>
+                  <select  style="border: 1px solid silver !important; padding-left: 8px !important" class="custom-select flex-grow-1" id='name_prov'>
                      <option value='-1'>Agence de Provenance</option>
                      @foreach($tbl_agence as $ligne_agence)
                      <option value='{!! $ligne_agence->numagence !!}'>{!! $ligne_agence->nomagence !!}</option>
@@ -60,7 +60,7 @@
             </div>
             <div class="form-row">
                <div class="form-group col-md-6">
-                  <select class="form-control js-states" name="devise" data-validation="" id="devise" data-validation="required">
+                  <select  style="border: 1px solid silver !important; padding-left: 8px !important" class="form-control js-states" name="devise" data-validation="" id="devise" data-validation="required">
                      <option value='-1'>Selectionnez la devise</option>
                      <option value="2">CDF</option>
                      <option value="1">USD</option>
@@ -70,29 +70,27 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                   <label class="form-label">MONTANT </label>
-                  <input type="text" class="form-control" name="Montant" placeholder="" id="Montant" data-validation="required">
+                  <input  style="border: 1px solid silver !important; padding-left: 8px !important" type="text" class="form-control" name="Montant" placeholder="" id="Montant" data-validation="required">
                   <div class="clearfix"></div>
                </div>
                <div class="form-group col-md-6">
                   <label class="form-label">Taux </label>
-                  <input type="text" class="form-control" name="Montant" placeholder="" id="taux" value="3">
+                  <input  style="border: 1px solid silver !important; padding-left: 8px !important" type="text" class="form-control" name="Montant" placeholder="" id="taux" value="3">
                   <div class="clearfix"></div>
                </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
                   <label class="form-label">Montant Pourc. </label>
-                  <input type="text" class="form-control" name="Montant" placeholder="" id="montant_pourc" readonly>
+                  <input  style="border: 1px solid silver !important; padding-left: 8px !important" type="text" class="form-control" name="Montant" placeholder="" id="montant_pourc" readonly>
                   <div class="clearfix"></div>
                </div>
                <div class="form-group col-md-6">
                   <label class="form-label">Frais Deplacement.</label>
-                  <input type="text" class="form-control" id='frais' name="frais" placeholder="" id="mont_dep">
+                  <input style="border: 1px solid silver !important; padding-left: 8px !important"  type="text" class="form-control" id='frais' name="frais" placeholder="" id="mont_dep">
                   <div class="clearfix"></div>
                </div>
             </div>
-            <hr class="border-light container-m--x my-4">
-            
             <hr class="border-light container-m--x my-4">
             <button type="button" class="btn btn-success" name="btnsave_users" id="btnsave_ong">Save</button>
             <button type="reset" class="btn btn-danger" id="btnreset_affectation">annule</button>
@@ -126,18 +124,8 @@
    </div>
 </div>
 @endsection
-
-
-@section ('javascript')
-<script type="text/javascript">
-$(document).ready(function() {
-    affiche_ong();
-    $.ajaxSetup({
-             headers: {
-                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-             }
-            });
-    document.getElementById("name_prov").style.display = "none";
+@section('script')
+document.getElementById("name_prov").style.display = "none";
 $('#etat_bank').change(function () {
     if (document.getElementById("etat_bank").checked) {
         document.getElementById("name_prov").style.display = "none";
@@ -213,7 +201,7 @@ $('#btnsave_ong').click(function () {
                 provenance = $('#name_bank').val();
                 indice = 2;
             } else {
-                $('#message').html('selectionnez la banque');
+                $('#message').html('Veuillez selectionner une banque');
             }
         }
 
@@ -246,7 +234,7 @@ $('#btnsave_ong').click(function () {
                             $('#taux').val(3);
                             $('#montant_pourc').val("");
                         } else {
-                            $('#message').html('verifiez bien le montant que vous voulez affecté dans le numero banque si elle est de la meme devise');
+                            $('#message').html('Veuillez bien verifiez le montant que vous voulez affecté dans le numero banque si elle est de la meme devise');
                         }
                     },
                     error: function (data) {
@@ -256,58 +244,7 @@ $('#btnsave_ong').click(function () {
             }
        
     } else {
-        $('#message').html('verifiez bien les zones de saisie');
+        $('#message').html('Veuillez bien verifiez les zones de saisie');
     }
 });
-
-              
- });
-
- function affiche_ong()
-    {
-    var otableau=$('#tab_save_ong').DataTable({
-        dom: 'Bfrtip',
-            buttons: [
-            'print', 'copy', 'excel', 'pdf'
-             ],
-        "bProcessing":true,
-        "sAjaxSource":"{{route('charger_ong')}}",
-        "columns":[
-            {"data":'id'},
-            {"data":'created_at'},
-            {"data":'name_ong'},
-             {"data":'devise',"autoWidth":true,"render":function (data){
-                   if (data==2) {
-                        return 'CDF';
-                    }else{
-                        return 'USD';
-                    }
-                      }},
-            {"data":'mont_trans'},
-            {"data":'taux'},
-            {"data":'mont_com'},
-            {"data":'mont_dep'},
-            
-                {"data":'montpayé',"autoWidth":true,"render":function (data){
-                   if (data==null) {
-                        return 0;
-                    }else{
-                        return data;
-                    }
-                      }},
-                 // {"data":'type',"autoWidth":true,"render":function (data){
-                 //   if (data==1) {
-                 //        return 'Agence';
-                 //    }else{
-                 //        return 'Banque';
-                 //    }
-                 //      }},
-            {"data":'id',"autoWidth":true,"render":function (data) {
-                return '<button data-id='+data+' class="btn btn-info btn-circle modifier_desa" ><i class="fa fa-check"></i></button>';
-                }}
-        ],
-        "bDestroy":true
-    }); 
-    }
-</script> 
 @endsection

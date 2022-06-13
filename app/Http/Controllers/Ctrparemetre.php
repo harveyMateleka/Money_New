@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\tbl_fonction;
 use App\Models\tbl_typedepense;
 use App\Models\tbl_menu;
 use App\Models\tbl_sous_menu;
 use App\Models\tbl_droitacces;
-use App\Models\tbl_fonction;
-
+use App\Models\tbl_agence;
 use App\Models\tbl_vile;
 use App\Models\tbl_ong;
 use DB;
@@ -22,6 +22,17 @@ class Ctrparemetre extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function index1()
+    {
+        if (Auth::check()) {
+            $this->entete();
+             return view("view_fonction");
+        }
+        else{
+            //return route('index_login'); 
+            return redirect()->route('index_login');
+        }
+    }
 
 public function index_ville()
     {
@@ -35,10 +46,69 @@ public function index_ville()
     }
 
 //__________________________________________agence__________________________________________________________
-   
-   
-    
-    
+    public function index_agence()
+    {
+        if (Auth::check()) {
+            $this->entete();
+            $resultat=tbl_vile::orderBy('ville','ASC')->get();
+            $resultat_f=tbl_fonction::all();
+            $resul_smenu=DB::table('tbl_sous_menus')->select('id_sous','item_sous')
+                                                     ->orderBy('id_sous','DESC')
+                                                     ->get();
+            return view("view_agence",compact('resultat', 'resultat_f', 'resul_smenu'));
+        }
+        else{
+            return redirect()->route('index_login');
+        }        
+    }
+    public function store_agence(Request $request)
+    { 
+        //if ($request->ajax()) {
+            $table=tbl_agence::whereNomagence($request->nomagence)->first();
+            if (!$table) {
+                $record= new tbl_agence;
+                $record->nomagence=strtoupper($request->nomagence);
+                $record->adresse=strtoupper($request->adresse);
+                $record->telservice=strtoupper($request->telservice);
+                $record->id_ville=strtoupper($request->id_ville);
+                $record->indiceag=strtoupper($request->indiceag);
+                $record->initial=strtoupper($request->initial);
+                $record->save();
+                return response()->json(['success'=>'1']);
+            }  
+            else{
+                return response()->json(['success'=>'0']);
+            }
+       // }  
+    }
+    public function get_list_agence()
+    {
+        $resultat=tbl_agence::orderBy('numagence','DESC')
+                                      ->get(); 
+           return response()->json(['data'=>$resultat]);
+    }
+    public function update_agence(Request $request)
+    { 
+       if ($request->ajax()) {
+            
+            $resultat=tbl_agence::whereNumagence($request->numagence)->update(['nomagence'=>$request->nomagence,'adresse'=>$request->adresse,'telservice'=>$request->telservice,'indiceag'=>$request->indiceag,'initial'=>$request->initial]);
+            return response()->json(['success'=>'1']);   
+        } 
+    }
+    public function get_id_agence(Request $request)
+    {
+        if ($request->ajax()) {
+            $resultat=tbl_agence::whereNumagence($request->code)->first();
+            return response()->json($resultat); 
+        }
+    }
+    public function destroy_agence( Request $id)
+    {
+        if ($id->ajax()) {
+            $resultat=tbl_agence::whereNumagence($id->code)->delete();
+            return response()->json(['success'=>'1']); 
+        }
+    }
 
     //________________________________________________fin agance________________________________________________________
     public function index2()
@@ -56,7 +126,11 @@ public function index_ville()
     {
        if (Auth::check()) {
         $this->entete();
-        return view("view_menu");
+        $resultat=tbl_fonction::all();
+        $resul_smenu=DB::table('tbl_sous_menus')->select('id_sous','item_sous')
+        ->orderBy('id_sous','DESC')
+        ->get();
+        return view("view_menu", compact('resultat','resultat','resul_smenu'));
        }
        else{
         return redirect()->route('login'); 
@@ -67,7 +141,11 @@ public function index_ville()
       if (Auth::check()) {
         $this->entete();
         $resultat=tbl_menu::all();
-        return view("view_sous_menu",compact('resultat'));
+        $resultata=tbl_fonction::all();
+        $resul_smenu=DB::table('tbl_sous_menus')->select('id_sous','item_sous')
+        ->orderBy('id_sous','DESC')
+        ->get();
+        return view("view_sous_menu",compact('resultata','resultat','resul_smenu'));
       } 
       else{
         return redirect()->route('login');
@@ -93,7 +171,20 @@ public function index_ville()
         
           
     }
-     
+    public function index_ong()
+    {
+        if (Auth::check()) {
+            $this->entete();
+            return view('view_ong');
+        }
+        else{
+            return redirect()->route('index_login');
+          }
+    }   
+
+
+
+
 
     public function entete(){
         $affichage= new ctradmin;
@@ -108,7 +199,21 @@ public function index_ville()
     {
         //
     }
- 
+    public function create_fonction(Request $request)
+    { 
+        if ($request->ajax()) {
+            $table=tbl_fonction::whereFonction($request->name_fonction)->first();
+            if (!$table) {
+                $record= new tbl_fonction;
+                $record->fonction=$request->name_fonction;
+                $record->save();
+                return response()->json(['success'=>'1']);
+            }
+            else{
+                return response()->json(['success'=>'0']);
+            }
+        }  
+    }
 
     public function create_typedep(Request $request)
     { 
@@ -130,9 +235,13 @@ public function index_ville()
         if ($request->ajax()) {
             $table=tbl_menu::whereItem_menu($request->name_menu)->first();
             if (!$table) {
+                $date = Date('Y-m-d');
+                $heure = time('h:i:s');
                 $record= new tbl_menu;
                 $record->item_menu=$request->name_menu;
                 $record->icon=$request->name_icon;
+                $record->$date;
+                $record->$heure;
                 $record->save();
                 return response()->json(['success'=>'1']);
             }
@@ -177,7 +286,13 @@ public function index_ville()
         }  
     }
 
-   
+    public function update_fonct(Request $request){
+        if ($request->ajax()) {
+            $this->validate($request,['fonction'=>'required']);
+            $resultat=tbl_fonction::whereId_fonction($request->code_fonction)->update(['fonction'=>$request->fonction]);
+            return response()->json(['success'=>'1']);   
+        }
+    }
 
     public function update_typedep(Request $request){
         if ($request->ajax()) {
@@ -202,7 +317,12 @@ public function index_ville()
         }
     }
 
-    
+    public function get_list_f()
+    {
+        $resultat=tbl_fonction::orderBy('id_fonction','DESC')
+                                      ->get(); 
+           return response()->json(['data'=>$resultat]);
+    }
 
     public function get_list_smenu()
     {
@@ -252,7 +372,13 @@ public function index_ville()
         }
     }
 
-    
+    public function get_id_f(Request $request)
+    {
+        if ($request->ajax()) {
+            $resultat=tbl_fonction::whereId_fonction($request->code)->first();
+            return response()->json($resultat); 
+        }
+    }
 
     public function get_id_typedep(Request $request)
     {
@@ -270,12 +396,49 @@ public function index_ville()
      */
     public function store(Request $request)
     {
-        
+        if ($request->ajax()) {
+           
+            $table=tbl_ong::whereName_ong($request->ong)->first();
+            if (!$table) {
+                $record=tbl_ong::create(['name_ong'=>$request->ong,'name_Perso'=>$request->Perso,
+                'adresse_siege'=>$request->siege,'tel_contact'=>$request->tel]);
+                return response()->json(['success'=>'1']);
+                
+            }  
+            else{
+                return response()->json(['success'=>'0']);
+            }
+        } 
     }
-   
-   
-   
-  
+    public function update_ong(Request $request)
+    {
+        if ($request->ajax()) {
+             
+            $resultat=tbl_ong::whereId($request->id)->update(['name_ong'=>$request->name_ong,'name_Perso'=>$request->name_Perso,
+            'adresse_siege'=>$request->adresse_siege,'tel_contact'=>$request->tel_contact]);
+            return response()->json(['success'=>'1']);   
+        } 
+    }
+    public function get_list_ong()
+    {
+        $resultat=tbl_ong::orderBy('id','DESC')
+                                      ->get(); 
+           return response()->json(['data'=>$resultat]);
+    }
+    public function get_id_ong(Request $request)
+    {
+        if ($request->ajax()) {
+            $resultat=tbl_ong::whereId($request->code)->first();
+            return response()->json($resultat); 
+        }
+    }
+    public function destroy_ong(Request $id)
+    {
+        if ($id->ajax()) {
+            $resultat=tbl_ong::whereId($id->code)->delete();
+            return response()->json(['success'=>'1']); 
+        }
+    }
 
     /**
      * Display the specified resource.
@@ -317,7 +480,13 @@ public function index_ville()
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-   
+    public function destroy(Request $id)
+    {
+        if ($id->ajax()) {
+            $resultat=tbl_fonction::whereId_fonction($id->code)->delete();
+            return response()->json(['success'=>'1']); 
+        }
+    }
 
     public function destroy_typedep(Request $id)
     {

@@ -11,14 +11,14 @@
       <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
       <!-- Google fonts -->
       <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
-      <!-- Icon fonts -->
+      <!-- Icon fonts -->0
       <link rel="icon" type="text/css" href="../abt_app/public/colombelogo.jpeg">
       <link rel="stylesheet" href="{{ asset('assets/fonts/fontawesome.css')}}">
       <link rel="stylesheet" href="{{ asset('assets/fonts/ionicons.css')}}">
       <link rel="stylesheet" href="{{ asset('assets/fonts/linearicons.css')}}">
       <link rel="stylesheet" href="{{ asset('assets/fonts/open-iconic.css')}}">
       <link rel="stylesheet" href="{{ asset('assets/fonts/pe-icon-7-stroke.css')}}">
-      <link rel="stylesheet" href="{{ asset('assets/fonts/feather.css')}}">
+      <ink rel="stylesheet" href="{{ asset('assets/fonts/feather.css')}}">
       <link rel="stylesheet" href="{{ asset('DataTables/css/dataTables.bootstrap.css')}}">
       <link rel="stylesheet" href="{{ asset('DataTables/css/dataTables.bootstrap.min.css')}}">
       <link rel="stylesheet" href="{{ asset('css/dropzone.min.css')}}">
@@ -296,7 +296,7 @@
                               <i class="feather icon-user text-muted"></i> &nbsp; Mon profile</a>
                             
                               <div class="dropdown-divider"></div>
-                              <a href="{{ route('logout') }}" class="dropdown-item">
+                              <a href="{{url('admin/deconnexion')}}" class="dropdown-item">
                               <i class="feather icon-power text-danger"></i> &nbsp; Deconnexion</a>
                            </div>
                         </div>
@@ -323,36 +323,6 @@
                         </div>
                      </div>
                   </div>
-                  <div class="modal fade" id="modal_personnel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-   <div class="modal-dialog" role="document">
-      <div class="modal-content">
-         <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">LISTE DES AGENTS</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-         </div>
-         <div class="modal-body">
-            <table class="table card-table" id='tab_personnelle'>
-               <thead class="thead-light">
-                  <tr>
-                     <th>Matricule</th>
-                     <th>Nom</th>
-                     <th>PostNom</th>
-                     <th>Prenom</th>
-                     <th>ACTION</th>
-                  </tr>
-               </thead>
-               <tbody>
-               </tbody>
-            </table>
-         </div>
-         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-         </div>
-      </div>
-   </div>
-</div>
                   @yield('content')
                   <!-- [ content ] End -->
                   <!-- [ Layout footer ] Start -->
@@ -422,15 +392,447 @@
     <script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
      <script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.print.min.js"></script>
      <script src="https://osrec.github.io/currencyFormatter.js"></script>
-     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
-     @yield('javascript')
-     <script type="text/javascript">
-         (function() { 
-            affiche_agent();
-          })();
 
-          function affiche_agent()
+
+      <script type="text/javascript">
+         $(document).ready(function() { 
+           
+
+                         //   var phoneInputField = $("#tel_expedit").val();// document.querySelector("#tel_expedit");
+                         // const phoneInput = window.intlTelInput(phoneInputField, {
+                         //     preferredCountries: ["us", "co", "in", "de"],
+                         //     utilsScript:
+                         //       "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+                         //   });
+
+             affiche_ville();
+             affiche_fonction();
+             affiche_typedep();
+             affiche_menu();
+             affiche_smenu();
+             affiche_droit();
+             affiche_agent();
+             affiche_users();
+             affiche_affect();
+             affiche_affectation();
+             affiche_agence();
+             affiche_personnel();
+             affiche_taux();
+             affiche_banque();
+             affiche_agence1();
+             affiche_mouvement();
+             affiche_ong();
+             affiche_ong1()
+             affiche_partenaire();
+             affiche_transfert_partenaire();
+             @yield('script');
+             
+         });
+         jQuery(function($) {  
+             $.ajaxSetup({
+             headers: {
+                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+             }
+         
+                }); 
+              
+         });
+
+
+
+
+
+              //____________________________fin
+              //___________________________debut fonction_________________________________
+              $('#btnsave_fonction').click(function() { 
+             var name_fonct=$("#name_fonction").val();
+             if(name_fonct!=''){ 
+                 if ($("#code_fonction").val()=='') {
+                     swal({
+        title: 'Voulez vous ajouter une fonction?',
+        text: " est vous sure!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes,Ajouter!',
+        cancelButtonText: 'No, ANNULE!',
+        confirmButtonClass: 'btn btn-success',
+        cancelButtonClass: 'btn btn-danger',
+        buttonsStyling: false,
+        allowOutsideClick: false,
+        showLoaderOnConfirm: true,
+        preConfirm: function () {
+            return new Promise(function (resolve, reject) {
+                     $.ajax({
+                           url   : "{{route('create_fonction')}}",
+                           type  : 'POST',
+                           async : false,
+                           data  : {name_fonction:name_fonct
+                           },
+                           success:function(data)
+                           {
+                             if(data.success=='1'){
+                                 swal({title: 'ABT COLOMBE!',
+                text: 'Un nauveau fonction ajouter avec success!',
+                type: 'success'
+                })
+                                 window.location.href=("{{route('route_index_fonct')}}");
+                             }
+                             else{
+                                 alert('existe deja');
+                             } 
+                           },
+                           error:function(data){
+         
+                             alert(data.success);                              
+                             }
+                       });
+                 })
+    }
+      }).then(function () {
+        swal({
+            type: 'info',
+            title: 'ABT COLOMBE',
+            html: 'fonction ne pas ajouter'
+        })
+    });
+                 }
+                 else{
+                     swal({
+        title: 'Voulez vous modifier une fonction?',
+        text: " est vous sure!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes,Modifier!',
+        cancelButtonText: 'No, ANNULE!',
+        confirmButtonClass: 'btn btn-success',
+        cancelButtonClass: 'btn btn-danger',
+        buttonsStyling: false,
+        allowOutsideClick: false,
+        showLoaderOnConfirm: true,
+        preConfirm: function () {
+            return new Promise(function (resolve, reject) {
+                     $.ajax({
+                           url   : "{{route('update_fonction')}}",
+                           type  : 'POST',
+                           async : false,
+                           data  : {fonction: $("#name_fonction").val(),
+                                    code_fonction:$("#code_fonction").val(),
+                           },
+                           success:function(data)
+                           {
+                             if(data.success=='1'){
+                                 swal({title: 'ABT COLOMBE!',
+                text: 'modification fonction avec success!',
+                type: 'success'
+                })
+                                 affiche_fonction();
+                                 $("#name_fonction").val("");
+                                 $("#code_fonction").val("");
+                                 //window.location.href=("{{route('route_index_fonct')}}");
+                             }
+                             else{
+                                 alert('erreur de transaction');
+                             }
+                            
+                           }
+                       });
+            })
+    }
+      }).then(function () {
+        swal({
+            type: 'info',
+            title: 'ABT COLOMBE',
+            html: 'fonction ne pas modifier'
+        })
+    });
+                 }
+                 
+               
+             }
+         });
+         
+         $('body').delegate('.modifier_fonction','click',function(){
+                       var ids=$(this).data('id');
+                       $.ajax({
+                           url   : "{{route('get_id_f')}}",
+                           type  : 'POST',
+                           async : false,
+                           data  : {code: ids
+                           },
+                           success:function(data)
+                           {
+                             $("#name_fonction").val(data.fonction);
+                             $("#code_fonction").val(data.id_fonction);
+                           }
+                       });
+              });
+              $('body').delegate('.supprimer_fonction','click',function(){
+                       var ids=$(this).data('id');
+                       swal({
+        title: 'Voulez supprimer le donnes dans la base de donnees?',
+        text: "le donnes ne seront plus trouvables apres suppression!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes,SUPRIMER!',
+        cancelButtonText: 'No, ANNULE!',
+        confirmButtonClass: 'btn btn-success',
+        cancelButtonClass: 'btn btn-danger',
+        buttonsStyling: false,
+        allowOutsideClick: false,
+        showLoaderOnConfirm: true,
+        preConfirm: function () {
+            return new Promise(function (resolve, reject) {
+                       $.ajax({
+                           url   : "{{route('delete_fonction')}}",
+                           type  : 'POST',
+                           async : false,
+                           data  : {code: ids
+                           },
+                           success:function(data)
+                           {
+                             if(data.success=='1'){
+                                  swal({title: 'ABT COLOMBE!',
+                text: 'compte fonction suprimer avec success!',
+                type: 'success'
+                })
+                                 affiche_fonction();
+                                 //window.location.href=("{{route('route_index_fonct')}}");
+                             }
+                             else{
+                                 alert('erreur dans la suppression');
+                             }
+                           },
+                           error:function(data){
+         
+                           alert(data.success);                              
+                           }
+                       });
+            })
+   }
+ }).then(function () {
+        swal({
+            type: 'info',
+            title: 'ABT COLOMBE',
+            html: 'La fonction ne pas supprimer'
+        })
+    });
+              });
+         
+         function affiche_ville()
+         {
+           var otableau=$('#tab_ville').DataTable({
+                 "bProcessing":true,
+                 "sAjaxSource":"{{route('get_list_ville')}}",
+                 "columns":[
+                     {"data":'id_ville'},
+                     {"data":'ville'},
+                     {"data":'initial'},
+                     {"data":'id_ville',"autoWidth":true,"render":function (data) {
+         
+                             return '<button data-id='+data+' class="btn btn-warning btn-circle supprimer_ville" ><i class="fa fa-times"></i></button>'+ ' ' +
+                                 '<button data-id='+data+' class="btn btn-info btn-circle modifier_ville" ><i class="fa fa-check"></i></button>';
+                         }}
+                 ],
+                 "pageLength": 10, 
+                 "bDestroy":true
+             });
+         
+         }
+           function affiche_ong()
+    {
+    var otableau=$('#tab_save_ong').DataTable({
+        dom: 'Bfrtip',
+            buttons: [
+            'print', 'copy', 'excel', 'pdf'
+             ],
+        "bProcessing":true,
+        "sAjaxSource":"{{route('charger_ong')}}",
+        "columns":[
+            {"data":'id'},
+            {"data":'created_at'},
+            {"data":'name_ong'},
+             {"data":'devise',"autoWidth":true,"render":function (data){
+                   if (data==2) {
+                        return 'CDF';
+                    }else{
+                        return 'USD';
+                    }
+                      }},
+            {"data":'mont_trans'},
+            {"data":'taux'},
+            {"data":'mont_com'},
+            {"data":'mont_dep'},
+            
+                {"data":'montpayé',"autoWidth":true,"render":function (data){
+                   if (data==null) {
+                        return 0;
+                    }else{
+                        return data;
+                    }
+                      }},
+                 // {"data":'type',"autoWidth":true,"render":function (data){
+                 //   if (data==1) {
+                 //        return 'Agence';
+                 //    }else{
+                 //        return 'Banque';
+                 //    }
+                 //      }},
+            {"data":'id',"autoWidth":true,"render":function (data) {
+                return '<button data-id='+data+' class="btn btn-info btn-circle modifier_desa" ><i class="fa fa-check"></i></button>';
+                }}
+        ],
+        "bDestroy":true
+    }); 
+    }
+         
+         function affiche_fonction()
+         {
+           var otableau=$('#tab_fonction').DataTable({
+                 "bProcessing":true,
+                 "sAjaxSource":"{{route('get_list_f')}}",
+                 "columns":[
+                     {"data":'id_fonction'},
+                     {"data":'fonction'},
+                     {"data":'id_fonction',"autoWidth":true,"render":function (data) {
+         
+                             return '<button data-id='+data+' class="btn btn-warning btn-circle supprimer_fonction" ><i class="fa fa-times"></i></button>'+ ' ' +
+                                 '<button data-id='+data+' class="btn btn-info btn-circle modifier_fonction" ><i class="fa fa-check"></i></button>';
+                         }}
+                 ],
+                 "pageLength": 10, 
+                 "bDestroy":true
+             });
+         
+         }
+         
+         function affiche_partenaire()
+         {
+           var otableau=$('#tab_partenaire').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+            'print', 'copy', 'excel', 'pdf'
+             ],
+                 "bProcessing":true,
+                 "sAjaxSource":"{{route('get_list_partenaire')}}",
+                 "columns":[
+                     {"data":'id_partenaire'},
+                     {"data":'type'},
+                     {"data":'id_partenaire',"autoWidth":true,"render":function (data) {
+                          return '<button data-id='+data+' class="btn btn-warning btn-circle supprimer_partenaire" ><i class="fa fa-times"></i></button>'+ ' ' +
+                             '<button data-id='+data+' class="btn btn-info btn-circle modifier_partenaire" ><i class="fa fa-check"></i></button>';
+                     }}
+                 ],
+                 "pageLength": 10, 
+                 "bDestroy":true
+             });
+         
+         }
+         
+         function affiche_typedep()
+         {
+           var otableau=$('#tab_typedep').DataTable({
+             dom: 'Bfrtip',
+            buttons: [
+            'print', 'copy', 'excel', 'pdf'
+             ],
+                 "bProcessing":true,
+                 "sAjaxSource":"{{route('get_list_typedep')}}",
+                 "columns":[
+                     {"data":'id_typdep'},
+                     {"data":'type_dep'},
+                     {"data":'id_typdep',"autoWidth":true,"render":function (data) {
+         
+                             return '<button data-id='+data+' class="btn btn-warning btn-circle supprimer_typedep" ><i class="fa fa-times"></i></button>'+ ' ' +
+                                 '<button data-id='+data+' class="btn btn-info btn-circle modifier_typedep" ><i class="fa fa-check"></i></button>';
+                         }}
+                 ],
+                 "pageLength": 10, 
+                 "bDestroy":true
+             });
+         
+         } 
+         function affiche_menu()
+         {
+           var otableau=$('#tab_menu').DataTable({
+             dom: 'Bfrtip',
+            buttons: [
+            'print', 'copy', 'excel', 'pdf'
+             ],
+                 "bProcessing":true,
+                 "sAjaxSource":"{{route('get_list_menu')}}",
+                 "columns":[
+                     {"data":'id_menu'},
+                     {"data":'item_menu'},
+                     {"data":'icon'},
+                     {"data":'id_menu',"autoWidth":true,"render":function (data) {
+         
+                             return '<button data-id='+data+' class="btn btn-warning btn-circle supprimer_menu" ><i class="fa fa-times"></i></button>'+ ' ' +
+                                 '<button data-id='+data+' class="btn btn-info btn-circle modifier_menu" ><i class="fa fa-check"></i></button>';
+                         }}
+                 ],
+                 "pageLength": 10, 
+                 "bDestroy":true,
+                 responsive:true
+             });
+         
+         } 
+         function affiche_smenu()
+         {
+           var otableau=$('#tab_smenu').DataTable({
+             dom: 'Bfrtip',
+            buttons: [
+            'print', 'copy', 'excel', 'pdf'
+             ],
+                 "bProcessing":true,
+                 "sAjaxSource":"{{route('get_list_smenu')}}",
+                 "columns":[
+                     {"data":'id_sous'},
+                     {"data":'item_menu'},
+                     {"data":'item_sous'},
+                     {"data":'lien'},
+                     {"data":'id_sous',"autoWidth":true,"render":function (data) {
+         
+                             return '<button data-id='+data+' class="btn btn-warning btn-circle supprimer_smenu" ><i class="fa fa-times"></i></button>'+ ' ' +
+                                 '<button data-id='+data+' class="btn btn-info btn-circle modifier_smenu" ><i class="fa fa-check"></i></button>';
+                         }}
+                 ],
+                 "pageLength": 10, 
+                 "bDestroy":true
+             });
+         
+         }
+         
+         function affiche_droit()
+         {
+           var otableau=$('#tab_droit').DataTable({
+             dom: 'Bfrtip',
+            buttons: [
+            'print', 'copy', 'excel', 'pdf'
+             ],
+                 "bProcessing":true,
+                 "sAjaxSource":"{{route('get_list_droit')}}",
+                 "columns":[
+                     {"data":'id_droit'},
+                     {"data":'item_sous'},
+                     {"data":'fonction'},
+                     {"data":'id_droit',"autoWidth":true,"render":function (data) {
+                         return'<input type="checkbox" checked data-id='+data+' class=" supprimer_droit"/>';
+                         }}
+                 ],
+                 "pageLength": 10, 
+                 "bDestroy":true
+             });
+         
+         }
+         
+         function affiche_agent()
          {
            var otableau=$('#tab_personnelle').DataTable({
             dom: 'Bfrtip',
@@ -438,7 +840,7 @@
             'print', 'copy', 'excel', 'pdf'
              ],
                  "bProcessing":true,
-                 "sAjaxSource":"{{route('get_affectation')}}",
+                 "sAjaxSource":"{{route('get_agent')}}",
                  "columns":[
                      {"data":'matricule'},
                      {"data":'nom'},
@@ -453,17 +855,456 @@
              });
          
          }
+         
+         function affiche_agence1()
+         {
+         var otableau=$('#tab_agence1').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+            'print', 'copy', 'excel', 'pdf'
+             ],
+             "bProcessing":true,
+             "sAjaxSource":"{{route('get_list_agence')}}",
+             "columns":[
+                 {"data":'numagence'},
+                 {"data":'nomagence'},
+                 {"data":'telservice'},
+                 {"data":'Montcdf'},
+                 {"data":'Montusd'},
+                 {"data":'numagence',"autoWidth":true,"render":function (data) {
+                         return'<button data-id='+data+' class="btn btn-info btn-circle modifier_agence1" ><i class="fa fa-check"></i></button>';
+                     }}
+             ],
+             "pageLength": 10,
+             "bDestroy":true
+         });
+         
+         }
+         
+         function affiche_affect()
+         {
+           var otableau=$('#tab_person').DataTable({
+                 "bProcessing":true,
+                 "sAjaxSource":"{{route('get_affectation')}}",
+                 "columns":[
+                     {"data":'matricule'},
+                     {"data":'nom'},
+                     {"data":'postnom'},
+                     {"data":'prenom'},
+                     {"data":'matricule',"autoWidth":true,"render":function (data) {
+                         return'<button data-id='+data+' class="btn btn-info btn-circle afficher_matri" ><i class="fa fa-check"></i></button>';
+                         }}
+                 ],
+                 "pageLength": 5, 
+                 "bDestroy":true
+             });
+         
+         }
+         function affiche_affectation()
+         {
+           var otableau=$('#tab_affectation').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+            'print', 'copy', 'excel', 'pdf'
+             ],
+                 "bProcessing":true,
+                 "sAjaxSource":"{{route('get_afectation')}}",
+                 "columns":[
+                     {"data":'id'},
+                     {"data":'nomagence'},
+                     {"data":'matricule'},
+                     {"data":'nom'},
+                     {"data":'postnom'},
+                     {"data":'prenom'},
+                     {"data":'created_at'},
+                     {"data":'id',"autoWidth":true,"render":function (data) {
+                         return '<button data-id='+data+' class="btn btn-warning btn-circle supprimer_aff" ><i class="fa fa-times"></i></button>';
+                          }}
+                 ],
+                 "pageLength": 5, 
+                 "bDestroy":true
+             });
+         
+         }
+         
+         
+         function affiche_entree(code_agence)
+         {
+           var otableau=$('#tab_entree').DataTable({
+             dom: 'Bfrtip',
+            buttons: [
+            'print', 'copy', 'excel', 'pdf'
+             ],
+                 "bProcessing":true,
+                 "sAjaxSource":"/admin/liste_agence="+code_agence,
+                 "columns":[
+                     {"data":'created_at'},
+                     {"data":'numdepot'},
+                     {"data":'nomagence'},
+                     {"data":'ville'},
+                     {"data":'montenvoi'},
+                      {"data":'intitule'},
+                     {"data":'montpour'},
+                    
+                     
+                     {"data":'id',"autoWidth":true,"render":function (data) {
+                         return '<button data-id='+data+' class="btn btn-warning btn-circle print" >Print</button>';
+                          }}
+                    
+                 ],
+                 "pageLength": 10, 
+                 "bDestroy":true,
+                 responsive:true,
+             });
+         
+         }
+         function affiche_sortie(code_agence)
+         {
+           var otableau=$('#tab_sortie').DataTable({
+                 "bProcessing":true,
+                 "sAjaxSource":"/admin/liste_sortie="+code_agence,
+                 "columns":[
+                     {"data":'id'},
+                     {"data":'created_at'},
+                     {"data":'nomagence'},
+                     {"data":'ville'},
+                     {"data":'montenvoi'},
+                     {"data":'intitule'},
+                     {"data":'id',"autoWidth":true,"render":function (data) {
+                         return '<button data-id='+data+' class="btn btn-info btn-circle aff_sortie" ><i class="fa fa-check"></i></button>';
+                          }}
+                 ],
+                 "pageLength": 10, 
+                 "bDestroy":true,
+                 "responsive": true
+             });
+         
+         }
+         function affiche_mouvement()
+         {
+           var otableau=$('#tab_mouvement').DataTable({
+             dom: 'Bfrtip',
+            buttons: [
+            'print', 'copy', 'excel', 'pdf'
+             ],
+                 "bProcessing":true,
+                 "sAjaxSource":"{{route('get_mvt')}}",
+                 "columns":[
+                     {"data":'id'},
+                     {"data":'detail_prov'},
+                     {"data":'detail_des'},
+                     {"data":'etatmvt',"autoWidth":true,"render":function (data){
+                         if (data==0) {   
+                             return 'Suspense';
+                         }
+                     }},
+                     {"data":'Montmvt'},
+                     {"data":'devise',"autoWidth":true,"render":function (data){
+                         if (data==1) {   
+                             return 'Usd';
+                         }
+                         else{
+                             return 'Cdf';
+                         }
+                     }},
+                     {"data":'created_at'},
+                     {"data":'id',"autoWidth":true,"render":function (data) {
+                         return '<button data-id='+data+' class="btn btn-info btn-circle update" ><i class="fa fa-check">Confirmer</i></button>';
+                          }}
+                 ],
+                 "pageLength": 10, 
+                 "bDestroy":true
+             });
+         
+         }
+         
+         function affiche_banque()
+         {
+         var otableau=$('#tab_banque').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+            'print', 'copy', 'excel', 'pdf'
+             ],
+             "bProcessing":true,
+             "sAjaxSource":"{{route('get_list_banque')}}",
+             "columns":[
+                 {"data":'id'},
+                 {"data":'numero_compte'},
+                 {"data":'intitulecompte'},
+                {"data":'devise',"autoWidth":true,"render":function (data){
+                        if (data!=1 ) {
+                             return 'cdf';
+                         }else{
+                             return 'Usd'
+                         }
+         
+                 }},
+                 {"data":'Montant'},
+                 {"data":'id',"autoWidth":true,"render":function (data) {
+                         return '<button data-id='+data+' class="btn btn-warning btn-circle supprimer_banque" ><i class="fa fa-times"></i></button>'+ ' ' +
+                             '<button data-id='+data+' class="btn btn-info btn-circle modifier_banque" ><i class="fa fa-check"></i></button>';
+                     }}
+             ],
+             "pageLength": 10,
+             "bDestroy":true
+         });
+         
+         }
+         function affiche_users() {
+            var otableau = $('#tab_users').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'print', 'copy', 'excel', 'pdf'
+                ],
+                "bProcessing": true,
+                "sAjaxSource": "{{route('get_list_users')}}",
+                "columns": [{
+                        "data": 'id'
+                    },
+                    {
+                        "data": 'nom'
+                    },
+                    {
+                        "data": 'email'
+                    },
+                    {
+                        "data": 'etatcon',
+                        "autoWidth": true,
+                        "render": function(data) {
+                            if (data != '0') {
+                                return 'Connecté';
+                            } else {
+                                return 'Deconnecté';
+                            }
+                        }
+                    },
+                    {
+                        "data": 'id',
+                        "autoWidth": true,
+                        "render": function(data) {
+                            return `
+                                <button data-id=${data} class="btn btn-danger btn-circle supprimer_users" ><i class="fa fa-trash"></i></button> 
+                                <button data-id=${data} class="btn btn-success btn-circle editUser" ><i class="fa fa-edit"></i></button>
+                            `;
+                        }
+                    }
+                ],
+                "pageLength": 7,
+                "bDestroy": true
+            });
+        }
+         function affiche_agence()
+         {
+         var otableau=$('#tab_agence').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+            'print', 'copy', 'excel', 'pdf'
+             ],
+             "bProcessing":true,
+             "sAjaxSource":"{{route('get_list_agence')}}",
+             "columns":[
+                 {"data":'numagence'},
+                 {"data":'nomagence'},
+                 {"data":'adresse'},
+                 {"data":'telservice'},
+                 {"data":'indiceag'},
+                 {"data":'initial'},
+                 {"data":'numagence',"autoWidth":true,"render":function (data) {
+                         return '<button data-id='+data+' class="btn btn-warning btn-circle supprimer_agence" ><i class="fa fa-times"></i></button>'+ ' ' +
+                             '<button data-id='+data+' class="btn btn-info btn-circle modifier_agence" ><i class="fa fa-check"></i></button>';
+                     }}
+             ],
+             "pageLength": 10,
+             "bDestroy":true
+         });
+         
+         }
+         
 
+
+
+               function affiche_transfert_partenaire()
+         {
+         var otableau=$('#transfert').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+            'print', 'copy', 'excel', 'pdf'
+             ],
+             "bProcessing":true,
+             "sAjaxSource":"{{route('get_list_transfert')}}",
+             "columns":[
+                 {"data":'date_T'},
+                 {"data":'nomagence'},
+                 {"data":'matricule'},
+                  {"data":'type'},
+                  {"data":'montant'},
+                 {"data":'intitule'},
+                 {"data":'operation',"autoWidth":true,"render":function (data){
+                       if (data!='1') {
+                             return 'depot';
+                         }else{
+                             return 'retrait';
+                         }
+                 }},
+             ],
+             "pageLength": 10,
+             "bDestroy":true
+         });
+         
+         }
+
+  
+         function affiche_personnel()
+         {
+
+         var otableau=$('#tab_personnel').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+            'print', 'copy', 'excel', 'pdf'
+             ],
+             "bProcessing":true,
+             "sAjaxSource":"{{route('get_list_personnel')}}",
+             "columns":[
+                 {"data":'matricule'},
+                 {"data":'nom'},
+                 {"data":'prenom'},
+                 {"data":'adresse'},
+                 {"data":'tel'},
+                 {"data":'occupation',"autoWidth":true,"render":function (data){
+                       if (data!='0') {
+                             return 'Agence';
+                         }else{
+                             return 'Direction';
+                         }
+                 }},
+                 {"data":'fonction'},
+                 {"data":'etat',"autoWidth":true,"render":function (data){
+                        if (data==1) {
+                             return 'actif';
+                         }
+                         else if(data==2){
+                             return 'Conge'; 
+                         }else{
+                             return 'licencie'
+                         }
+         
+                 }},
+                 {"data":'matricule',"autoWidth":true,"render":function (data) {
+         
+                         return '<button data-id='+data+' class="btn btn-warning btn-circle supprimer_personnel" ><i class="fa fa-times"></i></button>'+ ' ' +
+                             '<button data-id='+data+' class="btn btn-info btn-circle modifier_personnel" ><i class="fa fa-check"></i></button>';
+                     }}
+             ],
+             "pageLength": 10, 
+             "bDestroy":true
+         });
+         
+         }
+         function affiche_taux()
+         {
+         var otableau=$('#tab_taux').DataTable({
+             dom: 'Bfrtip',
+            buttons: [
+            'print', 'copy', 'excel', 'pdf'
+             ],
+             "bProcessing":true,
+             "sAjaxSource":"{{route('get_list_taux')}}",
+             "columns":[
+                 {"data":'id'},
+                 {"data":'intitule'},
+                 {"data":'taux'},
+                 {"data":'id',"autoWidth":true,"render":function (data) {
+                         return '<button data-id='+data+' class="btn btn-warning btn-circle supprimer_taux" ><i class="fa fa-times"></i></button>'+ ' ' +
+                             '<button data-id='+data+' class="btn btn-info btn-circle modifier_taux" ><i class="fa fa-check"></i></button>';
+                     }}
+             ],
+             "pageLength": 10,
+             "bDestroy":true
+         }); 
+         }
+         
+       function affiche_depense(cod_agence)
+         {
+         var otableau=$('#tab_depense').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+            'print', 'copy', 'excel', 'pdf'
+             ],
+             "bProcessing":true,
+             "sAjaxSource":"/admin/liste_depense="+ cod_agence,
+             "columns":[
+                 {"data":'id_dep'},
+                 {"data":'motif'},
+                 {"data":'devise',"autoWidth":true,"render":function (data){
+                        if (data==2) {
+                             return 'CDF';
+                         }else{
+                             return 'USD';
+                         }
+                           }},
+                     {"data":'matricule'},
+                     {"data":'montant'},
+                      {"data":'etat',"autoWidth":true,"render":function (data){
+                        if (data==1) {
+                             return 'Approuve';
+                         }else{
+                             return 'Not Approuve';
+                         }
+                           }},
+                     {"data":'id_auto',"autoWidth":true,"render":function (data){
+                        if (data==1) {
+                             return 'PDG';
+                         }
+                         else if(data==2){
+                             return 'DGA'; 
+                         }else if(data==3){
+                             return 'DG';
+                         }else {
+                             return'ENTREPRISE'
+                         }
+         
+                 }},
+                 {"data":'id_dep',"autoWidth":true,"render":function (data) {
+                         return '<button data-id='+data+' class="btn btn-info btn-circle modifier_depense" ><i class="fa fa-check"></i></button>';
+                     }}
+         
+             ],
+             "pageLength": 10,
+             "bDestroy":true
+         }); 
+         }
+        
          function formateIndianCurrency(rupees) {
            let value = OSREC.CurrencyFormatter.format(rupees, { currency: 'EUR', locale: 'fr' });
            return value;
          }
 
 
-      
-         
-     </script>
-          
-     
+
+          function affiche_ong1()
+         {
+         var otableau=$('#tab_ong1').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+            'print', 'copy', 'excel', 'pdf'
+             ],
+             "bProcessing":true,
+             "sAjaxSource":"{{route('get_list_ongc')}}",
+             "columns":[
+                 {"data":'id'},
+                 {"data":'name_ong'},
+                 {"data":'name_Perso'},
+                 {"data":'tel_contact'},
+                 {"data":'adresse_siege'},
+                 {"data":'id',"autoWidth":true,"render":function (data) 
+                 {return '<button data-id='+data+' class="btn btn-danger btn-circle supprimer_ong1"><i class="fa fa-times"></i></button>'+ ' ' +
+                             '<button data-id='+data+' class="btn btn-info btn-circle modifier_ong1"><i class="fa fa-check"></i></button>';
+                     }}
+             ],
+             "pageLength": 10,
+             "bDestroy":true
+         }); 
+         }
+      </script>
    </body>
 </html>

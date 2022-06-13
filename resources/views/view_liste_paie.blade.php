@@ -62,9 +62,7 @@
                         </div>
                     </div>        
 @endsection
-@section ('javascript')
-<script type="text/javascript">
-(function() {
+@section ('script')
  var table = $('#tab_paiement').DataTable({
       "lengthMenu": [
         [10, 25, 50, -1],
@@ -77,7 +75,5 @@
 
       ]
     });
-})();
-</script>
 @endsection
 

@@ -1,17 +1,17 @@
 @extends('layouts.header')
 @section('content')
 <div class="container-fluid flex-grow-1 container-p-y">
-                        <h3 class="font-weight-bold py-3 mb-0">PAGE ONG</h3>
+                        <h3 class="font-weight-bold py-3 mb-0">O.N.G</h3>
                         <div class="text-muted small mt-0 mb-4 d-block breadcrumb">
                         </div>
                         <div class="card col-md-8">
-                            <h4 class="card-header">ENREGISTREMENT ONG</h4>
+                            <h4 class="card-header">ENREGISTREMENT D'UN O.N.G</h4>
                             <div class="card-body">
                                 <form action="#" method="POST">
                                 {{csrf_field()}}
                                     <div class="form-row">
                                         <div class="form-group col-md-5">
-                                            <label class="form-label">NOM ONG</label>
+                                            <label class="form-label">NOM O.N.G</label>
                                             <input type="text" class="form-control" data-validation="required" name="nomong" style="text-transform:uppercase;" placeholder="" id="name_ong">
                                             <div class="clearfix"></div>
                                         </div>
@@ -29,12 +29,12 @@
                                             <div class="clearfix"></div>
                                         </div>
                                         <div class="form-group col-md-5">
-                                            <label class="form-label">TEL CONTACT</label>
+                                            <label class="form-label">TELEPHONE</label>
                                             <input type="number" class="form-control" data-validation="required" name="telservice" placeholder="" id="tel_contact">
                                             <div class="clearfix"></div>
                                         </div>
                                     </div>
-                                    <button type="button" class="btn btn-success" name="btnsave_ong" id="btnsave_ong">Sauvegarder</button>
+                                    <button type="button" class="btn btn-success" name="btnsave_ong" id="btnsave_ong">Enregistre</button>
                                     <button type="reset" class="btn btn-danger">annule</button>
                                     <input type="hidden" class="form-control" placeholder="Saisir le nom de l'ong" id="ong">
                                 </form>
@@ -68,31 +68,33 @@
                          
 @endsection
 
-@section('javascript')
-<script type="text/javascript">
-(function() {
-    $.ajaxSetup({
-             headers: {
-                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-             }
-                });
+@section('script')
+
     $('#btnsave_ong').click(function() {
-        var name_ong = $("#name_ong").val();
-        var name_Perso = $("#name_Perso").val();
-        var adresse_siege = $("#adresse_siege").val();
-        var tel_contact = $("#tel_contact").val();
-        if($("#name_ong").val()!='' && $("#name_Perso").val()!='' && $("#tel_contact").val()!='' && $("#adresse_siege").val()!=''){ 
+        var name_ong=$("#name_ong").val();
+        var name_Perso=$("#name_Perso").val();
+        var adresse_siege=$("#adresse_siege").val();
+        var tel_contact=$("#tel_contact").val();
+        var id=$("#id").val();
+        if($("#name_ong").val()!='' && $("#name_Perso").val()!='' && $("#tel_contact").val()!=''&& $("#adresse_siege").val()!=''){ 
             if ($("#ong").val()=='') {   
-        Swal.fire({
-            title: 'Colombe Money',
-            html:"Vous voulez enregistrer", 
-            width: 600,
-            padding: '3em',  
-            showDenyButton: true,   
-            confirmButtonText: `Enregistrer`,  
-            denyButtonText: `Annuler`,
-        }).then((result) => { 
-            if (result.isConfirmed) { 
+        swal({
+        title: 'La Colombe Money',
+        text: "voulez vous ajouter Ong?",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Oui,Ajouter!',
+        cancelButtonText: 'No, ANNULE!',
+        confirmButtonClass: 'btn btn-success',
+        cancelButtonClass: 'btn btn-danger',
+        buttonsStyling: false,
+        allowOutsideClick: false,
+        showLoaderOnConfirm: true,
+        preConfirm: function () {
+            return new Promise(function (resolve, reject) {
+
                 $.ajax({
                       url   : "{{route('create_ong')}}",
                       type  : 'POST',
@@ -104,8 +106,14 @@
                       },
                       success:function(data)
                       {
+                        //alert(data.success); 
+                        
                         if(data.success=='1'){
-                            Swal.fire('operation effectuée', '', 'success')
+                        swal({title: 'La Colombe Moeny!',
+                        text: 'un nouveau ong ajouté avec success!',
+                        type: 'success'
+                        })
+                            //window.location.href=("{{route('index_create_ong')}}");
                             affiche_ong1();
                             $("#name_ong").val('');
                             $("#name_Perso").val('');
@@ -113,32 +121,48 @@
                             $("#tel_contact").val('');
                         }
                         else{
-                            Swal.fire('operation echouée', '', 'error')
+                              swal({title: 'La Colombe Money !',
+                                text: 'Operation non effectué!',
+                                type: 'danger'
+                                })
                         } 
                       },
                       error:function(data){
 
-                        Swal.fire('operation echouée', '', 'error');                            
+                        alert(data.success);                              
                         }
                   });
-                    
-            } else if (result.isDenied) {    
-                                          Swal.fire('Changes are not saved', '', 'info')  
-                                       }
-            });
+
+            })
     }
+
+      }).then(function () {
+        swal({
+            type: 'info',
+            title: 'La Colombe Money',
+            html: 'Pas ajouter ong'
+        })
+    });
+
+            }
             else{
 
-                Swal.fire({
-            title: 'Colombe Money',
-            html:"Vous voulez Modifier", 
-            width: 600,
-            padding: '3em',  
-            showDenyButton: true,   
-            confirmButtonText: `Modifier`,  
-            denyButtonText: `Annuler`,
-        }).then((result) => {
-            if (result.isConfirmed) { 
+              swal({
+        title: 'La Colombe Money',
+        text: "Voulez vous modifier?",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Oui,modifier!',
+        cancelButtonText: 'No, ANNULE!',
+        confirmButtonClass: 'btn btn-success',
+        cancelButtonClass: 'btn btn-danger',
+        buttonsStyling: false,
+        allowOutsideClick: false,
+        showLoaderOnConfirm: true,
+        preConfirm: function () {
+            return new Promise(function (resolve, reject) {
 
                 $.ajax({
                     
@@ -154,7 +178,10 @@
                       success:function(data)
                       {
                         if(data.success=='1'){
-                            Swal.fire('operation effectuée', '', 'success')
+                        swal({title: 'La Colombe Money!',
+                text: 'modification une ong avec success!',
+                type: 'success'
+                })
                             affiche_ong1();
                             $("#name_ong").val('');
                             $("#name_Perso").val('');
@@ -162,25 +189,29 @@
                             $("#tel_contact").val('');
                         }
                         else{
-                            Swal.fire('operation echoué', '', 'error')
+                            swal({title: 'La Colombe Money!',
+                            text: 'Operation non effectuée!',
+                            type: 'info'
+                            })
                         }
                        
-                      },
-                      error:function(data){
-                    Swal.fire('operation echouée', '', 'error');                            
-                    }
+                      }
                   });
-                } else if (result.isDenied) {    
-                                          Swal.fire('Changes are not saved', '', 'info')  
-                                       }
-                   });
+                   })
 
    }
-
+ }).then(function () {
+        swal({
+            type: 'info',
+            title: 'La Colombe Money',
+            html: 'les information ne sont pas mofifier'
+        })
+    });
             }
             
+          
+        }
     });
-    affiche_ong1();
 
     $('body').delegate('.modifier_ong1','click',function(){
                   var ids=$(this).data('id');
@@ -224,30 +255,4 @@
             }
         });
     });
-})();
-function affiche_ong1()
-         {
-         var otableau=$('#tab_ong1').DataTable({
-            dom: 'Bfrtip',
-            buttons: [
-            'print', 'copy', 'excel', 'pdf'
-             ],
-             "bProcessing":true,
-             "sAjaxSource":"{{route('get_list_ongc')}}",
-             "columns":[
-                 {"data":'id'},
-                 {"data":'name_ong'},
-                 {"data":'name_Perso'},
-                 {"data":'tel_contact'},
-                 {"data":'adresse_siege'},
-                 {"data":'id',"autoWidth":true,"render":function (data) 
-                 {return '<button data-id='+data+' class="btn btn-danger btn-circle supprimer_ong1"><i class="fa fa-times"></i></button>'+ ' ' +
-                             '<button data-id='+data+' class="btn btn-info btn-circle modifier_ong1"><i class="fa fa-check"></i></button>';
-                     }}
-             ],
-             "pageLength": 10,
-             "bDestroy":true
-         }); 
-         }
-</script>  
 @endsection

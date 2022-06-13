@@ -17,11 +17,13 @@
                     </div>  
                       <div class="card-body">
                             <form action="#" method="POST" id="form_agence">
-                            {{csrf_field()}}
+                            
                                 <div class="form-row">
                                       <div class="form-group col-md-4">
-                                      <label class="form-label">Agence</label>
-                                        <select class="form-control js-states" name="id_agence" id="id_agence" data-validation="required">
+                                         {{csrf_field()}}
+                                        <select class="form-control js-states" name="id_agence"
+                                        style="border:1px solid silver !important"
+                                         id="id_agence" data-validation="required">
                                         <option value='-1' >Selectionez l'agence</option>
                                         @foreach($resultat as $data)
                                         <option value="{!! $data->numagence !!}">{!! $data->nomagence !!}</option>
@@ -56,8 +58,9 @@
                         <div class="card col-md-12">
                             <h6 class="card-header">Liste de agence</h6>
                             <div class="card-body">
+                                <div style="overflow-x:auto;">
                             <table class="table card-table" id="tab_agence1">
-                                <thead class="thead-light">
+                                <thead class="thead-dark">
                                     <tr>
                                         <th>ID</th>
                                         <th>NOM AGENCE</th>
@@ -73,65 +76,79 @@
                             </table>
                             </div>
                         </div>
+                        </div>
                     </div>  
  
                                                
 @endsection
-@section('javascript')
-<script type="text/javascript">
-    (function() {
-    $.ajaxSetup({
-             headers: {
-                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-             }
-            });
-            affiche_agence1();
-            $("#id_agence").select2();
+@section('script')
         $('#btnsave_repartition').click(function() {
         var nomagence=$("#id_agence").val();
         var Montcdf=$("#Montcdf").val();
         var Montusd=$("#Montusd").val();
+
+        
         if(Montcdf!='' && Montusd!=''){ 
-                       swal.fire({
-                        title: 'Colombe Money',
-                        html: "Voulez vous effectuer cette operation", 
-                        width: 600,
-                        padding: '3em',  
-                        showDenyButton: true,   
-                        confirmButtonText: `Enregistrer`,  
-                        denyButtonText: `Annuler`,
-                    }).then((result) => { 
-                        if (result.isConfirmed) { 
-                                    $.ajax({
-                                    url   : "{{route('route_update_repartition')}}",
-                                    type  : 'POST',
-                                    async : false,
-                                    data  : {Montcdf:$("#Montcdf").val(),
-                                            Montusd:$("#Montusd").val(),
-                                            numagence:$("#id_agence").val(),
-                                    },
-                                    success:function(data)
-                                    {
-                                        if(data.success=='1'){
-                                            Swal.fire('opération effectuée', '', 'success')
-                                            affiche_agence1();
-                                            $("#id_agence").val('-1');
-                                            $("#Montcdf").val('');
-                                            $("#Montusd").val('');
-                                        }
-                                        else{
-                                            Swal.fire('error', '', 'error')
-                                        }
-                                    
-                                    }
-                                });
-                            }
-                                else if (result.isDenied){
-                                    Swal.fire('Changes are not saved', '', 'info')  
-                                }
-                    });
+            if ($("#code_agence1").val()=='') {
+                       swal({
+        title: 'La Colombe Money',
+        text: "Voulez vous repartir argent pour cette agence?!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes,Repartir!',
+        cancelButtonText: 'No, ANNULE!',
+        confirmButtonClass: 'btn btn-success',
+        cancelButtonClass: 'btn btn-danger',
+        buttonsStyling: false,
+        allowOutsideClick: false,
+        showLoaderOnConfirm: true,
+        preConfirm: function () {
+            return new Promise(function (resolve, reject) {
+                     $.ajax({
+                      url   : "{{route('route_update_repartition')}}",
+                      type  : 'POST',
+                      async : false,
+                      data  : {Montcdf:$("#Montcdf").val(),
+                               Montusd:$("#Montusd").val(),
+                               numagence:$("#id_agence").val(),
+                      },
+                      success:function(data)
+                      {
+                        if(data.success=='1'){
+                         swal({title: 'la colombe Money!',
+                         text: 'repartition successfully!',
+                         type: 'success'
+                         })
+                            affiche_agence1();
+                            $("#id_agence").val('-1');
+                            $("#Montcdf").val('');
+                            $("#Montusd").val('');
+                        }
+                        else{
+                            alert('erreur de transaction');
+                        }
+                       
+                      }
+                  });
+                    })
 
    }
+ }).then(function () {
+        swal({
+            type: 'info',
+            title: 'la colombe Money',
+            html: 'pas de repartition ne pas faite'
+        })
+    });
+                
+            }
+            else{
+              alert('erreur de transaction');
+            }
+            
+        }
 
     });
 
@@ -154,32 +171,7 @@
                   });
          });
     
-        })();
 
-        function affiche_agence1()
-         {
-         var otableau=$('#tab_agence1').DataTable({
-            dom: 'Bfrtip',
-            buttons: [
-            'print', 'copy', 'excel', 'pdf'
-             ],
-             "bProcessing":true,
-             "sAjaxSource":"{{route('get_list_agence')}}",
-             "columns":[
-                 {"data":'numagence'},
-                 {"data":'nomagence'},
-                 {"data":'telservice'},
-                 {"data":'Montcdf'},
-                 {"data":'Montusd'},
-                 {"data":'numagence',"autoWidth":true,"render":function (data) {
-                         return'<button data-id='+data+' class="btn btn-info btn-circle modifier_agence1" ><i class="fa fa-check"></i></button>';
-                     }}
-             ],
-             "pageLength": 10,
-             "bDestroy":true
-         });
-         
-         }
  
-         </script> 
+    
 @endsection
