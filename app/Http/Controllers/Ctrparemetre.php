@@ -235,9 +235,13 @@ public function index_ville()
         if ($request->ajax()) {
             $table=tbl_menu::whereItem_menu($request->name_menu)->first();
             if (!$table) {
+                $date = Date('Y-m-d');
+                $heure = time('h:i:s');
                 $record= new tbl_menu;
                 $record->item_menu=$request->name_menu;
                 $record->icon=$request->name_icon;
+                $record->$date;
+                $record->$heure;
                 $record->save();
                 return response()->json(['success'=>'1']);
             }

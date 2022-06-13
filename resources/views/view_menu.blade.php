@@ -105,6 +105,8 @@
                             <th>Id</th>
                             <th>Nom de Menu</th>
                             <th>Nom de Sous Menu</th>
+                            <th>Date</th>
+                            <th>heure</th>
                             <th>Lien du route</th>
                             <th>ACTION</th>
                         </tr>
