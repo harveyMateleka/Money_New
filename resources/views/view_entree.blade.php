@@ -75,15 +75,7 @@
                </div>
             </div>
             <div class="row mt-4">
-               <div class="col-md-4">
-                  <div class="form-row">
-                     <label class="form-label">Nom Expediteur</label>
-                     <input type="text" style="text-transform:uppercase; border: 1px solid silver;padding-left:7px" class="form-control" name="expedieteur" placeholder="Nom d'expéditeur" id="name_expedit" required>
-                     <span id='errCodeTransact'></span>
-                     <div id="mes_naex" style="color:red; font-size:10px;" class="clearfix"></div>
-                  </div>
-               </div>
-               <div class="col-md-4">
+            <div class="col-md-3">
                   <div class="form-row">
                      <label class="form-label">
                         <NAV>Phone Expediteur</NAV>
@@ -93,17 +85,26 @@
                      <div id="mes_ex" style="color:red; font-size:10px;" class="clearfix"></div>
                   </div>
                </div>
-               <div class="col-md-4">
+               <div class="col-md-5">
                   <div class="form-row">
-                     <label class="form-label">Nom Bénéficiaire</label>
-                     <input type="text" style="text-transform:uppercase; border: 1px solid silver;padding-left:7px" class="form-control" name="ben" placeholder="" id="name_benefic" required>
-                     <span id="errNomBenefic"></span>
-                     <div id="id_ben" class="clearfix"></div>
+                     <label class="form-label">Nom et PostNom Expediteur</label>
+                     <input type="text" style="text-transform:uppercase; border: 1px solid silver;padding-left:7px" class="form-control" name="expedieteur" placeholder="Nom d'expéditeur" id="name_expedit" required>
+                     <span id='errCodeTransact'></span>
+                     <div id="mes_naex" style="color:red; font-size:10px;" class="clearfix"></div>
                   </div>
                </div>
+               <div class="col-md-4">
+                  <div class="form-row">
+                     <label class="form-label">Prenom Expediteur</label>
+                     <input type="text" style="text-transform:uppercase; border: 1px solid silver;padding-left:7px" class="form-control" name="" placeholder="Prenom" id="prenom_expedit" required>
+                     <span id='errCodeprenom'></span>
+                     <div id="mes_naex" style="color:red; font-size:10px;" class="clearfix"></div>
+                  </div>
+               </div>
+               
             </div>
             <div class="row mt-4">
-               <div class="col-md-3">
+            <div class="col-md-3">
                   <div class="form-row">
                      <label class="form-label">Phone Bénéficiaire</label>
                      <input type="text" maxlength="15" class="form-control" style="border: 1px solid silver;padding-left:7px" name="tel_benefic" placeholder="" id="tel_benefic" required>
@@ -111,7 +112,24 @@
                      <div id="mes_ben" style="color:red; font-size:10px;" class="clearfix"></div>
                   </div>
                </div>
-
+            <div class="col-md-5">
+                  <div class="form-row">
+                     <label class="form-label">Nom et PostNom Bénéficiaire</label>
+                     <input type="text" style="text-transform:uppercase; border: 1px solid silver;padding-left:7px" class="form-control" name="ben" placeholder="" id="name_benefic" required>
+                     <span id="errNomBenefic"></span>
+                     <div id="id_ben" class="clearfix"></div>
+                  </div>
+               </div>
+               <div class="col-md-4">
+                  <div class="form-row">
+                     <label class="form-label">Prenom Bénéficiaire</label>
+                     <input type="text" style="text-transform:uppercase; border: 1px solid silver;padding-left:7px" class="form-control" name="ben" placeholder="" id="prename_benefic" required>
+                     <span id="errprename"></span>
+                     <div id="id_ben" class="clearfix"></div>
+                  </div>
+               </div>
+               </div>
+            <div class="row mt-4">
                <div class="col-md-3">
                   <label class="form-label">Devise</label>
                   <div class="form-group">
@@ -133,6 +151,7 @@
                      <label class="form-label">Montant d'envoi</label>
                      <input type="number" autocomplete="off" class="currency" name="name_montexp" placeholder="" id="name_montexp" required="Veuillez saisir cette zone">
                      <div class="clearfix" id='msgmont'></div>
+                     <span id="errMontant"></span>
                   </div>
                </div>
 
@@ -200,7 +219,7 @@
          }
       });
 
-      let selectBtnEnvoyer = document.querySelector('.btnEnvoi');
+   let selectBtnEnvoyer = document.querySelector('.btnEnvoi');
    let nameAgence = document.querySelector('#name_agence');
    let errNameAgence = document.querySelector('#errNameAgence');
    let name_transact = document.querySelector('#name_transact');
@@ -208,162 +227,6 @@
    let isValidNameAgence = true;
 
    let isValidBtn = false;
-
-
-
-   $("#name_agence").on('change', () => {
-      let value = $("#name_agence").val();
-      if (isValidBtn) {
-         if (value === '-1') {
-            isValidNameAgence = false;
-            $('#errNameAgence').text('Veuillez choisir une agence svp !!!');
-         } else {
-            $('#errNameAgence').text('');
-         }
-      }
-   });
-
-   $("#name_ville").on('change', () => {
-      let value = $("#name_ville").val();
-      if (isValidBtn) {
-         if (value === '-1') {
-            isValidNameAgence = false;
-            $('#errNameVill').text('Veuillez choisir une ville svp !!!');
-            $('#errNameVill').css('color', 'red');
-            $('#errNameVill').css({
-               'font-size': '12px',
-               "margin-left": '10px'
-            });
-         } else {
-            $('#errNameVill').text('');
-         }
-      }
-   });
-
-   // VALIDATE FOR SELECT NAME VILLE
-
-   $("#name_ville").on('change', () => {
-      let value = $("#name_ville").val();
-      if (isValidBtn) {
-         if (value === '-1') {
-            isValidNameAgence = false;
-            $('#errNameVill').text('Veuillez choisir une ville svp !!!');
-            $('#errNameVill').css('color', 'red');
-            $('#errNameVill').css({
-               'font-size': '12px',
-               "margin-left": '10px'
-            });
-         } else {
-            $('#errNameVill').text('');
-         }
-      }
-   });
-
-   // VALIDATE FOR INPUT TEXT NAME EXP, EVENT ONCHANGE
-
-   $("#name_expedit").on('change', () => {
-      let value = $("#name_expedit").val();
-      if (isValidBtn) {
-         if (value === '') {
-            isValidNameAgence = false;
-            $('#errCodeTransact').text('Veuillez entrer le nom de l\'expéditeur svp !!!');
-            $('#errCodeTransact').css('color', 'red');
-            $('#errCodeTransact').css({
-               'font-size': '12px',
-               "margin-left": '10px'
-            });
-         } else {
-            $('#errCodeTransact').text('');
-         }
-      }
-   });
-
-   // VALIDATE FOR INPUT NUMBER PHONE EXP, EVENT ONCHANGE
-
-   $("#tel_expedit").on('change', () => {
-      let value = $("#tel_expedit").val();
-      let pattern = /[0-9]/g;
-      if (isValidBtn) {
-         if (value === '') {
-            isValidNameAgence = false;
-            $('#errPhoneExp').text('Veuillez entrer un numéro de téléphone svp !!!');
-            $('#errPhoneExp').css({
-               'font-size': '12px',
-               "margin-left": '10px',
-               "color": "red"
-            });
-         } else if (!value.match(pattern)) {
-            $('#errPhoneExp').text('Veuillez entrer un numéro de téléphone valide svp !!!');
-            $('#errPhoneExp').css({
-               'font-size': '12px',
-               "margin-left": '10px',
-               "color": "red"
-            });
-         } else if (value.length < 10) {
-            $('#errPhoneExp').text('Le numéro de téléphone assez court, minimum 10 chiffres !!!');
-            $('#errPhoneExp').css({
-               'font-size': '12px',
-               "margin-left": '10px',
-               "color": "red"
-            });
-         } else {
-            $('#errPhoneExp').text('');
-         }
-      }
-   });
-
-   // VALIDATE FOR INPUT NUMBER PHONE BEN, EVENT ONCHANGE
-
-   $("#tel_benefic").on('change', () => {
-      let value = $("#tel_benefic").val();
-      let pattern = /[0-9]/g;
-      if (isValidBtn) {
-         if (value === '') {
-            isValidNameAgence = false;
-            $('#errPhoneBenefic').text('Veuillez entrer un numéro de téléphone svp !!!');
-            $('#errPhoneBenefic').css({
-               'font-size': '12px',
-               "margin-left": '10px',
-               "color": "red"
-            });
-         } else if (!value.match(pattern)) {
-            $('#errPhoneBenefic').text('Veuillez entrer un numéro de téléphone valide svp !!!');
-            $('#errPhoneBenefic').css({
-               'font-size': '12px',
-               "margin-left": '10px',
-               "color": "red"
-            });
-         } else if (value.length < 10) {
-            $('#errPhoneBenefic').text('Le numéro de téléphone assez court, minimum 10 chiffres !!!');
-            $('#errPhoneBenefic').css({
-               'font-size': '12px',
-               "margin-left": '10px',
-               "color": "red"
-            });
-         } else {
-            $('#errPhoneBenefic').text('');
-         }
-      }
-   });
-
-   // VALIDATE FOR INPUT TEXT NAME BENEFICIAIRE, EVENT ONCHANGE
-
-   $("#name_benefic").on('change', () => {
-      let value = $("#name_benefic").val();
-      if (isValidBtn) {
-         if (value === '') {
-            isValidNameAgence = false;
-            $('#errNomBenefic').text('Veuillez entrer le nom du bénéficiaire svp !!!');
-            $('#errNomBenefic').css({
-               'font-size': '12px',
-               "margin-left": '10px',
-               "color": "red"
-            });
-         } else {
-            $('#errCodeTransact').text('');
-         }
-      }
-   });
 
    $('.btnEnvoi').on('click', function() {
       isValidBtn = true;
@@ -392,6 +255,30 @@
          });
       } else {
          $('#errNameVill').text('');
+      }
+
+      if ($('#prenom_expedit').val() === "") {
+         $('#errCodeprenom').text('Veuillez entrer le prenom de l\'expediteur svp !!!');
+         $('#errCodeprenom').css('color', 'red');
+            $('#errCodeprenom').css({
+               'font-size': '12px',
+               "margin-left": '10px',
+               "color": "red"
+            });
+      } else {
+         $('#errCodeprenom').text('');
+      }
+
+      if ($('#prename_benefic').val() === "") {
+         $('#errprename').text('Veuillez entrer le prenom du beneficiaire svp !!!');
+         $('#errprename').css('color', 'red');
+            $('#errprename').css({
+               'font-size': '12px',
+               "margin-left": '10px',
+               "color": "red"
+            });
+      } else {
+         $('#errprename').text('');
       }
 
       // VALIDATE FOR INPUT TEXT NAME EXP
@@ -445,6 +332,91 @@
       } else {
          $('#errNomBenefic').text('');
       }
+
+      let id_vil = $("#name_ville").val();
+               let dev = $('#name_devise').val();
+               let expediteur=$("#name_expedit").val() + '*' + $('#prenom_expedit').val();
+               let benefic=$("#name_benefic").val() + ' ' + $('#prename_benefic').val();
+               let message = "vous voulez envoyer de l'argent à ";
+               message += $('#ville' + id_vil).val() + ' provenant de ';
+               message += expediteur + ', destiné à ' + benefic;
+               message += ' au code de transfert de ' + $("#name_transact").val() + ' pour un montant de ' + $("#name_montexp").val() + ' ' + $('#devise' + dev).val();
+               Swal.fire({
+                  title: 'Colombe Money',
+                  html: message,
+                  width: 600,
+                  padding: '3em',
+                  showDenyButton: true,
+                  confirmButtonText: `Enregistrer`,
+                  denyButtonText: `Annuler`,
+               }).then((result) => {
+                  if (result.isConfirmed) {
+
+                     $.ajax({
+                        url: "{{route('route_entree')}}",
+                        type: 'POST',
+                        async: false,
+                        data: {
+                           agence: $("#name_agence").val(),
+                           ville: $("#name_ville").val(),
+                           devise: $("#name_devise").val(),
+                           expediteur: expediteur,
+                           expeditel: $("#tel_expedit").val(),
+                           benefic: benefic,
+                           tel_ben: $("#tel_benefic").val(),
+                           montenv: $("#name_montexp").val(),
+                           montcom: $("#name_montcom").val(),
+                           transact: $("#name_transact").val(),
+                           raison: $("#raison").val(),
+                        },
+                        success: function(data) {
+                           if (data.success == '1') {
+                              affiche_entree($('#name_agence').val());
+                              let id_ag = $('#name_agence').val();
+                              let tab = ['1', $('#agence' + id_ag).val(), $('#ville' + id_vil).val(),
+                                 $("#name_transact").val(),expediteur,$("#tel_expedit").val(),
+                                 benefic, $("#tel_benefic").val(), $("#name_montexp").val(), $("#name_montcom").val(), $('#devise' + dev).val(), $("#raison").val()
+                              ];
+                              window.location.href = ("/pdf/generate/" + tab);
+                              Swal.fire('operation effectuée', '', 'success')
+                              $("#name_transact").val("");
+                              $("#name_ville").val('-1');
+                              $("#name_devise").val('-1');
+                              $("#name_expedit").val('');
+                              $("#name_montcom").val('');
+                              $("#name_benefic").val('');
+                              $("#name_montexp").val('');
+                              $("#tel_expedit").val('+243');
+                              $("#tel_benefic").val('+243');
+                              $("#raison").val("");
+                              $("#msgmont").html("");
+                              $("#msgpour").html("");
+                              $('#prenom_expedit').val('');
+                              $('#prename_benefic').val('');
+                              
+                           } else {
+                              alert('existe deja');
+                           }
+                        },
+                        error: function(data) {
+
+                           Swal.fire('error', '', 'succerroress')
+                        }
+                     });
+
+
+                  } else if (result.isDenied) {
+                     Swal.fire('Changes are not saved', '', 'info')
+                  }
+               });
+
+
+
+
+
+
+
+
 
    });
 
@@ -539,7 +511,9 @@
             if (teleben.length < 4 || teleben.substring(0, 4) != '+243') {
                $('#tel_benefic').val('+243');
             } else if (teleben.length > 13) {
-               $("#mes_ben").html("Vous avez depassé le nombre");
+               let newnumber = teleben.substring(0,teleben.length -1);
+               $('#tel_benefic').val(newnumber);
+               //$("#mes_ben").html("Vous avez depassé le nombre");
             } else {
                return $("#mes_ben").html("");
             }
@@ -554,7 +528,9 @@
             if (telephone.length < 4 || telephone.substring(0, 4) != '+243') {
                $('#tel_expedit').val('+243');
             } else if (telephone.length > 13) {
-               $("#mes_ex").html("Vous avez depassé le nombre");
+               let newnumber = telephone.substring(0,telephone.length -1);
+               $('#tel_expedit').val(newnumber);
+               //$("#mes_ex").html("Vous avez depassé le nombre");
             } else {
                $("#mes_ex").html("");
             }
@@ -565,91 +541,46 @@
 
       });
 
+      $('#tel_expedit').on('keypress', function(e) {
+            if (e.keyCode === 13 || e.which === 13) {
+               var telephone = $('#tel_expedit').val();
+               if (telephone.length == 13) {
+                  $.ajax({
+                        url: "{{route('route_tel')}}",
+                        type: 'POST',
+                        async: false,
+                        data: {
+                           Tel: telephone
+                        },
+                        success: function(data) {
+                          
+                           if (data.success=='1') {
+                              let database=data.donnee;
+                              let tabn=database.split('*');
+                              $("#name_expedit").val(tabn[0]);
+                              $('#prenom_expedit').val(tabn[1]);
+                           } else {
+                              $("#name_expedit").val("");
+                           }
+                          
+                        },
+                        error: function(data) {
+                        console.log(data.success);
+                        }
+                     });
+                  
+               } 
+               else{
+                  $("#mes_ben").html(" respecter le nombre de caractere exigés(13)");
+               }
+    }
+
+      });
+
       $('body').delegate('.print', 'click', function(e) {
          var ids = $(this).data('id');
          window.location.href = ("/admin/print/" + ids);
       });
-
-      $('#btnsave_envois').click(function() {
-         if ($("#name_expedit").val() != '' && $("#tel_expedit").val() != '' && $("#name_benefic").val() != '' && $("#tel_benefic").val() != '' && $("#name_montexp").val() != '' && $("#name_montcom").val() != '') {
-
-            if ($('#name_devise').val() != '-1' && $('#name_ville').val() != '-1' && $('#name_agence').val() != '-1' && $('#raison').val() != '') {
-               let id_vil = $("#name_ville").val();
-               let dev = $('#name_devise').val();
-               let message = "vous voulez envoyer de l'argent à ";
-               message += $('#ville' + id_vil).val() + ' provenant de ';
-               message += $("#name_expedit").val() + ', destiné à ' + $("#name_benefic").val();
-               message += ' au code de transfert de ' + $("#name_transact").val() + ' pour un montant de ' + $("#name_montexp").val() + ' ' + $('#devise' + dev).val();
-               Swal.fire({
-                  title: 'Colombe Money',
-                  html: message,
-                  width: 600,
-                  padding: '3em',
-                  showDenyButton: true,
-                  confirmButtonText: `Enregistrer`,
-                  denyButtonText: `Annuler`,
-               }).then((result) => {
-                  if (result.isConfirmed) {
-
-                     $.ajax({
-                        url: "{{route('route_entree')}}",
-                        type: 'POST',
-                        async: false,
-                        data: {
-                           agence: $("#name_agence").val(),
-                           ville: $("#name_ville").val(),
-                           devise: $("#name_devise").val(),
-                           expediteur: $("#name_expedit").val(),
-                           expeditel: $("#tel_expedit").val(),
-                           benefic: $("#name_benefic").val(),
-                           tel_ben: $("#tel_benefic").val(),
-                           montenv: $("#name_montexp").val(),
-                           montcom: $("#name_montcom").val(),
-                           transact: $("#name_transact").val(),
-                           raison: $("#raison").val(),
-                        },
-                        success: function(data) {
-                           if (data.success == '1') {
-                              affiche_entree($('#name_agence').val());
-                              let id_ag = $('#name_agence').val();
-                              let tab = ['1', $('#agence' + id_ag).val(), $('#ville' + id_vil).val(),
-                                 $("#name_transact").val(), $("#name_expedit").val(), $("#tel_expedit").val(),
-                                 $("#name_benefic").val(), $("#tel_benefic").val(), $("#name_montexp").val(), $("#name_montcom").val(), $('#devise' + dev).val(), $("#raison").val()
-                              ];
-                              window.location.href = ("/pdf/generate/" + tab);
-                              Swal.fire('operation effectuée', '', 'success')
-                              $("#name_transact").val("");
-                              $("#name_ville").val('-1');
-                              $("#name_devise").val('-1');
-                              $("#name_expedit").val('');
-                              $("#name_montcom").val('');
-                              $("#name_benefic").val('');
-                              $("#name_montexp").val('');
-                              $("#tel_expedit").val('+243');
-                              $("#tel_benefic").val('+243');
-                              $("#raison").val("");
-                              $("#msgmont").html("");
-                              $("#msgpour").html("");
-                           } else {
-                              alert('existe deja');
-                           }
-                        },
-                        error: function(data) {
-
-                           Swal.fire('error', '', 'succerroress')
-                        }
-                     });
-
-
-                  } else if (result.isDenied) {
-                     Swal.fire('Changes are not saved', '', 'info')
-                  }
-               });
-
-            }
-         }
-      });
-
 
    })();
 

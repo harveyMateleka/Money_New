@@ -22,7 +22,7 @@
                </div>
                <div class="form-group col-md-4">
                   <label class="form-label">NUMERO SERVICE</label>
-                  <input type="number" class="form-control" data-validation="required" name="telservice" placeholder="" id="telservice">
+                  <input type="text" class="form-control" data-validation="required" name="telservice" placeholder="" id="telservice">
                   <div class="clearfix"></div>
                </div>
             </div>

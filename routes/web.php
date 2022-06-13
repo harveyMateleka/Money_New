@@ -147,6 +147,11 @@ Route::post('admin/check_ong', [CtrOngs::class, 'check_ong'])->name('route_paie'
 Route::post('admin/sortie_ong', [CtrOngs::class, 'sortie_ong'])->name('sortie_ong');
 Route::get('admin/liste_ong', [CtrOngs::class, 'index_liste'])->name('index_liste');
 Route::post('admin/cherche_ong', [CtrOngs::class, 'chercher'])->name('chercher');
+Route::post('admin/delete_det', [CtrOngs::class, 'delete_det'])->name('delete_det');
+Route::get('admin/get_all_paie/{agence}', [CtrOngs::class, 'get_all_paie']);
+Route::get('admin/get_all', [CtrOngs::class, 'get_all_detail'])->name('get_all_detail');
+Route::get('admin/getMontant/{date_debut},{date_fin}', [CtrOngs::class, 'getMont']);
+Route::post('admin/gettotalentre/', [CtrOngs::class, 'gettotalentre'])->name('gettotalentre');
 
 
 
@@ -196,6 +201,7 @@ Route::get('admin/aff_code/{debut},{fin}', [CtrRetrait::class, 'get_plage'])->na
 
 
 Route::get('admin/entree', [CtrTransfert::class, 'index_entree'])->name('index_entree');
+Route::post('admin/checktel', [CtrTransfert::class, 'checktel'])->name('route_tel');
 
 Route::get('admin/liste_agence={id}', [CtrTransfert::class, 'show_listentree'])->name('list_entree');
 

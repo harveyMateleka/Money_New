@@ -9,5 +9,5 @@ class tbl_ong extends Model
 {
     use HasFactory;
     public $timestamps=false;
-	public $fillable=['name_ong','name_Perso','tel_contact','adresse_siege'];
+	public $fillable=['name_ong','name_Perso','tel_contact','adresse_siege','postnom','prename','email','tel_contact2','id_user'];
 }

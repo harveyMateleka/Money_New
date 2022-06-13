@@ -25,6 +25,7 @@ use PDF;
 use App;
 use DB;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 
 
 class CtrTransfert extends Controller
@@ -336,13 +337,14 @@ public function index_entree()
     public function generatePDF($id,$a,$v,$t,$e,$te,$b,$tb,$m,$mc,$dev,$raison)
     {
         if ($id=='1') {
+            $expéditeur=str_replace('*',' ',$e);
              $data = [
                  'entete' => "Bon d'envoie",
                    'date' => $this->date->format('d-m-Y'),
                    'agence'  => $a,
                    'ville'  => $v,
                    'trans'  => $t,
-                   'expiditeur'  => $e,
+                   'expiditeur'  => $expéditeur,
                    'telexp'  => $te,
                    'beneficiere'  => $b,
                    'tel1'  => $tb,
@@ -572,49 +574,27 @@ public function index_entree()
 
     //________________________________________________code de rabby_____________________________________________________
    
-
-public function get_liste_transfert()
-{
-    $resultat=DB::table('tbl_affectations')
-                  ->join('tbl_agences','tbl_affectations.numagence','=','tbl_agences.numagence')
-                  ->join('tbl_transfert_banques','tbl_affectations.numagence','=','tbl_transfert_banques.numagence')
-                  ->join('tbl_partenaires','tbl_partenaires.id_partenaire','=','tbl_transfert_banques.id_partenaire')
-                  ->join('tbl_devises','tbl_devises.id','=','tbl_transfert_banques.id_devise')
-                  ->where('tbl_affectations.matricule','=',Auth::user()->matricule)
-                  ->where('tbl_affectations.statut','=','1')
-                  ->orderBy('id_tranfert','DESC')
-                  ->select('tbl_affectations.numagence','nomagence','tbl_transfert_banques.date_T','montant','tbl_transfert_banques.id_devise','intitule','operation','tbl_transfert_banques.matricule','tbl_transfert_banques.id_partenaire' ,'type')
-                  ->get();
-              return response()->json(['data'=>$resultat]);
-
+public function checktel(Request $request){
+    if ( $request->ajax()) {
+            $resultat=tbl_client::whereTel($request->Tel)->first();
+            if ($resultat) {
+                return response()->json(['success'=>'1','donnee'=>$resultat->nomclient]);
+            }
+            else{
+                return response()->json(['success'=>'2']); 
+            }
+    }
 }
+
 
     
 //____________________________code_raphael______________________________________
 
 ///////++++++++++++++++++++++++++++++++DEBUT RAPPORT+++++++++++++++++++++++++++++++++++++++++++++
-    public function get_rapport($d,$f)
-    {
-        $resultat=DB::table('tbl_transfert_banques','tbl_transfert')->join('tbl_agences','tbl_transfert.numagence','=','tbl_agences.numagence')
-        ->join('tbl_partenaires','tbl_transfert.id_partenaire','=','tbl_partenaires.id_partenaire')
-        ->whereBetween('date_T', [$d,$f])
-        ->select(DB::raw('SUM(montant) as montant'),'type','nomagence','id_devise','date_T','operation')
-        ->groupBy('date_T','nomagence','type','operation','id_devise')
-        ->get();
-        return response()->json(['data'=>$resultat]); 
-    }
+   
 
     
-    public function index_rapport()
-    {
-        if (Auth::check()) {  
-            $this->entete();
-             return view('view_rapport_cash');
-        }
-        else{
-            return redirect()->route('login');
-        }
-    }
+   
 
         public function index_general()
     {

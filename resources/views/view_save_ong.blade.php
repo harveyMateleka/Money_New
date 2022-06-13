@@ -1,10 +1,11 @@
 @extends('layouts.header')
 @section('content')
 <div class="container-fluid flex-grow-1 container-p-y">
-   <h3 class="font-weight-bold py-3 mb-0">TRANFERT ONG </h3>
+   <h3 class="font-weight-bold py-3 mb-0">DEPOT ONG </h3>
    <div class="text-muted small mt-0 mb-4 d-block breadcrumb">   
    </div>
-   <div class="card col-md-12">
+   <div class="row">
+   <div class="card col-md-8">
       <div class="card -header">    
       </div>
       <div class="card-body">
@@ -13,8 +14,9 @@
             <div id="message" style='color:red; font-size:15px;'>
             </div>
             <div class="form-row">
-               <div class="form-group col-md-6">
-                  <label class="form-label"></label> 
+            <div class="col-md-6">
+              <label class="form-label"> ONG</label> 
+              <div class="form-group">
                   <select class="custom-select flex-grow-1" id='name_ong' name="name_ong">
                      <option value='-1'>Choisir l'ong</option>
                      @foreach($ong as $ligne_ong)
@@ -22,10 +24,13 @@
                      @endforeach
                   </select>
                </div>
-               <div class="form-group col-md-6">
-                  <label class="form-label">EXPEDITEUR</label>         
-                     <input type="text" class="form-control"  name="name_transact"  style="text-transform:uppercase;" placeholder="EXPEDITEUR" id="name_exp" value="" >
+            </div>
+            <div class="col-md-6" >
+            <label class="form-label">EXPEDITEUR</label> 
+               <div class="form-group ">     
+                     <input type="text" width="100%" class="form-control"  name="name_transact"  style="text-transform:uppercase;" placeholder="EXPEDITEUR" id="name_exp" value="" >
                      <div class="clearfix"></div>
+               </div>
                </div>
             </div>
             <div class="form-row">
@@ -41,7 +46,7 @@
                </div>
             </div>
             <div class="form-row">
-               <div class="form-group col-md-8" id='prov_bank'>
+               <div class="form-group col-md-12" id='prov_bank'>
                   <select class="custom-select flex-grow-1" id='name_bank'>
                      <option value='-1'>Selectionnez Bank</option>
                      @foreach($tbl_banque as $ligne_banque)
@@ -49,7 +54,7 @@
                      @endforeach
                   </select>
                </div>
-               <div class="form-group col-md-8" id='prov_ag'>
+               <div class="form-group col-md-12" id='prov_ag'>
                   <select class="custom-select flex-grow-1" id='name_prov'>
                      <option value='-1'>Agence de Provenance</option>
                      @foreach($tbl_agence as $ligne_agence)
@@ -59,39 +64,48 @@
                </div>
             </div>
             <div class="form-row">
-               <div class="form-group col-md-6">
-                  <select class="form-control js-states" name="devise" data-validation="" id="devise" data-validation="required">
-                     <option value='-1'>Selectionnez la devise</option>
-                     <option value="2">CDF</option>
-                     <option value="1">USD</option>
-                  </select>
-               </div>
+                        <div class="col-md-6" >
+                        <label class="form-label">Devise</label>
+                                <div class="form-group">
+                                    <select class="form-control js-states" name="devise" data-validation="" id="devise" data-validation="required">
+                                        <option value='-1'>Selectionnez la devise</option>
+                                        <option value="2">CDF</option>
+                                        <option value="1">USD</option>
+                                    </select>
+                                </div>
+                        </div>
+                        <div class="col-md-6" >
+                        <label class="form-label">Taux de Pourcentage</label>
+                        <div class="form-group col-md-6">
+                            <input type="text" class="currency" name="Montant" placeholder="" id="taux" value="3">
+                            <div class="clearfix"></div>
+                        </div>
+                        </div>
             </div>
             <div class="form-row">
-                <div class="form-group col-md-6">
+               <div class="col-md-4" >
                   <label class="form-label">MONTANT </label>
-                  <input type="text" class="form-control" name="Montant" placeholder="" id="Montant" data-validation="required">
-                  <div class="clearfix"></div>
+                        <div class="form-group">
+                        <input type="text" class="currency" name="Montant" placeholder="" id="Montant" data-validation="required">
+                        <div class="clearfix"></div>
+                    </div>
                </div>
-               <div class="form-group col-md-6">
-                  <label class="form-label">Taux </label>
-                  <input type="text" class="form-control" name="Montant" placeholder="" id="taux" value="3">
-                  <div class="clearfix"></div>
+               <div class="col-md-4" >
+                      <label class="form-label">COMMISSION</label>
+                        <div class="form-group">
+                            <input type="text" class="currency" name="Montant" placeholder="" id="montant_pourc" readonly>
+                            <div class="clearfix"></div>
+                        </div>
                </div>
+               <div class="col-md-4" >
+                      <label class="form-label">Frais DEPLACEMENT</label>
+                        <div class="form-group">
+                  <input type="text" class="currency" id='frais' name="frais" placeholder="" id="mont_dep">
+                  <div class="clearfix"></div>
+                        </div>
+               </div>
+              
             </div>
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label class="form-label">Montant Pourc. </label>
-                  <input type="text" class="form-control" name="Montant" placeholder="" id="montant_pourc" readonly>
-                  <div class="clearfix"></div>
-               </div>
-               <div class="form-group col-md-6">
-                  <label class="form-label">Frais Deplacement.</label>
-                  <input type="text" class="form-control" id='frais' name="frais" placeholder="" id="mont_dep">
-                  <div class="clearfix"></div>
-               </div>
-            </div>
-            <hr class="border-light container-m--x my-4">
             
             <hr class="border-light container-m--x my-4">
             <button type="button" class="btn btn-success" name="btnsave_users" id="btnsave_ong">Save</button>
@@ -99,7 +113,46 @@
             <input type="hidden" class="form-control"  id="name_id" value=''>
          </form>
       </div>
+   </div>&nbsp;&nbsp;
+   <div class="card col-md-3">
+      <div class="card -header">    
+      </div>
+      <div class="card-body">
+         <div class="row">
+             <div class="col-md-12">
+             <label class="form-label">TOTAL ENTREE EN USD PAR AGENCE</label>
+             <label id='mont_usd_ag' class="form-label" style="text-align:center;color:red;font-size:20px">{!! $resultat["montantusd_ag"] !!}</label>  
+             </div>
+           
+         </div>
+         <hr class="border-light container-m--x my-4">
+         <div class="row">
+             <div class="col-md-12">
+             <label class="form-label">TOTAL ENTREE EN CDF PAR AGENCE</label>
+             <label id='mont_cdf_ag' class="form-label" style="text-align:center;color:red;font-size:20px">{!! $resultat["montantcdf_ag"] !!}</label>  
+             </div>
+           
+         </div>
+         <hr class="border-light container-m--x my-4">
+         <div class="row">
+             <div class="col-md-12">
+             <label class="form-label">TOTAL ENTREE EN USD PAR BANQUE</label>
+             <label id='mont_usd_bq' class="form-label" style="text-align:center;color:red;font-size:20px">{!!$resultat["montantusd_bq"] !!}</label>  
+             </div>
+           
+         </div>
+         <hr class="border-light container-m--x my-4">
+         <div class="row">
+             <div class="col-md-12">
+             <label class="form-label">TOTAL ENTREE EN CDF PAR BANQUE</label>
+             <label id='mont_cdf_bq' class="form-label" style="text-align:center;color:red;font-size:20px">{!!$resultat["montantcdf_bq"] !!}</label>  
+             </div>
+           
+         </div>
+      </div>
    </div>
+   </div>
+
    <hr class="border-light container-m--x my-4">
    <div class="card col-md-12">
       <h6 class="card-header">Liste de transfert des ong</h6>
@@ -253,12 +306,16 @@ $('#btnsave_ong').click(function () {
                             $('#name_exp').val("");
                             $('#devise').val("-1");
                             $('#frais').val("");
-                            $('#name_ong').val("");
+                            $('#name_ong').val("-1");
                             $('#taux').val(3);
                             $('#montant_pourc').val("");
                             Swal.fire('operation reussie', '', 'success')
+                            $('#mont_usd_ag').html(data.resultat.montantusd_ag);
+                            $('#mont_cdf_ag').html(data.resultat.montantcdf_ag);
+                            $('#mont_usd_bq').html(data.resultat.montantusd_bq);
+                            $('#mont_cdf_bq').html(data.resultat.montantcdf_bq);
                         } else {
-                            Swal.fire('verifiez bien les données saisies.', '', 'info')    }
+                            Swal.fire(data.success, '', 'info')    }
                     },
                     error: function (data) {
                         alert(data.success);
@@ -319,17 +376,12 @@ $('#btnsave_ong').click(function () {
                         return values.substring(0,values.length - 1);
                     }
                       }},
-                 // {"data":'type',"autoWidth":true,"render":function (data){
-                 //   if (data==1) {
-                 //        return 'Agence';
-                 //    }else{
-                 //        return 'Banque';
-                 //    }
-                 //      }},
+              
             {"data":'id',"autoWidth":true,"render":function (data) {
                 return '<button data-id='+data+' class="btn btn-info btn-circle modifier_desa" ><i class="fa fa-check"></i></button>';
                 }}
         ],
+        order:[[0,"DESC"]],
         "bDestroy":true
     }); 
     }

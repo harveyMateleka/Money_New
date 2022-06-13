@@ -147,9 +147,10 @@
                       success:function(data)
                       {
                         $("#id_agence").val(data.numagence);
+                        $("#id_agence").change();
                         $("#Montcdf").val(data.Montcdf);
                         $("#Montusd").val(data.Montusd);
-                        $("#code_agence").val(data.numagence);
+                        $("#code_agence1").val(data.numagence);
                       }
                   });
          });
