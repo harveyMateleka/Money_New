@@ -30,13 +30,13 @@
                                       </div>
                                     <div class="form-group col-md-4">
                                         <label class="form-label">Montant CDF</label>
-                                        <input type="number" class="currency" autocomplete="off" data-validation="required" name="Montcdf"  id="Montcdf">
+                                        <input type="text" class="currency" autocomplete="off" data-validation="required" name="Montcdf"  id="Montcdf">
                                         <div class="clearfix"></div>
                                     </div>
 
                                     <div class="form-group col-md-4">
                                         <label class="form-label">Montant USD</label>
-                                        <input type="number" class="currency" autocomplete="off" data-validation="required" name="Montusd"  id="Montusd">
+                                        <input type="text" class="currency" autocomplete="off" data-validation="required" name="Montusd"  id="Montusd">
                                         <div class="clearfix"></div>
                                     </div>
                                 </div>
