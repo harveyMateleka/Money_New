@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\tbl_vile;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\ctradmin;
 class Ctrville extends Controller
 {
     /**
@@ -15,14 +13,7 @@ class Ctrville extends Controller
      */
     public function index()
     {
-        if (Auth::check()) {
-            $this->entete();
-            return view("view_ville");
-        }
-        else{
-            return redirect()->route('index_login');
-          }
-         
+        return view("view_ville");  
     }
 
     /**
@@ -33,11 +24,6 @@ class Ctrville extends Controller
     public function create()
     {
         //
-    }
-
-    public function entete(){
-        $affichage= new ctradmin;
-        return $affichage->index_entete();
     }
 
     /**
@@ -82,7 +68,14 @@ class Ctrville extends Controller
 
 
 
-    
+    public function update_ville(Request $request)
+    {
+        if ($request->ajax()) {
+            $this->validate($request,['ville'=>'required']);
+            $resultat=tbl_vile::whereId_ville($request->code_ville)->update(['ville'=>$request->ville,'initial'=>$request->initial]);
+            return response()->json(['success'=>'1']);   
+        } 
+    }
 
     /**
      * Display the specified resource.
@@ -113,13 +106,9 @@ class Ctrville extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-        if ($request->ajax()) {
-            $this->validate($request,['ville'=>'required']);
-            $resultat=tbl_vile::whereId_ville($request->code_ville)->update(['ville'=>$request->ville,'initial'=>$request->initial]);
-            return response()->json(['success'=>'1']);   
-        } 
+        //
     }
 
     /**
@@ -128,7 +117,7 @@ class Ctrville extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $id)
+    public function destroy( Request $id)
     {
         if ($id->ajax()) {
             $resultat=tbl_vile::whereId_ville($id->code)->delete();

@@ -75,15 +75,7 @@
    </div>
 </div>
 @endsection
-@section('javascript')
-<script type="text/javascript">
-(function() {
-    $.ajaxSetup({
-             headers: {
-                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-             }
-            });
-            affiche_droit();
+@section('script')
 $('#tab_permi').DataTable({
   "lengthMenu": [
     [10, 25, 50, -1],
@@ -140,32 +132,6 @@ $('body').delegate('.supprimer_droit', 'click', function (e) {
   });
 });
 $('#btnactualise').click(function () {
-  //window.location.href = ("{{route('index_droit_access')}}");
+  window.location.href = ("{{route('index_droit_access')}}");
 });
-})();
-function affiche_droit()
-         {
-           var otableau=$('#tab_droit').DataTable({
-             dom: 'Bfrtip',
-            buttons: [
-            'print', 'copy', 'excel', 'pdf'
-             ],
-                 "bProcessing":true,
-                 "sAjaxSource":"{{route('get_list_droit')}}",
-                 "columns":[
-                     {"data":'id_droit'},
-                     {"data":'item_sous'},
-                     {"data":'fonction'},
-                     {"data":'id_droit',"autoWidth":true,"render":function (data) {
-                         return'<input type="checkbox" checked data-id='+data+' class=" supprimer_droit"/>';
-                         }}
-                 ],
-                 "pageLength": 10, 
-                 "bDestroy":true
-             });
-         
-         }
-</script> 
-
-
 @endsection

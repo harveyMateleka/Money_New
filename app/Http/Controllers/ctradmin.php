@@ -43,38 +43,68 @@ class ctradmin extends Controller
                 }
            }
            $date= new DateTime();
+           //ENTREE
+           $result5=DB::table('tbl_depots')->where('created_at','=', $date->format('Y-m-d'))->where('id_devise','=','1')->get();
+           $result6=DB::table('tbl_depots')->where('created_at','=', $date->format('Y-m-d'))->where('id_devise','=','2')->get();
+           //SORTIE
+           $result7=DB::table('tbl_depots')->where('created_at','=', $date->format('Y-m-d'))->where('id_devise','=','1')->where('etatservi','=','1')->get();
+           $result8=DB::table('tbl_depots')->where('created_at','=', $date->format('Y-m-d'))->where('id_devise','=','2')->where('etatservi','=','1')->get();
+          //CREDIT CLIENT
+           $result_credit=DB::table('tbl_depots')->where('created_at','=', $date->format('Y-m-d'))->where('etatservi','=','0')->where('id_devise','=','1')->get();
+           $result_credit1=DB::table('tbl_depots')->where('created_at','=', $date->format('Y-m-d'))->where('etatservi','=','0')->where('id_devise','=','2')->get();
+           //MOUVEMENT 
+            ///$result3=DB::table('tbl_mvtbanques')->where('created_at','=', $date->format('Y-m-d'))->where('id_devise','=','1')->where('etatmvt','=','0')->get();
+           // $result4=DB::table('tbl_mvtbanques')->where('created_at','=', $date->format('Y-m-d'))->where('id_devise','=','2')->where('etatmvt','=','1')->get();
+           // $result3=DB::table('tbl_mvtbanques')->where('created_at','=', $date->format('Y-m-d'))->where('etatmvt','=','0')->get();
+            //$result4=DB::table('tbl_mvtbanques')->where('created_at','=', $date->format('Y-m-d'))->where('etatmvt','=','1')->get();
+           
+           /// start chart js    Franc congolais
+        $this->index_entete();
 
-           $result=DB::table('tbl_depots')->where('created_at','=', $date->format('Y-m-d'))->get();
-           $result_credit=DB::table('tbl_depots')->where('etatservi','=','0')->get();
-           $result1=DB::table('tbl_retraits')->where('created_at','=', $date->format('Y-m-d'))->get();
-            $result3=DB::table('tbl_mvtbanques')->where('created_at','=', $date->format('Y-m-d'))->where('etatmvt','=','0')->get();
-            $result4=DB::table('tbl_mvtbanques')->where('created_at','=', $date->format('Y-m-d'))->where('etatmvt','=','1')->get();
-           $this->index_entete();
-
-        $data =tbl_depot::select('id','created_at')
+        $data =tbl_depot::select('id','created_at','montenvoi')->where('id_devise','=','2')
         ->get()->groupBy(function($data){
-         return Carbon::parse($data->created_at)->format('M');
+         return Carbon::parse($data->created_at)->format('M-Y');
         });
-
+        $montant=[];
         $months=[];
         $monthCount=[];
-
         foreach ($data as $month => $values) {
            $months[]=$month;
            $monthCount[]=count($values);
         }
 
+       // DOLLARS AMERICAIN
+
+        $data1 =tbl_depot::select('id','created_at','montenvoi')->where('id_devise','=','1')
+        ->get()->groupBy(function($data1){
+         return Carbon::parse($data1->created_at)->format('M-Y');
+        });
+        $montant1=[];
+        $months1=[];
+        $monthCount1=[];
+        foreach ($data1 as $month1 => $values1) {
+           $months1[]=$month1;
+           $montant1=[];
+           $monthCount1[]=count($values1);
+        }
+
+        ///End chart js
+
             $arrayName =['nbr_actif'=>$count_actif,
             'nbr_conge'=>$count_conge,
             'nbr_licencie'=>$count_licencie,
-            'Totalentree'=>$result->count(),
-            'Totalsortie'=>$result1->count(),
-            'Totalcredit'=>$result_credit->count(),
-            'Totalsortiemvt'=>$result3->count(),
-            'TotalEntremvt'=>$result4->count(),
+            'TotalcreditUsd'=>$result_credit->count(),
+            'TotalcreditCdf'=>$result_credit1->count(),
+            'TotalEntreUsd'=>$result5->count(),
+            'TotalEntreCdf'=>$result6->count(),
+            'TotalsortieUsd'=>$result7->count(),
+            'TotalSortieCdf'=>$result8->count(),
             'data'=> $data,
             'months'=>$months,
-            'monthCount'=>$monthCount
+            'monthCount'=>$monthCount,
+            'data1'=> $data1,
+            'months1'=>$months1,
+            'monthCount1'=>$monthCount1
         ];
            return view('dashboard', $arrayName);
             
@@ -82,94 +112,48 @@ class ctradmin extends Controller
         else{
             //return redirect()->route('index_login');
         }
-
-
-     
 }
  public function index_entete()
  {
-   $personnel=tbl_personnel::whereMatricule(Auth::user()->matricule)->first();
-
-   if($personnel){
-         $donnees = DB::table('tbl_droitacces','tbl_droit')->join('tbl_sous_menus','tbl_droit.id_sous','=','tbl_sous_menus.id_sous')
+   $donnees = DB::table('tbl_droitacces','tbl_droit')->join('tbl_sous_menus','tbl_droit.id_sous','=','tbl_sous_menus.id_sous')
           ->join('tbl_menus','tbl_sous_menus.id_menu','=','tbl_menus.id_menu')
-             ->where('tbl_droit.id_fonction', '=', $personnel->id_fonction)
+             ->where('tbl_droit.id_fonction', '=', Session::get('fonction'))
              ->orderBy('tbl_sous_menus.id_menu','ASC')
              ->orderBy('tbl_sous_menus.id_sous','ASC')
              ->select('item_sous', 'lien','item_menu','icon','tbl_sous_menus.id_menu')
              ->get();
-             return View::share('donnees',$donnees); 
-   }
-                 
- }
+             return View::share('donnees',$donnees);                
+        }
 
     public function __construct(){
        $this->middleware('auth'); 
     }
-
    
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         //
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+  
     public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     public function destroy($id)
     {
         //

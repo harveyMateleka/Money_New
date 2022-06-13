@@ -73,12 +73,10 @@
     </div>
 </div>
 @endsection
-@section('javascript')
-<script type="text/javascript">
-    (function() {
+@section('script')
+$(document).ready(function() {
     $('#update').DataTable({
      "lengthMenu": [[10, 25, 50, -1], [5, 25, 50, "All"]],
-       });
-    })();
-</script>
+  });
+} );
 @endsection

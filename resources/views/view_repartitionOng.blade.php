@@ -4,8 +4,9 @@
                         <div class="card col-md-12">
                             <h6 class="card-header">Envois de Code Ong</h6>
                             <div class="card-body">
+                                <div style="overflow-x:auto;">
                             <table class="table card-table" id="tab_paiement">
-                                <thead class="thead-light">
+                                <thead class="thead-black">
                                     <tr>
                                         <th>DATE</th>
                                         <th>ID</th>
@@ -49,6 +50,7 @@
                            
                         </div> 
                          </div>
+                          </div>
                          </br>
                          
                          <div class="card col-md-12">

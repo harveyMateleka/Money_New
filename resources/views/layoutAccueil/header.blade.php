@@ -29,7 +29,7 @@
     <div class="container d-flex align-items-center">
        <!--<h1 class="logo"><a href="{{route('route_index')}}">ABT-Colombe</a></h1>-->
        <a href="{{route('route_index')}}" class="">
-        <img src="colombelogo.jpeg" style=" border: 1px ;
+        <img src="{{ URL::to('../abt_app/public/colombelogo.jpeg') }}" style=" border: 1px ;
   border-radius: 4px;
   padding: 0px;
   width:100px;"  alt="Brand Logo" class="img-fluid">

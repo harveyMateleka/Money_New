@@ -76,7 +76,7 @@
     </div>
 </div>
 @endsection
-@section('javascript')
+@section('script')
 
 <script type="text/javascript">
     // Pattern pour un email valide
@@ -318,8 +318,6 @@
 
     })
 </script>
-
-
 
 
 

@@ -271,14 +271,7 @@
 </div>
 
 @endsection
-@section('javascript')
-<script type="text/javascript">
-    (function() {
-    $.ajaxSetup({
-             headers: {
-                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-             }
-            });
+@section('script')
 $('#btndisplay1').click(function(){
     if($('#name_datefin').val() >= $('#name_datedebut').val()){
         afficher_general($('#name_datedebut').val(),$('#name_datefin').val());
@@ -315,7 +308,7 @@ $('#btndisplay').click(function(){
        $('#affichage5').html('la date debut ne peux pas etre superieure à la date de la fin'); 
     }
 });
-})();
+
 
 
 //=========================================pourcentage===============================
@@ -424,5 +417,4 @@ var tableau=[date_debut3,date_fin3];
             "bDestroy":true
         });
      }
-     </script>  
 @endsection

@@ -80,11 +80,11 @@
   </div>
   <hr class="border-light container-m--x my-4">
 <div class="container-fluid flex-grow-1 container-p-y">
-                        <h3 class="font-weight-bold py-3 mb-0">Page Mouvement</h3>
+                        <h3 class="font-weight-bold py-3 mb-0">MOUVEMENT BANQUE</h3>
                         <div class="text-muted small mt-0 mb-4 d-block breadcrumb">
                         </div>
-                        <div class="card col-md-12">
-                            <h4 class="card-header">Mouvement Banque</h4>
+                        <div class="card col-md-8">
+                            <h4 class="card-header">Mouvement</h4>
                             <div class="card-body">
                                 <form action="#" method="POST" id="form_personnel">
                                 {{csrf_field()}}
@@ -102,7 +102,7 @@
                                     </div>
                                      <div class="col-md-3">
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="etat" id="etat_bank" value="2">
+                                            <input style="border: 1px solid silver !important; padding-left: 8px !important"  class="form-check-input" type="radio" name="etat" id="etat_bank" value="2">
                                             <label class="form-check-label" for="inlineRadio2">Agence/Banque</label>
                                         </div>
                                     </div>
@@ -147,8 +147,6 @@
                                                 <input type="hidden"  class="form-control"  name="{{'desti_ag'.$ligne_dest->numagence}}"  id="{{'desti_ag'.$ligne_dest->numagence}}" value="{{$ligne_dest->nomagence}}">
                                                 @endforeach
                                         </div>
-                                       </div>
-
                                     </div>
                                       <div class="row">
                                                  <div class="col-md-6" id='deuxieme'>
@@ -208,7 +206,14 @@
                                        
                                       </div> 
                                         
-                                       <div class="row">
+                                      
+                                      <div class="form-group col-md-6">
+                                                <select  style="border: 1px solid silver !important; padding-left: 8px !important"  class="form-control js-states" name="devise" data-validation="" id="devise" data-validation="required">
+                                                <option value='-1'>Selectionnez une devise</option>
+                                                <option value="2">CDF</option>
+                                                <option value="1">USD</option>                                        
+                                                </select>
+                                        </div>
 
                                             <div class="col-md-6">
                                                  <label class="form-label">Devise </label>
@@ -243,11 +248,6 @@
                                                     <button type="button" class="btn btn-success" name="btnsave_banque" id="btnsave_transfert">ENREGISTRE</button>
                                     <button type="reset" class="btn btn-danger">annule</button>
                                     <input type="hidden" class="form-control" placeholder="Saisir le nom de la personnel" id="code_banque">
-                                             
-                                            </div>
-
-                                        </div> 
-  
                                 </form>
                             </div>
                         </div>
@@ -256,7 +256,7 @@
                             <h6 class="card-header">Tableau du droit d'access</h6>
                             <div class="card-body">
                                 <div style="overflow-x:auto;">
-                                      <table class="table card-table" id="tab_mouvement">
+                            <table class="table card-table" id="tab_mouvement">
                                 <thead class="thead-dark">
                                     <tr>
                                         <th>Id</th>
@@ -274,8 +274,7 @@
                                    
                                 </tbody>
                             </table>
-                                </div>
-                          
+                            </div>
                             </div>
                         </div>
                        
@@ -300,12 +299,9 @@ document.getElementById("troisiemes").style.display = "none";
 
 $('#etat_bank').change(function(){
     if(document.getElementById("etat_bank").checked){
-        document.getElementById("premieres").style.display = "none"; 
-        document.getElementById("premiere").style.display = "none"; 
-        document.getElementById("deuxieme").style.display = "block";
-        document.getElementById("deuxiemes").style.display = "block";
-        document.getElementById("troisieme").style.display = "none"; 
-        document.getElementById("troisiemes").style.display = "none";        
+        document.getElementById("desti_ag").style.display = "none"; 
+        document.getElementById("prov_bank").style.display = "block";
+        document.getElementById("prov_ag").style.display = "block";       
     }
 
 });
@@ -318,26 +314,17 @@ $('#banks').change(function(){
 
 $('#etat_ag').change(function(){
     if(document.getElementById("etat_ag").checked){
-         document.getElementById("premieres").style.display = "block"; 
-        document.getElementById("premiere").style.display = "block"; 
-        document.getElementById("deuxieme").style.display = "none";
-        document.getElementById("deuxiemes").style.display = "none";
-        document.getElementById("troisieme").style.display = "none"; 
-        document.getElementById("troisiemes").style.display = "none";
-             
+    document.getElementById("prov_bank").style.display = "none"; 
+    document.getElementById("desti_ag").style.display = "block";     
     }
 
 });
 
 $('#etat_BA').change(function(){
     if(document.getElementById("etat_BA").checked){
-
-        document.getElementById("premieres").style.display = "none"; 
-        document.getElementById("premiere").style.display = "none"; 
-        document.getElementById("deuxieme").style.display = "none";
-        document.getElementById("deuxiemes").style.display = "none";
-        document.getElementById("troisieme").style.display = "block"; 
-        document.getElementById("troisiemes").style.display = "block";    
+    document.getElementById("prov_bank").style.display = "block"; 
+    document.getElementById("desti_ag").style.display = "block";
+    document.getElementById("prov_ag").style.display = "none";      
     }
 
 });
@@ -399,22 +386,18 @@ if($("#devise").val()!='-1' && $("#Montant").val()!='' && $("#motif").val()!='')
                             message += " au montant de " + $("#Montant").val() + " " + devise;
                          }
                          else{
-                            $("#message").html("Vous ne pouvez pas faire le mouvement dans une meme agence");
+                            $("#message").html("erreur dans le choix de compte d'agence");
                                return false;
                            }
                        
                     }
-                     else{
-                            $("#message").html("verifiez et remplissez les zones");
-                               return false;
-                           }
               
     }
     else if(document.getElementById("etat_bank").checked){
-             if($("#name_prov1").val()!='-1' && $("#name_bank").val()!='-1'){
-                        provenance=$("#name_prov1").val();
+             if($("#name_prov").val()!='-1' && $("#name_bank").val()!='-1'){
+                        provenance=$("#name_prov").val();
                         destinance=$("#name_bank").val();
-                        detail_prov=$('#prov_ag1'+provenance).val();
+                        detail_prov=$('#prov_ag'+provenance).val();
                         detail_desti=$('#bank'+destinance).val();
                         indice=2;
                         message="vous voulez faire une sortie banque dans l'agence "+ detail_prov + " vers la banque "+ detail_desti;

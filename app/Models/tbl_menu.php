@@ -9,5 +9,5 @@ class tbl_menu extends Model
 {
     use HasFactory;
     public $timestamps=false;
-	public $fillable=['id_menu','item_menu','icon'];
+	public $fillable=['id_menu','item_menu','icon', 'dates', 'heure'];
 }

@@ -112,10 +112,8 @@
    </div>
 </div>
 @endsection
-@section ('javascript')
-<script type="text/javascript">
-    (function() {
-      $('#btnsave_personnel').click(function () {
+@section ('script')
+$('#btnsave_personnel').click(function () {
   var etat_perso = [];
   if (document.getElementById('etat_actif').checked) {
     etat_perso = 1;
@@ -237,7 +235,4 @@ $('body').delegate('.supprimer_personnel', 'click', function () {
     }
   });
 });
-    })();
-</script>
-
 @endsection

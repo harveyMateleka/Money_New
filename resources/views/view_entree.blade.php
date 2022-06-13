@@ -322,6 +322,7 @@
 
       // VALIDATE FOR INPUT TEXT NAME BENEFICIAIRE
 
+      // VALIDATE FOR INPUT TEXT NAME BENEFICIAIRE
 
       if ($('#name_benefic').val() === "") {
          $('#errNomBenefic').text('Veuillez entrer le nom du bénéficiaire svp !!!');

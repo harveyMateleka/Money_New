@@ -49,15 +49,7 @@
     </div>
 </div>        
 @endsection
-@section('javascript')
-<script type="text/javascript">
-    (function() {
-    $.ajaxSetup({
-             headers: {
-                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-             }
-            });
-
+@section('script')
 $('#btndisplay').click(function(){
     if($('#name_datefin').val() >= $('#name_datedebut').val()){
         afficher_rapport($('#name_datedebut').val(),$('#name_datefin').val());
@@ -97,6 +89,5 @@ var tableau=[date_debut,date_fin];
             "bDestroy":true
         });
 }
-})();
-</script>  
+
 @endsection
