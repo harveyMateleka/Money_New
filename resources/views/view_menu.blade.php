@@ -171,6 +171,10 @@ if(name_menu!='' && name_icon!=''){
     $("#mes_naex").html("tout les champs doivent etre obligatoirement remplire !");
 }
 });
+
+
+
+
     $('body').delegate('.modifier_menu','click',function(){
         var ids=$(this).data('id');
         alert(ids);
