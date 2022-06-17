@@ -39,7 +39,7 @@ public function index_ville()
     {
          if (Auth::check()) {
             $this->entete();
-        return view("view_ville"); 
+            return view("view_ville"); 
         }
         else{
             return redirect()->route('index_login');
@@ -68,13 +68,21 @@ public function index_ville()
             $table=tbl_agence::whereNomagence($request->nomagence)->first();
             if (!$table) {
                 $record= new tbl_agence;
+                $date = Date('d/m/Y');
                 $record->nomagence=strtoupper($request->nomagence);
                 $record->adresse=strtoupper($request->adresse);
                 $record->telservice=strtoupper($request->telservice);
                 $record->id_ville=strtoupper($request->id_ville);
                 $record->indiceag=strtoupper($request->indiceag);
                 $record->initial=strtoupper($request->initial);
+                $record->dates=$date;
                 $record->save();
+
+                $historique = new tbl_historique;
+                $message = "creation d'une agence";
+                $historique->matricule = $request->nomagence;
+                $historique->operation = $message.$request->nomagence;
+                $historique->save();
                 return response()->json(['success'=>'1']);
             }  
             else{
@@ -93,6 +101,11 @@ public function index_ville()
        if ($request->ajax()) {
             
             $resultat=tbl_agence::whereNumagence($request->numagence)->update(['nomagence'=>$request->nomagence,'adresse'=>$request->adresse,'telservice'=>$request->telservice,'indiceag'=>$request->indiceag,'initial'=>$request->initial]);
+            $historique = new tbl_historique;
+            $message = "modification d'une agence";
+            $historique->matricule = $request->nomagence;
+            $historique->operation = $message.$request->nomagence;
+            $historique->save();
             return response()->json(['success'=>'1']);   
         } 
     }
@@ -100,12 +113,22 @@ public function index_ville()
     {
         if ($request->ajax()) {
             $resultat=tbl_agence::whereNumagence($request->code)->first();
+            $historique = new tbl_historique;
+            $message = "modification d'une agence";
+            $historique->matricule = $request->nomagence;
+            $historique->operation = $message.$request->nomagence;
+            $historique->save();
             return response()->json($resultat); 
         }
     }
     public function destroy_agence( Request $id)
     {
         if ($id->ajax()) {
+            $historique = new tbl_historique;
+            $message = "suppresion d'une agence";
+            $historique->matricule = $id->code;
+            $historique->operation = $message.$id->code;
+            $historique->save();
             $resultat=tbl_agence::whereNumagence($id->code)->delete();
             return response()->json(['success'=>'1']); 
         }

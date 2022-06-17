@@ -9,5 +9,5 @@ class tbl_vile extends Model
 {
     use HasFactory;
     public $timestamps=false;
-	public $fillable=['id_ville','ville','initial'];
+	public $fillable=['id_ville','ville','initial', 'dates'];
 }

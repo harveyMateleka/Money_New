@@ -9,5 +9,5 @@ class tbl_agence extends Model
 {
     use HasFactory;
     public $timestamps=false;
-    public $fillable=['numagence','nomagence','adresse','telservice','id_ville','Montcdf','Montusd','initial'];
+    public $fillable=['numagence','nomagence','adresse','telservice','id_ville','Montcdf','Montusd','initial', 'dates'];
 }

@@ -634,6 +634,7 @@
                      {"data":'id_ville'},
                      {"data":'ville'},
                      {"data":'initial'},
+                     {"data":'dates'},
                      {"data":'id_ville',"autoWidth":true,"render":function (data) {
          
                              return '<button data-id='+data+' class="btn btn-warning btn-circle supprimer_ville" ><i class="fa fa-times"></i></button>'+ ' ' +
@@ -1111,6 +1112,7 @@
                  {"data":'telservice'},
                  {"data":'indiceag'},
                  {"data":'initial'},
+                 {"data":'dates'},
                  {"data":'numagence',"autoWidth":true,"render":function (data) {
                          return '<button data-id='+data+' class="btn btn-warning btn-circle supprimer_agence" ><i class="fa fa-times"></i></button>'+ ' ' +
                              '<button data-id='+data+' class="btn btn-info btn-circle modifier_agence" ><i class="fa fa-check"></i></button>';
