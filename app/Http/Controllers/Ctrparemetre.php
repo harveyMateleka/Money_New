@@ -11,6 +11,7 @@ use App\Models\tbl_droitacces;
 use App\Models\tbl_agence;
 use App\Models\tbl_vile;
 use App\Models\tbl_ong;
+use App\Models\tbl_historique;
 use DB;
 use App\Http\Controllers\ctradmin;
 use Illuminate\Support\Facades\Auth;
@@ -52,7 +53,7 @@ public function index_ville()
             $this->entete();
             $resultat=tbl_vile::orderBy('ville','ASC')->get();
             $resultat_f=tbl_fonction::all();
-            $resul_smenu=DB::table('tbl_sous_menus')->select('id_sous','item_sous')
+            $resul_smenu=DB::table('tbl_sous_menus')->select('id_sous','item_sous', 'dates')
                                                      ->orderBy('id_sous','DESC')
                                                      ->get();
             return view("view_agence",compact('resultat', 'resultat_f', 'resul_smenu'));
@@ -127,10 +128,11 @@ public function index_ville()
        if (Auth::check()) {
         $this->entete();
         $resultat=tbl_fonction::all();
+        $r=tbl_menu::all();
         $resul_smenu=DB::table('tbl_sous_menus')->select('id_sous','item_sous')
         ->orderBy('id_sous','DESC')
         ->get();
-        return view("view_menu", compact('resultat','resultat','resul_smenu'));
+        return view("view_menu", compact('resultat','resul_smenu', 'r'));
        }
        else{
         return redirect()->route('index_login'); 
@@ -159,7 +161,7 @@ public function index_ville()
         if (Auth::check()) {
             $this->entete();
             $resultat=tbl_fonction::all();
-            $resul_smenu=DB::table('tbl_sous_menus')->select('id_sous','item_sous')
+            $resul_smenu=DB::table('tbl_sous_menus')->select('id_sous','item_sous', 'dates')
                                                      ->orderBy('id_sous','DESC')
                                                      ->get();
                                                     
@@ -205,7 +207,9 @@ public function index_ville()
             $table=tbl_fonction::whereFonction($request->name_fonction)->first();
             if (!$table) {
                 $record= new tbl_fonction;
+                $date = Date('d/m/Y');
                 $record->fonction=$request->name_fonction;
+                $record->dates=$date;
                 $record->save();
                 return response()->json(['success'=>'1']);
             }
@@ -222,7 +226,14 @@ public function index_ville()
             if (!$table) {
                 $record= new tbl_typedepense;
                 $record->type_dep=$request->name_typedep;
+                $record->dates=$date;
                 $record->save();
+
+                $historique = new tbl_historique;
+                $message = "ajout de type de depense";
+                $historique->matricule = $request->name_typedep;
+                $historique->operation = $message.$request->name_typedep;
+                $historique->save();
                 return response()->json(['success'=>'1']);
             }
             else{
@@ -243,6 +254,12 @@ public function index_ville()
                 $record->$date;
                 $record->$heure;
                 $record->save();
+                //historique
+                $historique = new tbl_historique;
+                $message = "creation de menu";
+                $historique->matricule = $request->name_menu;
+                $historique->operation = $message.$request->name_menu;
+                $historique->save();
                 return response()->json(['success'=>'1']);
             }
             else{
@@ -290,6 +307,13 @@ public function index_ville()
         if ($request->ajax()) {
             $this->validate($request,['fonction'=>'required']);
             $resultat=tbl_fonction::whereId_fonction($request->code_fonction)->update(['fonction'=>$request->fonction]);
+
+            $historique = new tbl_historique;
+            $message = "modification de fonction";
+            $historique->matricule = $request->code_fonction;
+            $historique->operation = $message.$request->fonction;
+            $historique->save();
+
             return response()->json(['success'=>'1']);   
         }
     }
@@ -298,6 +322,12 @@ public function index_ville()
         if ($request->ajax()) {
             $this->validate($request,['typedep'=>'required']);
             $resultat=tbl_typedepense::whereId_typdep($request->code_typedep)->update(['type_dep'=>$request->typedep]);
+
+            $historique = new tbl_historique;
+            $message = "modification de type de depense";
+            $historique->matricule = $request->code_typedep;
+            $historique->operation = $message.$request->typedep;
+            $historique->save();
             return response()->json(['success'=>'1']);   
         }
     }
@@ -328,7 +358,7 @@ public function index_ville()
     {
         $resultat=DB::table('tbl_sous_menus')->join('tbl_menus','tbl_sous_menus.id_menu','=','tbl_menus.id_menu')
                                              ->orderBy('id_sous','DESC')
-                                             ->get(array('id_sous','item_sous','lien','tbl_menus.item_menu')); 
+                                             ->get(array('id_sous','item_sous','lien','tbl_menus.item_menu', 'dates')); 
            return response()->json(['data'=>$resultat]);
     }
 
@@ -359,6 +389,11 @@ public function index_ville()
     public function get_id_menu(Request $request)
     {
         if ($request->ajax()) {
+            $historique = new tbl_historique;
+            $message = "modification de menu";
+            $historique->matricule = $request->name_menu;
+            $historique->operation = $message.$request->name_menu;
+            $historique->save();
             $resultat=tbl_menu::whereId_menu($request->code)->first();
             return response()->json($resultat); 
         }
@@ -376,6 +411,12 @@ public function index_ville()
     {
         if ($request->ajax()) {
             $resultat=tbl_fonction::whereId_fonction($request->code)->first();
+
+            $message = "supprimer une fonction";
+            $historique->matricule = $request->code;
+            $historique->operation = $message.$request->code;
+            $historique->save();
+
             return response()->json($resultat); 
         }
     }
@@ -383,6 +424,11 @@ public function index_ville()
     public function get_id_typedep(Request $request)
     {
         if ($request->ajax()) {
+            $historique = new tbl_historique;
+            $message = "suppresion de type depense";
+            $historique->matricule = $request->code;
+            $historique->operation = $message.$request->code;
+            $historique->save();
             $resultat=tbl_typedepense::whereId_typdep($request->code)->first();
             return response()->json($resultat); 
         }

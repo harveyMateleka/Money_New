@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\tbl_devise;
 use App\Http\Controllers\ctradmin;
+use App\Models\tbl_historique;
 use Illuminate\Support\Facades\Auth;
 
 class Ctrtaux extends Controller
@@ -31,9 +32,17 @@ class Ctrtaux extends Controller
             $table=tbl_devise::whereIntitule($request->intitule)->first();
             if (!$table) {
                 $record= new tbl_devise;
+                $date = Date('d/m/Y');
                 $record->intitule=$request->intitule;
                 $record->taux = $request->taux;
+                $record->dates = $date;
                 $record->save();
+                
+                $historique = new tbl_historique;
+                $message = "ajout d'un taux";
+                $historique->matricule = $request->intitule;
+                $historique->operation = $message.$request->taux;
+                $historique->save();
                 return response()->json(['success'=>'1']);
             }
             else{
@@ -48,6 +57,12 @@ class Ctrtaux extends Controller
              $this->validate($request,['intitule'=>'required']);
             $resultat=tbl_devise::whereId($request->id_code)->update(['intitule'=>$request->intitule,
             'taux'=>$request->taux]);
+
+            $historique = new tbl_historique;
+            $message = "modification d'un taux";
+            $historique->matricule = $request->intitule;
+            $historique->operation = $message.$request->id_code;
+            $historique->save();
             return response()->json(['success'=>'1']);   
         } 
     }
@@ -63,7 +78,14 @@ class Ctrtaux extends Controller
    public function get_id(Request $request)
     {
         if ($request->ajax()) {
+            $historique = new tbl_historique;
+            $message = "suppresion d'un taux";
+            $historique->matricule = $request->code;
+            $historique->operation = $message.$request->code;
+            $historique->save();
+
             $resultat=tbl_devise::whereId($request->code)->first();
+
             return response()->json($resultat); 
         }
     }

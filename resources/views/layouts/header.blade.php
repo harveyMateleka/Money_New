@@ -450,72 +450,70 @@
              if(name_fonct!=''){ 
                  if ($("#code_fonction").val()=='') {
                      swal({
-        title: 'Voulez vous ajouter une fonction?',
-        text: " est vous sure!",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes,Ajouter!',
-        cancelButtonText: 'No, ANNULE!',
-        confirmButtonClass: 'btn btn-success',
-        cancelButtonClass: 'btn btn-danger',
-        buttonsStyling: false,
-        allowOutsideClick: false,
-        showLoaderOnConfirm: true,
-        preConfirm: function () {
-            return new Promise(function (resolve, reject) {
-                     $.ajax({
-                           url   : "{{route('create_fonction')}}",
-                           type  : 'POST',
-                           async : false,
-                           data  : {name_fonction:name_fonct
-                           },
-                           success:function(data)
-                           {
-                             if(data.success=='1'){
-                                 swal({title: 'ABT COLOMBE!',
-                text: 'Un nauveau fonction ajouter avec success!',
-                type: 'success'
-                })
-                                 window.location.href=("{{route('route_index_fonct')}}");
-                             }
-                             else{
-                                 alert('existe deja');
-                             } 
-                           },
-                           error:function(data){
-         
-                             alert(data.success);                              
-                             }
-                       });
-                 })
-    }
-      }).then(function () {
-        swal({
-            type: 'info',
-            title: 'ABT COLOMBE',
-            html: 'fonction ne pas ajouter'
-        })
-    });
+                        title: 'Voulez vous ajouter une fonction?',
+                        text: " est vous sure!",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes,Ajouter!',
+                        cancelButtonText: 'No, ANNULE!',
+                        confirmButtonClass: 'btn btn-success',
+                        cancelButtonClass: 'btn btn-danger',
+                        buttonsStyling: false,
+                        allowOutsideClick: false,
+                        showLoaderOnConfirm: true,
+                         preConfirm: function () {
+                            return new Promise(function (resolve, reject) {
+                         $.ajax({
+                                    url   : "{{route('create_fonction')}}",
+                                    type  : 'POST',
+                                    async : false,
+                                    data  : {name_fonction:name_fonct
+                                    },
+                                    success:function(data)
+                                    {
+                                        if(data.success=='1'){
+                                            swal({title: 'ABT COLOMBE!',
+                                            text: 'Un nauveau fonction ajouter avec success!',
+                                            type: 'success'
+                                            })
+                                             window.location.href=("{{route('route_index_fonct')}}");
+                                        }else{
+                                             alert('existe deja');
+                                        } 
+                                    },
+                                        error:function(data){
+                                        alert(data.success);                              
+                                    }
+                                });
+                        })
+                    }
+                    }).then(function () {
+                        swal({
+                            type: 'info',
+                            title: 'ABT COLOMBE',
+                            html: 'fonction ne pas ajouter'
+                        })
+                    });
                  }
-                 else{
-                     swal({
-        title: 'Voulez vous modifier une fonction?',
-        text: " est vous sure!",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes,Modifier!',
-        cancelButtonText: 'No, ANNULE!',
-        confirmButtonClass: 'btn btn-success',
-        cancelButtonClass: 'btn btn-danger',
-        buttonsStyling: false,
-        allowOutsideClick: false,
-        showLoaderOnConfirm: true,
-        preConfirm: function () {
-            return new Promise(function (resolve, reject) {
+         else{
+                swal({
+                title: 'Voulez vous modifier une fonction?',
+                text: " est vous sure!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes,Modifier!',
+                cancelButtonText: 'No, ANNULE!',
+                confirmButtonClass: 'btn btn-success',
+                cancelButtonClass: 'btn btn-danger',
+                buttonsStyling: false,
+                allowOutsideClick: false,
+                showLoaderOnConfirm: true,
+                preConfirm: function () {
+                return new Promise(function (resolve, reject) {
                      $.ajax({
                            url   : "{{route('update_fonction')}}",
                            type  : 'POST',
@@ -527,9 +525,9 @@
                            {
                              if(data.success=='1'){
                                  swal({title: 'ABT COLOMBE!',
-                text: 'modification fonction avec success!',
-                type: 'success'
-                })
+                        text: 'modification fonction avec success!',
+                        type: 'success'
+                        })
                                  affiche_fonction();
                                  $("#name_fonction").val("");
                                  $("#code_fonction").val("");
@@ -541,19 +539,21 @@
                             
                            }
                        });
-            })
-    }
+                    })
+                }
       }).then(function () {
         swal({
             type: 'info',
             title: 'ABT COLOMBE',
-            html: 'fonction ne pas modifier'
+            html: 'fonction n\'est  pas modifié'
         })
     });
                  }
                  
                
-             }
+             }else{
+        $("#mes_fonc").html("Veuillez saisir ce champ !");
+   }
          });
          
          $('body').delegate('.modifier_fonction','click',function(){
@@ -700,6 +700,7 @@
                  "columns":[
                      {"data":'id_fonction'},
                      {"data":'fonction'},
+                     {"data":'dates'},
                      {"data":'id_fonction',"autoWidth":true,"render":function (data) {
          
                              return '<button data-id='+data+' class="btn btn-warning btn-circle supprimer_fonction" ><i class="fa fa-times"></i></button>'+ ' ' +
@@ -747,6 +748,7 @@
                  "columns":[
                      {"data":'id_typdep'},
                      {"data":'type_dep'},
+                     {"data":'dates'},
                      {"data":'id_typdep',"autoWidth":true,"render":function (data) {
          
                              return '<button data-id='+data+' class="btn btn-warning btn-circle supprimer_typedep" ><i class="fa fa-times"></i></button>'+ ' ' +
@@ -771,10 +773,10 @@
                      {"data":'id_menu'},
                      {"data":'item_menu'},
                      {"data":'icon'},
+                     {"data":'dates'},
                      {"data":'id_menu',"autoWidth":true,"render":function (data) {
          
-                             return '<button data-id='+data+' class="btn btn-warning btn-circle supprimer_menu" ><i class="fa fa-times"></i></button>'+ ' ' +
-                                 '<button data-id='+data+' class="btn btn-info btn-circle modifier_menu" ><i class="fa fa-check"></i></button>';
+                             return '<button data-id='+data+' class="btn btn-info btn-circle modifier_menu" ><i class="fa fa-check"></i></button>';
                          }}
                  ],
                  "pageLength": 10, 
@@ -797,10 +799,10 @@
                      {"data":'item_menu'},
                      {"data":'item_sous'},
                      {"data":'lien'},
+                     {"data":'dates'},
                      {"data":'id_sous',"autoWidth":true,"render":function (data) {
          
-                             return '<button data-id='+data+' class="btn btn-warning btn-circle supprimer_smenu" ><i class="fa fa-times"></i></button>'+ ' ' +
-                                 '<button data-id='+data+' class="btn btn-info btn-circle modifier_smenu" ><i class="fa fa-check"></i></button>';
+                             return '<button data-id='+data+' class="btn btn-info btn-circle modifier_smenu" ><i class="fa fa-check"></i></button>';
                          }}
                  ],
                  "pageLength": 10, 
@@ -1213,6 +1215,7 @@
                  {"data":'id'},
                  {"data":'intitule'},
                  {"data":'taux'},
+                 {"data":'dates'},
                  {"data":'id',"autoWidth":true,"render":function (data) {
                          return '<button data-id='+data+' class="btn btn-warning btn-circle supprimer_taux" ><i class="fa fa-times"></i></button>'+ ' ' +
                              '<button data-id='+data+' class="btn btn-info btn-circle modifier_taux" ><i class="fa fa-check"></i></button>';

@@ -9,5 +9,5 @@ class tbl_fonction extends Model
 {
     use HasFactory;
     public $timestamps=false;
-	public $fillable=['id_fonction','fonction'];
+	public $fillable=['id_fonction','fonction', 'dates'];
 }

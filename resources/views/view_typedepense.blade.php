@@ -17,6 +17,7 @@
                         <label class="form-label">Type Depense</label>
                         <input type="text" class="form-control" style="border:1px solid silver; padding-left: 8px !important" name="name_typedep" placeholder="Saisir le type Depense" id="name_typedep">
                         <div class="clearfix"></div>
+                        <div class="clearfix" id="mes_type" style="color:red"></div>
                     </div>
 
                 </div>
@@ -33,9 +34,10 @@
             <table class="table card-table" id="tab_typedep">
                 <thead class="thead-light">
                     <tr>
-                        <th>ID</th>
+                        <th>Id</th>
                         <th>Type Depense</th>
-                        <th>ACTION</th>
+                        <th>Date</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -48,32 +50,32 @@
 @endsection
 @section('script')
 $('#btnsave_typedep').click(function() {
-var name_typedep=$("#name_typedep").val();
-if(name_typedep!=''){
-if ($("#code_typedep").val()=='') {
+    var name_typedep=$("#name_typedep").val();
+    if(name_typedep!=''){
+        if ($("#code_typedep").val()=='') {
 
-$.ajax({
-url : "{{route('create_typedep')}}",
-type : 'POST',
-async : false,
-data : {name_typedep:name_typedep
-},
-success:function(data)
-{
-if(data.success=='1'){
-affiche_typedep();
-$("#name_typedep").val("");
-}
-else{
-alert('existe deja');
-}
-},
-error:function(data){
+            $.ajax({
+            url : "{{route('create_typedep')}}",
+            type : 'POST',
+            async : false,
+            data : {name_typedep:name_typedep
+            },
+            success:function(data)
+            {
+            if(data.success=='1'){
+            affiche_typedep();
+            $("#name_typedep").val("");
+            }
+            else{
+            alert('existe deja');
+            }
+            },
+                error:function(data){
 
-alert(data.success);
-}
-});
-}
+                alert(data.success);
+            }
+        });
+        }
 else{
 $.ajax({
 url : "{{route('update_typedep')}}",
@@ -97,6 +99,9 @@ alert('operation non effectuée');
 });
 }
 
+
+}else{
+$("#mes_type").html("Vueillez saisir ce champ !");
 
 }
 });

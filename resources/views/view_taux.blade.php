@@ -14,6 +14,7 @@
                         <label class="form-label">INTITULE DEVISE</label>
                         <input type="text" class="form-control" style="border:1px solid silver; padding-left: 8px !important" name="intitule" placeholder="Saisi intitule" id="intitule">
                         <div class="clearfix"></div>
+                        <div class="clearfix" id="msg_taux" style="color:red"></div>
                     </div>
                     <div class="form-group col-md-6">
                         <label class="form-label">Taux</label>
@@ -37,7 +38,8 @@
                         <th>ID</th>
                         <th>intitule</th>
                         <th>Taux</th>
-                        <th>ACTION</th>
+                        <th>Date</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -160,6 +162,9 @@ html: 'taux ne pas modifier'
 });
 }
 
+
+}else{
+    $("#msg_taux").html("tout les champs doivent etre obligatoirement remplire !");
 
 }
 });
