@@ -246,8 +246,9 @@
 @section('script')
 $("#id_ville").select2();
 $("#indiceag").select2();
-$('#btnsave_agence').click(function () {
-   var nomagence = $("#nomagence").val();
+
+
+var nomagence = $("#nomagence").val();
    var adresse = $("#adresse").val();
    var telservice = $("#telservice").val();
    var id_ville = $("#id_ville").val();
@@ -259,7 +260,7 @@ $('#btnsave_agence').click(function () {
       swal({
         title: 'Voulez vous ajouter une agence?',
         text: " est vous sure!",
-        type: 'warning',
+        type: 'warning', 
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
