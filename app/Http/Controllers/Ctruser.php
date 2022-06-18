@@ -145,7 +145,7 @@ class Ctruser extends Controller
     {
         $resultat = DB::table('users')->join('tbl_personnels', 'users.matricule', '=', 'tbl_personnels.matricule')
             ->orderBy('id', 'DESC')
-            ->get(array('id', 'email', 'etatcon', 'tbl_personnels.nom'));
+            ->get(array('id', 'email', 'etatcon', 'tbl_personnels.nom', 'created_at', 'updated_at'));
         return response()->json(['data' => $resultat]);
     }
 

@@ -64,7 +64,9 @@
                         <th>Id</th>
                         <th>Nom du Personnel</th>
                         <th>Email</th>
-                        <th>Etat Con</th>
+                        <th>Date création</th>
+                        <th>Date modification</th>
+                        <th>Etat</th>
                         <th>ACTION</th>
                     </tr>
                 </thead>
@@ -154,6 +156,12 @@
                     "data": 'email'
                 },
                 {
+                    "data": 'created_at'
+                },
+                {
+                    "data": 'updated_at'
+                },
+                {
                     "data": 'etatcon',
                     "autoWidth": true,
                     "render": function(data) {
@@ -161,8 +169,8 @@
                             return 'Connecté';
                         } else {
                             return 'Deconnecté';
-                        } 
-                    } 
+                        }
+                    }
                 },
                 {
                     "data": 'id',
@@ -170,7 +178,7 @@
                     "render": function(data) {
                         return `
                             <button data-id=${data} class="btn btn-success btn-circle editerUser"><i class="fa fa-edit"></i></button>
-                            <button data-id=${data} class="btn btn-warning btn-circle deleteUser" id='deleteUser'><i class="fa fa-trash"></i></button>
+                            <button data-id=${data} class="btn btn-warning btn-circle deleteUser"><i class="fa fa-trash"></i></button>
                         `;
                     }
                 }
@@ -178,7 +186,7 @@
             "pageLength": 7,
             "bDestroy": true
         });
-    } 
+    }
 
     // CREATION D'UN NOUVEL UTILISATEUR
 
@@ -311,10 +319,13 @@
         });
 
 
-        $('body').delegate('#deleteUser', 'click', function() {
+        let deleteBtn = $('.deleteUser');
+
+        $('body').delegate('.deleteBtn', 'click', function() {
             let idUser = $(this).data('id');
-            console.log("USER ID ::: " + idUser);
+            console.log("IUSERS");
         });
+
 
     })
 </script>
