@@ -191,64 +191,19 @@
 @endsection
 @section('javascript')
 <script type="text/javascript">
-   let selectBtnEnvoyer = document.querySelector('.btnEnvoi');
-   let nameAgence = document.querySelector('#name_agence');
-   let errNameAgence = document.querySelector('#errNameAgence');
-   let name_transact = document.querySelector('#name_transact');
-
-   let isValidNameAgence = true;
 
    let isValidBtn = false;
 
+   $('#btnsave_envois').prop('disabled', true);
 
-
-   $("#name_agence").on('change', () => {
-      let value = $("#name_agence").val();
-      if (isValidBtn) {
-         if (value === '-1') {
-            isValidNameAgence = false;
-            $('#errNameAgence').text('Veuillez choisir une agence svp !!!');
-         } else {
-            $('#errNameAgence').text('');
-         }
+   $('#name_agence').change(function() {
+      if ($("#name_agence").val() == '-1' || $("#name_ville").val() == '-1' || $("#name_expedit").val() == '') {
+         $('#btnsave_envois').prop('disabled', false);
+      } else {
+         $('#btnsave_repartition').prop('disabled', true);
       }
    });
 
-   $("#name_ville").on('change', () => {
-      let value = $("#name_ville").val();
-      if (isValidBtn) {
-         if (value === '-1') {
-            isValidNameAgence = false;
-            $('#errNameVill').text('Veuillez choisir une ville svp !!!');
-            $('#errNameVill').css('color', 'red');
-            $('#errNameVill').css({
-               'font-size': '12px',
-               "margin-left": '10px'
-            });
-         } else {
-            $('#errNameVill').text('');
-         }
-      }
-   })
-
-   // VALIDATE FOR SELECT NAME VILLE
-
-   $("#name_ville").on('change', () => {
-      let value = $("#name_ville").val();
-      if (isValidBtn) {
-         if (value === '-1') {
-            isValidNameAgence = false;
-            $('#errNameVill').text('Veuillez choisir une ville svp !!!');
-            $('#errNameVill').css('color', 'red');
-            $('#errNameVill').css({
-               'font-size': '12px',
-               "margin-left": '10px'
-            });
-         } else {
-            $('#errNameVill').text('');
-         }
-      }
-   })
 
    // VALIDATE FOR INPUT TEXT NAME EXP, EVENT ONCHANGE
 

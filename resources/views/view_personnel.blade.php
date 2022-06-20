@@ -297,52 +297,39 @@
     });
     $('body').delegate('.supprimer_personnel', 'click', function() {
       var ids = $(this).data('id');
-      swal({
-        title: 'Voulez vous supprimer le personnel?',
-        text: "il ya pas moyen de le  modifier!",
-        type: 'warning',
+
+      Swal.fire({
+
+        title: 'Voulez-vous supprimer ce personnel ?',
+        text: 'Cette opération est irréversible.',
+        icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes,Supprimer!',
-        cancelButtonText: 'No, ANNULE!',
-        confirmButtonClass: 'btn btn-success',
-        cancelButtonClass: 'btn btn-danger',
-        buttonsStyling: false,
-        allowOutsideClick: false,
-        showLoaderOnConfirm: true,
-        preConfirm: function() {
-          return new Promise(function(resolve, reject) {
-            $.ajax({
-              url: "{{route('delete_personnel')}}",
-              type: 'POST',
-              async: false,
-              data: {
-                code: ids
-              },
-              success: function(data) {
-                if (data.success == '1') {
-                  swal({
-                    title: 'la colombe Money!',
-                    text: 'suppression du personnel avec success!',
-                    type: 'success'
-                  })
-                  window.location.href = ("{{route('index_personnel')}}");
-                } else {
-                  alert('erreur dans la suppression');
-                }
-              }
-            });
-          })
+        confirmButtonText: 'Oui, je supprime',
 
-        }
-      }).then(function() {
-        swal({
-          type: 'info',
-          title: 'la colombe Money',
-          html: "les information du personelle n'est sont pas supprimer"
-        })
-      });
+      }).then((res) => {
+        $.ajax({
+          url: "{{route('delete_personnel')}}",
+          type: 'POST',
+          async: false,
+          data: {
+            code: ids
+          },
+          success: function(data) {
+            if (data.success == '1') {
+              Swal.fire(
+                'Supprimé',
+                'Le personnel a été bien supprimé.',
+                'success'
+              )
+              window.location.href = ("{{route('index_personnel')}}");
+            } else {
+              alert('erreur dans la suppression');
+            }
+          }
+        });
+      })
     });
   })();
 
