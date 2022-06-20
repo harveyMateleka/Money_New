@@ -60,7 +60,7 @@
         </div>
     </div>
     </div>
-    <div id="menu1" class="tab-pane fade">
+    <div id="menu1" class="tab-pane">
         <div class="card col-md-12">
             <h4 class="card-header">Ajout de Sous Menu</h4>
             <div class="card-body">
