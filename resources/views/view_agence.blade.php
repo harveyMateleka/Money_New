@@ -32,7 +32,7 @@
                </div>
                <div class="form-group col-md-4">
                   <label class="form-label">NUMERO SERVICE</label>
-                  <input type="number" class="form-control" data-validation="required" name="telservice" placeholder="" id="telservice">
+                  <input type="text" class="form-control" data-validation="required" name="telservice" placeholder="" id="telservice">
                   <div class="clearfix"></div>
                </div>
             </div>
@@ -53,6 +53,11 @@
                      <option value='2'>COFFRE DE CREANCE</option>
                      <option value='3'>COFFRE ONG</option>
                      <option value='4'>COFFRE DE DEPENSE</option>
+<<<<<<< HEAD
+                     <option value='5'>Creance ONG</option>
+                    
+=======
+>>>>>>> rabBranch
                   </select>
                </div>
                <div class="form-group col-md-4">
@@ -240,10 +245,18 @@
 
 
 @endsection
-@section('script')
-$("#id_ville").select2();
-$("#indiceag").select2();
-$('#btnsave_agence').click(function () {
+@section('javascript')
+<script type="text/javascript">
+   (function() {
+      $.ajaxSetup({
+             headers: {
+                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+             }
+            });
+      $("#ville").select2();
+      $("#indiceag").select2();
+
+      $('#btnsave_agence').click(function () {
    var nomagence = $("#nomagence").val();
    var adresse = $("#adresse").val();
    var telservice = $("#telservice").val();
@@ -253,111 +266,99 @@ $('#btnsave_agence').click(function () {
    if ($("#nomagence").val() != '' && $("#adresse").val() != '' && $("#id_ville").val() != '-1' && $("#telservice").val() != '' && $("#indiceag").val() != '' && $("#initial").val() != '') {
       if ($("#code_agence").val() == '') {
 
-      swal({
-        title: 'Voulez vous ajouter une agence?',
-        text: " est vous sure!",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes,Ajouter!',
-        cancelButtonText: 'No, ANNULE!',
-        confirmButtonClass: 'btn btn-success',
-        cancelButtonClass: 'btn btn-danger',
-        buttonsStyling: false,
-        allowOutsideClick: false,
-        showLoaderOnConfirm: true,
-        preConfirm: function () {
-            return new Promise(function (resolve, reject) {
-         $.ajax({
-            url: "{{route('route_create_agence')}}",
-            type: 'POST',
-            async: false,
-            data: {
-               nomagence: nomagence,
-               adresse: adresse,
-               telservice: telservice,
-               telservice: telservice,
-               id_ville: $("#id_ville").val(),
-               indiceag: indiceag,
-               initial: initial
-            },
-            success: function (data) {
-               if (data.success == '1') {
-                swal({title: 'la colombe Money!',
-                text: 'Un nauveau agence ajouter!',
-                type: 'success'
-                })
-                  window.location.href = ("{{route('index_agence')}}");
-               } else {
-                  alert('existe deja');
-               }
-            },
-            error: function (data) {
-               alert(data.success);
-            }
-         });
-     
-       })
-    }
-      }).then(function () {
-        swal({
-            type: 'info',
-            title: 'La Colombe Money',
-            html: 'Agence n\'est pas ajoutée'
-        })
-    });
+               swal.fire({
+                  title: 'Colombe Money',
+                  html: "Voulez vous enregistrer cette agence",
+                  width: 600,
+                  padding: '3em',
+                  showDenyButton: true,
+                  confirmButtonText: `Enregistrer`,
+                  denyButtonText: `Annuler`,
+               }).then((result) => {
+                  if (result.isConfirmed) {
+                     $.ajax({
+                     url: "{{route('route_create_agence')}}",
+                     type: 'POST',
+                     async: false,
+                     data: {
+                        nomagence: nomagence,
+                        adresse: adresse,
+                        telservice: telservice,
+                        id_ville: $("#ville").val(),
+                        indiceag: indiceag,
+                        initial: initial
+                     },
+                     success: function (data) {
+                        if (data.success == '1') {
+                           Swal.fire('operation reussie', '', 'success')
+                           $("#nomagence").val('');
+                           $("#adresse").val('');
+                           $("#ville").val("-1");
+                           $("#telservice").val("");
+                           $("#initial").val("");
+                           affiche_agence();
+                        } else {
+                           alert('existe deja');
+                        }
+                     },
+                     error: function (data) {
+                        alert(data.success);
+                     }
+                  });
+
+         } else if (result.isDenied) {
+            Swal.fire('Changes are not saved', '', 'info')
+         }
+      });
+  
       } else {
-      swal({
-        title: 'Voulez vous modifier une agence?',
-        text: " est vous sure!",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes,Modifier!',
-        cancelButtonText: 'No, ANNULE!',
-        confirmButtonClass: 'btn btn-success',
-        cancelButtonClass: 'btn btn-danger',
-        buttonsStyling: false,
-        allowOutsideClick: false,
-        showLoaderOnConfirm: true,
-        preConfirm: function () {
-            return new Promise(function (resolve, reject) {
-         $.ajax({
-            url: "{{route('route_update_agence')}}",
-            type: 'POST',
-            async: false,
-            data: {
-               nomagence: $("#nomagence").val(),
-               adresse: $("#adresse").val(),
-               telservice: $("#telservice").val(),
-               id_ville: $("#id_ville").val(),
-               numagence: $("#code_agence").val(),
-               indiceag:$("#indiceag").val(),
-               initial:$("#initial").val(),
-            },
-            success: function (data) {
-               if (data.success == '1') {
-                swal({title: 'la colombe Money!',
-                text: 'modification agence avec success!',
-                type: 'success'
-                })
-                  window.location.href = ("{{route('index_agence')}}");
-               } else {
-                  alert('erreur de transaction');
-               }
-            }
-         });
-           })
-    }
-      }).then(function () {
-        swal({
-            type: 'info',
-            title: 'la colombe Money',
-            html: 'Agence n\'est pas modifiée'
-        })
-    });
+
+         swal.fire({
+                  title: 'Colombe Money',
+                  html: "Voulez vous modifier une agence?",
+                  width: 600,
+                  padding: '3em',
+                  showDenyButton: true,
+                  confirmButtonText: `Modifier`,
+                  denyButtonText: `Annuler`,
+               }).then((result) => {
+                  if (result.isConfirmed) {
+                     $.ajax({
+                     url: "{{route('route_update_agence')}}",
+                     type: 'POST',
+                     async: false,
+                     data: {
+                        nomagence: $("#nomagence").val(),
+                        adresse: $("#adresse").val(),
+                        telservice: $("#telservice").val(),
+                        id_ville: $("#ville").val(),
+                        numagence: $("#code_agence").val(),
+                        indiceag:$("#indiceag").val(),
+                        initial:$("#initial").val(),
+                     },
+                     success: function (data) {
+                        if (data.success == '1') {
+                           Swal.fire('operation reussie', '', 'success')
+                           $("#nomagence").val('');
+                           $("#adresse").val('');
+                           $("#ville").val("-1");
+                           $("#telservice").val("");
+                           $("#initial").val("");
+                           $("#code_agence").val('');
+                           affiche_agence();
+                        } else {
+                           alert('existe deja');
+                        }
+                     },
+                     error: function (data) {
+                        alert(data.success);
+                     }
+                  });
+
+         } else if (result.isDenied) {
+            Swal.fire('Changes are not saved', '', 'info')
+         }
+      });
       }
    }else{
     $("#mes_naex").html("tout les champs doivent etre obligatoirement remplire !");

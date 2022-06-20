@@ -116,13 +116,27 @@ Route::post('admin/get_id_user', [Ctrpersonnel::class, 'get_id_user'])->name('ge
 Route::get('admin/dashboard', [ctradmin::class, 'index'])->name('route_index'); 
 
 //_____________________________________________debut ong______________________________________________________
-Route::get('admin/index_ong', [Ctrparemetre::class, 'index_ong'])->name('index_create_ong');
-Route::post('admin/create_ong', [Ctrparemetre::class, 'store'])->name('create_ong');
-Route::post('admin/update_ong', [Ctrparemetre::class, 'update_ong'])->name('update_ong');
-Route::get('admin/list_ong', [Ctrparemetre::class, 'get_list_ong'])->name('get_list_ongc');
-Route::post('admin/get_ong', [Ctrparemetre::class, 'get_id_ong'])->name('get_ong');
-Route::post('admin/delete_ong', [Ctrparemetre::class, 'destroy_ong'])->name('delete_ong');
-Route::get('admin/repartion_ong', [CtrTransfert::class, 'repartition_ong'])->name('repart_index');
+Route::get('admin/index_ong', [CtrOngs::class, 'index'])->name('index_create_ong');
+Route::post('admin/create_ong', [CtrOngs::class, 'store'])->name('create_ong');
+Route::post('admin/update_ong', [CtrOngs::class, 'update'])->name('update_ong');
+Route::get('admin/list_ong', [CtrOngs::class, 'get_list_ong'])->name('get_list_ongc');
+Route::post('admin/get_ong', [CtrOngs::class, 'get_id_ong'])->name('get_ong');
+Route::post('admin/delete_ong', [CtrOngs::class, 'destroy'])->name('delete_ong');
+Route::get('admin/repartion_ong', [CtrOngs::class, 'repartition_ong'])->name('repart_index');
+Route::get('admin/Transfert_ong', [CtrOngs::class, 'Transfert_ong'])->name('index_ongs');
+Route::post('admin/save_detail', [CtrOngs::class, 'save_detail'])->name('save_detail');
+Route::post('admin/save_ong', [CtrOngs::class, 'save_transfert_ong'])->name('save_ong');
+Route::get('admin/charger_ong', [CtrOngs::class, 'charger_transfert'])->name('charger_ong');
+Route::get('admin/paiement_ong', [CtrOngs::class, 'index_paie_ong'])->name('index_paie_ong');
+Route::post('admin/check_ong', [CtrOngs::class, 'check_ong'])->name('route_paie');
+Route::post('admin/sortie_ong', [CtrOngs::class, 'sortie_ong'])->name('sortie_ong');
+Route::get('admin/liste_ong', [CtrOngs::class, 'index_liste'])->name('index_liste');
+Route::post('admin/cherche_ong', [CtrOngs::class, 'chercher'])->name('chercher');
+Route::post('admin/delete_det', [CtrOngs::class, 'delete_det'])->name('delete_det');
+Route::get('admin/get_all_paie/{agence}', [CtrOngs::class, 'get_all_paie']);
+Route::get('admin/get_all', [CtrOngs::class, 'get_all_detail'])->name('get_all_detail');
+Route::get('admin/getMontant/{date_debut},{date_fin}', [CtrOngs::class, 'getMont']);
+Route::post('admin/gettotalentre/', [CtrOngs::class, 'gettotalentre'])->name('gettotalentre');
 
 
 
@@ -170,8 +184,7 @@ Route::get('admin/aff_code/{debut},{fin}', [CtrRetrait::class, 'get_plage'])->na
 
 
 Route::get('admin/entree', [CtrTransfert::class, 'index_entree'])->name('index_entree');
-Route::get('admin/sortie', [CtrTransfert::class, 'index_sortie'])->name('index_sortie');
-Route::get('admin/liste_sortie={id}', [CtrTransfert::class, 'show_sortie'])->name('show_sortie');
+Route::post('admin/checktel', [CtrTransfert::class, 'checktel'])->name('route_tel');
 
 Route::get('admin/liste_agence={id}', [CtrTransfert::class, 'show_listentree'])->name('list_entree');
 
@@ -191,7 +204,7 @@ Route::get('admin/credit_client', [CtrTransfert::class, 'index_credit'])->name('
 Route::post('admin/get_id_credit', [CtrTransfert::class, 'get_id_credit'])->name('get_id_credit');
 Route::post('admin/up_credit_client', [CtrTransfert::class, 'up_credit_client'])->name('up_credit_client');
 
-Route::get('admin/create_ong', [CtrTransfert::class, 'index_ong'])->name('index_ong');
+//Route::get('admin/create_ong', [CtrTransfert::class, 'index_ong'])->name('index_ong');
 Route::post('admin/update_credit', [CtrTransfert::class, 'update_credit'])->name('update_credit');
 Route::post('admin/update_credit_liste', [CtrTransfert::class, 'update_credit_liste'])->name('update_credit_liste');
 
@@ -240,36 +253,39 @@ Route::get('admin/mvt_banque', [Ctrfinance::class, 'index_mvtbanque'])->name('in
 Route::post('admin/stransfert', [Ctrfinance::class, 'transfert'])->name('transfert');
 Route::post('admin/smvt', [Ctrfinance::class, 'store_mvtbanque'])->name('create_mvt');
 Route::get('admin/get_mvt', [Ctrfinance::class, 'get_list_mvt'])->name('get_mvt');
-Route::post('admin/update_mvt', [Ctrfinance::class, 'update_mvt'])->name('update_mvt');
+Route::post('admin/update_mvt', [Ctrfinance::class, 'update_mvt'])->name('update_mvt');  
 //______________________________________________________ong__________________________________________________
-Route::post('admin/save_detail', [CtrTransfert::class, 'save_detail'])->name('save_detail');
-Route::post('admin/save_ong', [CtrTransfert::class, 'save_ong'])->name('save_ong');
-Route::get('admin/charger_ong', [CtrTransfert::class, 'charger_ong'])->name('charger_ong');
-Route::get('admin/paiement_ong', [CtrTransfert::class, 'index_paie_ong'])->name('index_paie_ong');
-Route::post('admin/check_ong', [CtrTransfert::class, 'check_ong'])->name('route_paie');
-Route::post('admin/sortie_ong', [CtrTransfert::class, 'sortie_ong'])->name('sortie_ong');
-Route::get('admin/liste_ong', [CtrTransfert::class, 'index_liste'])->name('index_liste');
+// Route::post('admin/save_detail', [CtrTransfert::class, 'save_detail'])->name('save_detail');
+// Route::post('admin/save_ong', [CtrTransfert::class, 'save_ong'])->name('save_ong');
+// //Route::get('admin/charger_ong', [CtrTransfert::class, 'charger_ong'])->name('charger_ong');
+// Route::get('admin/paiement_ong', [CtrTransfert::class, 'index_paie_ong'])->name('index_paie_ong');
+// Route::post('admin/check_ong', [CtrTransfert::class, 'check_ong'])->name('route_paie');
+// Route::post('admin/sortie_ong', [CtrTransfert::class, 'sortie_ong'])->name('sortie_ong');
+// Route::get('admin/liste_ong', [CtrTransfert::class, 'index_liste'])->name('index_liste');
 
 Route::post('admin/cherche_ong', [CtrTransfert::class, 'chercher'])->name('chercher');
 
 //_____________________________________________fin ong_______________________________________________________
 
 //__________________________________________raphael_____________________________________________
-Route::get('admin/partenaire', [CtrTransfert::class, 'index_partenaire'])->name('index_partenaire');
-Route::post('admin/create_partenaire', [CtrTransfert::class, 'store_partenaire'])->name('route_create_partenaire');
-Route::post('admin/update_partenaire', [CtrTransfert::class, 'update_partenaire'])->name('route_update_partenaire');
-Route::get('admin/liste_partenaire', [CtrTransfert::class, 'get_list'])->name('get_list_partenaire');
-Route::post('admin/get_partenaire', [CtrTransfert::class, 'get_id'])->name('get_partenaire');
-Route::post('admin/delete_partenaire', [CtrTransfert::class, 'destroy_partenaire'])->name('delete_partenaire');
+Route::get('admin/partenaire', [Ctrpartenaire::class, 'index'])->name('index_partenaire');
+Route::get('admin/liste_partenaire', [Ctrpartenaire::class, 'get_all_part'])->name('get_list_partenaire');
+Route::post('admin/create_partenaire', [Ctrpartenaire::class, 'store'])->name('route_create_partenaire');
+Route::post('admin/update_partenaire', [Ctrpartenaire::class, 'update'])->name('route_update_partenaire');
+Route::post('admin/get_partenaire', [Ctrpartenaire::class, 'get_id'])->name('get_partenaire');
+Route::post('admin/delete_partenaire', [Ctrpartenaire::class, 'destroy'])->name('delete_partenaire');
+Route::get('admin/transfert_banque', [Ctrpartenaire::class, 'index_partenaire_trans'])->name('transfert_banque');
+Route::post('admin/transfert_banque', [Ctrpartenaire::class, 'transfert_insert'])->name('transfert_banque_insert');
+Route::get('admin/rapport_banque', [Ctrpartenaire::class, 'index_rapport'])->name('index_rapport');
+Route::get('admin/rapport_banques/{agence}', [Ctrpartenaire::class, 'get_liste_transfert']);
+Route::get('admin/liste_rapports/{agence},{debut},{fin}', [Ctrpartenaire::class, 'get_rapport_s']);
 // root de rabby__________________________________________________________________________________________
-Route::get('admin/transfert_banque', [CtrTransfert::class, 'transfert_banque'])->name('transfert_banque');
-Route::post('admin/transfert_banque', [CtrTransfert::class, 'transfert_insert'])->name('transfert_banque_insert');
-Route::get('admin/liste_transfert_banque', [CtrTransfert::class, 'get_liste_transfert'])->name('get_list_transfert');
+Route::get('admin/liste_transfert_banque/{agence}', [Ctrpartenaire::class, 'get_liste_transfert'])->name('get_list_transfert');
 //Route::post('admin/get_partenaire', [CtrTransfert::class, 'get_id'])->name('get_partenaire');
 
 
 //root rapport -----------------------------------------------------------------------------------------
-Route::get('admin/rapport_banque', [CtrTransfert::class, 'index_rapport'])->name('index_rapport');
+
 Route::get('admin/liste_rapport/{d},{f}', [CtrTransfert::class, 'get_rapport']);
 Route::get('admin/liste_rapportG/{d},{f}', [CtrTransfert::class, 'get_rapportG']);
 Route::get('admin/rapport_general', [CtrTransfert::class, 'index_general'])->name('index_general');

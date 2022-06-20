@@ -172,21 +172,35 @@ class Ctrfinance extends Controller
                         $montantcdf=$requette->Montcdf;
                         $name_agence=$requette->nomagence;
                             if ($request->devise==1) {
-                                if ($request->montant >$montantdollars) {
-                                    return response()->json(['success'=>'le montant est insuffisant']);
-                                    
-                                    }
+
+                                if ($requette->indiceag ==3 || $requette->indiceag == 5 ) {
                                     $montantdollars-=$request->montant;
+                                }
+                                else{
+                                    
+                                if ($request->montant > $montantdollars) {
+                                    return response()->json(['success'=>'le montant est insuffisant']);
+                                    }
+                                $montantdollars-=$request->montant;
                                 $operation="Sortie banque du montant ".$request->montant." Usd dans l'agence".$name_agence;
+         
+                                }
+
                             }
                             else{
-
-                                if ($request->montant > $montantcdf) {
-                                    return response()->json(['success'=>'le montant est insuffisant']);
-                                    
+                                if ($requette->indiceag ==3 || $requette->indiceag == 5 ) {
+                                    $montantcdf-=$request->montant;
                                 }
-                                $montantcdf-=$request->montant;
-                                $operation="Sortie banque du montant ".$request->montant." Cdf dans l'agence".$name_agence;
+                                else{
+                                    if ($request->montant > $montantcdf) {
+                                        return response()->json(['success'=>'le montant est insuffisant']);
+                                        
+                                    }
+                                    $montantcdf-=$request->montant;
+                                    $operation="Sortie banque du montant ".$request->montant." Cdf dans l'agence".$name_agence;
+                                }
+
+                             
                             }
 
                             if ($request->indice==1) {

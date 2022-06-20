@@ -597,7 +597,10 @@ if($("#bank_prov").val()!='-1' && $("#bank_desti").val()!='-1' && $("#tdevise").
                            return 'mouvement effectué';
                          }
                      }},
-                     {"data":'Montmvt'},
+                     {"data":'Montmvt',"autoWidth":true,"render":function(data){
+                        let values = formateIndianCurrency(data);
+                        return values.substring(0,values.length - 1);
+                     }},
                      {"data":'devise',"autoWidth":true,"render":function (data){
                          if (data==1) {   
                              return 'Usd';
