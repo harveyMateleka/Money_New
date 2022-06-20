@@ -5,7 +5,7 @@
     <div class="text-muted small mt-0 mb-4 d-block breadcrumb">
     </div>
     <div class="card col-md-12">
-        <h4 class="card-header">Rapport Cash express</h4>
+        <h4 class="card-header">Rapport Cash </h4>
         <div class="card-body">
             <form action="#" method="POST">
             {{csrf_field()}}
