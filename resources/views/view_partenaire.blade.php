@@ -11,9 +11,9 @@
                                 {{csrf_field()}}
                                     <div class="form-row">
                                         
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-8">
                                             <label class="form-label">INTITULE DU COMPTE</label>
-                                            <input type="text" class="form-control" style="border: 1px solid silver" name="type"  id="type" data-validation="required">
+                                            <input type="text" class="form-control" name="type"  id="type" data-validation="required">
                                             <div class="clearfix"></div>
                                         </div>
                                     </div>
@@ -45,115 +45,95 @@
                     </div>        
 @endsection
 
-@section('script')
+@section('javascript')
+<script type="text/javascript">
+(function() {
+    $.ajaxSetup({
+             headers: {
+                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+             }
+            });
  $('#btnsave_partenaire').click(function() { 
         var type = $("#type").val();
-        var id_partenaire = $("#code_partenaire").val();
         if(type!=''){ 
             if ($("#code_partenaire").val()=='') {
-               swal({
-        title: 'la colombe Money',
-        text: "voulez vous ajouter un partenaire?",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes,Ajouter!',
-        cancelButtonText: 'No, ANNULE!',
-        confirmButtonClass: 'btn btn-success',
-        cancelButtonClass: 'btn btn-danger',
-        buttonsStyling: false,
-        allowOutsideClick: false,
-        showLoaderOnConfirm: true,
-        preConfirm: function () {
-            return new Promise(function (resolve, reject) {
+                Swal.fire({  
+                        title: 'Colombe Money',
+                        html: "Ajout de partenaire", 
+                        width: 600,
+                        padding: '3em',  
+                        showDenyButton: true,   
+                        confirmButtonText: `Enregistrer`,  
+                        denyButtonText: `Annuler`,
+                    }).then((result) => { 
+                        if (result.isConfirmed) { 
+                            $.ajax({
+                                url   : "{{route('route_create_partenaire')}}",
+                                type  : 'POST',
+                                async : false,
+                                data  : {type:type
+                                },
+                                success:function(data)
+                                {
+                                    if(data.success=='1'){
+                                        Swal.fire('opération effectuée', '', 'success')
+                                        affiche_partenaire();
+                                        $("#type").val("");
+                                    }
+                                    else{
+                                        Swal.fire('error', '', 'error')
+                                    } 
+                                },
+                                error:function(data){
 
-                
-                $.ajax({
-                      url   : "{{route('route_create_partenaire')}}",
-                      type  : 'POST',
-                      async : false,
-                      data  : {type:type
-                      },
-                      success:function(data)
-                      {
-                        if(data.success=='1'){
-                         swal({title: 'la colombe Money!',
-                         text: 'nouveaux partenaire ajouter!',
-                         type: 'success'
-                         })
-                              window.location.href=("{{route('index_partenaire')}}");
-                        }
-                        else{
-                            alert('existe deja');
-                        } 
-                      },
-                      error:function(data){
-
-                        alert(data.success);                              
-                        }
-                  });
-                           })
+                                    Swal.fire('error', '', 'error')                            
+                                    }
+                            });
+                        } else if (result.isDenied) {    
+                                          Swal.fire('Changes are not saved', '', 'info')  
+                                       }
+                    });
     }
+    else{
 
-      }).then(function () {
-        swal({
-            type: 'info',
-            title: 'la colombe Money',
-            html: 'Pas ajouter'
-        })
-    });
-            }
-            else{
-        swal({
-        title: 'Voulez vous modifier?',
-        text: "il ya pas moyen de modifie!",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes,MODIFIER!',
-        cancelButtonText: 'No, ANNULE!',
-        confirmButtonClass: 'btn btn-success',
-        cancelButtonClass: 'btn btn-danger',
-        buttonsStyling: false,
-        allowOutsideClick: false,
-        showLoaderOnConfirm: true,
-        preConfirm: function () {
-            return new Promise(function (resolve, reject) {
-                $.ajax({
-                      url   : "{{route('route_update_partenaire')}}",
-                      type  : 'POST',
-                      async : false,
-                      data  : {type:$("#type").val(),
-                              id_partenaire:$("#code_partenaire").val(),
-                               
-                      },
-                      success:function(data)
-                      {
-                        if(data.success=='1'){
-                            swal({title: 'la colombe Money!',
-                text: 'modification  partenaire!',
-                type: 'success'
-                })
-                           window.location.href=("{{route('index_partenaire')}}");
-                        }
-                        else{
-                            alert('operation non effectuée');
-                        }
-                       
-                      }
-                  });
-                   })
+        Swal.fire({  
+                        title: 'Colombe Money',
+                        html: "Modifier partenaire", 
+                        width: 600,
+                        padding: '3em',  
+                        showDenyButton: true,   
+                        confirmButtonText: `Modifier`,  
+                        denyButtonText: `Annuler`,
+                    }).then((result) => { 
+                        if (result.isConfirmed) { 
+                            $.ajax({
+                                url   : "{{route('route_update_partenaire')}}",
+                                type  : 'POST',
+                                async : false,
+                                data  : {type: $("#type").val(),
+                                        id_partenaire: $("#code_partenaire").val()
+                                },
+                                success:function(data)
+                                {
+                                    if(data.success=='1'){
+                                        Swal.fire('opération effectuée', '', 'success')
+                                        affiche_partenaire();
+                                        $("#type").val("");
+                                        $("#code_partenaire").val("");
+                                    }
+                                    else{
+                                        Swal.fire('error', '', 'error')
+                                    } 
+                                },
+                                error:function(data){
 
-   }
- }).then(function () {
-        swal({
-            type: 'info',
-            title: 'la colombe Money',
-            html: 'les information ne sont pas mofifier'
-        })
-    });S
+                                    Swal.fire('error', '', 'error')                            
+                                    }
+                            });
+                        } else if (result.isDenied) {    
+                                          Swal.fire('Changes are not saved', '', 'info')  
+                                       }
+                    });
             }
             
         }
@@ -189,7 +169,7 @@
                       success:function(data)
                       {
                         if(data.success=='1'){
-                           window.location.href=("{{route('index_partenaire')}}");
+                            affiche_partenaire();
                         }
                         else{
                             alert('erreur dans la suppression');
@@ -201,4 +181,30 @@
                       }
                   });
          });
+         affiche_partenaire();
+        })();
+         
+        function affiche_partenaire()
+         {
+           var otableau=$('#tab_partenaire').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+            'print', 'copy', 'excel', 'pdf'
+             ],
+                 "bProcessing":true,
+                 "sAjaxSource":"{{route('get_list_partenaire')}}",
+                 "columns":[
+                     {"data":'id_partenaire'},
+                     {"data":'type'},
+                     {"data":'id_partenaire',"autoWidth":true,"render":function (data) {
+                          return '<button data-id='+data+' class="btn btn-warning btn-circle supprimer_partenaire" ><i class="fa fa-times"></i></button>'+ ' ' +
+                             '<button data-id='+data+' class="btn btn-info btn-circle modifier_partenaire" ><i class="fa fa-check"></i></button>';
+                     }}
+                 ],
+                 "pageLength": 10, 
+                 "bDestroy":true
+             });
+         
+         }
+        </script>  
 @endsection

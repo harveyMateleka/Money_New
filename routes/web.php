@@ -253,7 +253,7 @@ Route::get('admin/mvt_banque', [Ctrfinance::class, 'index_mvtbanque'])->name('in
 Route::post('admin/stransfert', [Ctrfinance::class, 'transfert'])->name('transfert');
 Route::post('admin/smvt', [Ctrfinance::class, 'store_mvtbanque'])->name('create_mvt');
 Route::get('admin/get_mvt', [Ctrfinance::class, 'get_list_mvt'])->name('get_mvt');
-Route::post('admin/update_mvt', [Ctrfinance::class, 'update_mvt'])->name('update_mvt');
+Route::post('admin/update_mvt', [Ctrfinance::class, 'update_mvt'])->name('update_mvt');  
 //______________________________________________________ong__________________________________________________
 // Route::post('admin/save_detail', [CtrTransfert::class, 'save_detail'])->name('save_detail');
 // Route::post('admin/save_ong', [CtrTransfert::class, 'save_ong'])->name('save_ong');
@@ -268,21 +268,24 @@ Route::post('admin/cherche_ong', [CtrTransfert::class, 'chercher'])->name('cherc
 //_____________________________________________fin ong_______________________________________________________
 
 //__________________________________________raphael_____________________________________________
-Route::get('admin/partenaire', [CtrTransfert::class, 'index_partenaire'])->name('index_partenaire');
-Route::post('admin/create_partenaire', [CtrTransfert::class, 'store_partenaire'])->name('route_create_partenaire');
-Route::post('admin/update_partenaire', [CtrTransfert::class, 'update_partenaire'])->name('route_update_partenaire');
-Route::get('admin/liste_partenaire', [CtrTransfert::class, 'get_list'])->name('get_list_partenaire');
-Route::post('admin/get_partenaire', [CtrTransfert::class, 'get_id'])->name('get_partenaire');
-Route::post('admin/delete_partenaire', [CtrTransfert::class, 'destroy_partenaire'])->name('delete_partenaire');
+Route::get('admin/partenaire', [Ctrpartenaire::class, 'index'])->name('index_partenaire');
+Route::get('admin/liste_partenaire', [Ctrpartenaire::class, 'get_all_part'])->name('get_list_partenaire');
+Route::post('admin/create_partenaire', [Ctrpartenaire::class, 'store'])->name('route_create_partenaire');
+Route::post('admin/update_partenaire', [Ctrpartenaire::class, 'update'])->name('route_update_partenaire');
+Route::post('admin/get_partenaire', [Ctrpartenaire::class, 'get_id'])->name('get_partenaire');
+Route::post('admin/delete_partenaire', [Ctrpartenaire::class, 'destroy'])->name('delete_partenaire');
+Route::get('admin/transfert_banque', [Ctrpartenaire::class, 'index_partenaire_trans'])->name('transfert_banque');
+Route::post('admin/transfert_banque', [Ctrpartenaire::class, 'transfert_insert'])->name('transfert_banque_insert');
+Route::get('admin/rapport_banque', [Ctrpartenaire::class, 'index_rapport'])->name('index_rapport');
+Route::get('admin/rapport_banques/{agence}', [Ctrpartenaire::class, 'get_liste_transfert']);
+Route::get('admin/liste_rapports/{agence},{debut},{fin}', [Ctrpartenaire::class, 'get_rapport_s']);
 // root de rabby__________________________________________________________________________________________
-Route::get('admin/transfert_banque', [CtrTransfert::class, 'transfert_banque'])->name('transfert_banque');
-Route::post('admin/transfert_banque', [CtrTransfert::class, 'transfert_insert'])->name('transfert_banque_insert');
-Route::get('admin/liste_transfert_banque', [CtrTransfert::class, 'get_liste_transfert'])->name('get_list_transfert');
+Route::get('admin/liste_transfert_banque/{agence}', [Ctrpartenaire::class, 'get_liste_transfert'])->name('get_list_transfert');
 //Route::post('admin/get_partenaire', [CtrTransfert::class, 'get_id'])->name('get_partenaire');
 
 
 //root rapport -----------------------------------------------------------------------------------------
-Route::get('admin/rapport_banque', [CtrTransfert::class, 'index_rapport'])->name('index_rapport');
+
 Route::get('admin/liste_rapport/{d},{f}', [CtrTransfert::class, 'get_rapport']);
 Route::get('admin/liste_rapportG/{d},{f}', [CtrTransfert::class, 'get_rapportG']);
 Route::get('admin/rapport_general', [CtrTransfert::class, 'index_general'])->name('index_general');

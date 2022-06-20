@@ -245,7 +245,6 @@
 
 
 @endsection
-<<<<<<< HEAD
 @section('javascript')
 <script type="text/javascript">
    (function() {
@@ -258,12 +257,6 @@
       $("#indiceag").select2();
 
       $('#btnsave_agence').click(function () {
-=======
-@section('script')
-$("#id_ville").select2();
-$("#indiceag").select2();
-$('#btnsave_agence').click(function () {
->>>>>>> rabBranch
    var nomagence = $("#nomagence").val();
    var adresse = $("#adresse").val();
    var telservice = $("#telservice").val();
@@ -273,7 +266,6 @@ $('#btnsave_agence').click(function () {
    if ($("#nomagence").val() != '' && $("#adresse").val() != '' && $("#id_ville").val() != '-1' && $("#telservice").val() != '' && $("#indiceag").val() != '' && $("#initial").val() != '') {
       if ($("#code_agence").val() == '') {
 
-<<<<<<< HEAD
                swal.fire({
                   title: 'Colombe Money',
                   html: "Voulez vous enregistrer cette agence",
@@ -367,113 +359,6 @@ $('#btnsave_agence').click(function () {
             Swal.fire('Changes are not saved', '', 'info')
          }
       });
-=======
-      swal({
-        title: 'Voulez vous ajouter une agence?',
-        text: " est vous sure!",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes,Ajouter!',
-        cancelButtonText: 'No, ANNULE!',
-        confirmButtonClass: 'btn btn-success',
-        cancelButtonClass: 'btn btn-danger',
-        buttonsStyling: false,
-        allowOutsideClick: false,
-        showLoaderOnConfirm: true,
-        preConfirm: function () {
-            return new Promise(function (resolve, reject) {
-         $.ajax({
-            url: "{{route('route_create_agence')}}",
-            type: 'POST',
-            async: false,
-            data: {
-               nomagence: nomagence,
-               adresse: adresse,
-               telservice: telservice,
-               telservice: telservice,
-               id_ville: $("#id_ville").val(),
-               indiceag: indiceag,
-               initial: initial
-            },
-            success: function (data) {
-               if (data.success == '1') {
-                swal({title: 'la colombe Money!',
-                text: 'Un nauveau agence ajouter!',
-                type: 'success'
-                })
-                  window.location.href = ("{{route('index_agence')}}");
-               } else {
-                  alert('existe deja');
-               }
-            },
-            error: function (data) {
-               alert(data.success);
-            }
-         });
-     
-       })
-    }
-      }).then(function () {
-        swal({
-            type: 'info',
-            title: 'La Colombe Money',
-            html: 'Agence n\'est pas ajoutée'
-        })
-    });
-      } else {
-      swal({
-        title: 'Voulez vous modifier une agence?',
-        text: " est vous sure!",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes,Modifier!',
-        cancelButtonText: 'No, ANNULE!',
-        confirmButtonClass: 'btn btn-success',
-        cancelButtonClass: 'btn btn-danger',
-        buttonsStyling: false,
-        allowOutsideClick: false,
-        showLoaderOnConfirm: true,
-        preConfirm: function () {
-            return new Promise(function (resolve, reject) {
-         $.ajax({
-            url: "{{route('route_update_agence')}}",
-            type: 'POST',
-            async: false,
-            data: {
-               nomagence: $("#nomagence").val(),
-               adresse: $("#adresse").val(),
-               telservice: $("#telservice").val(),
-               id_ville: $("#id_ville").val(),
-               numagence: $("#code_agence").val(),
-               indiceag:$("#indiceag").val(),
-               initial:$("#initial").val(),
-            },
-            success: function (data) {
-               if (data.success == '1') {
-                swal({title: 'la colombe Money!',
-                text: 'modification agence avec success!',
-                type: 'success'
-                })
-                  window.location.href = ("{{route('index_agence')}}");
-               } else {
-                  alert('erreur de transaction');
-               }
-            }
-         });
-           })
-    }
-      }).then(function () {
-        swal({
-            type: 'info',
-            title: 'la colombe Money',
-            html: 'Agence n\'est pas modifiée'
-        })
-    });
->>>>>>> rabBranch
       }
    }else{
     $("#mes_naex").html("tout les champs doivent etre obligatoirement remplire !");
