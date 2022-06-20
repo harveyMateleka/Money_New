@@ -1,5 +1,13 @@
 @extends('layouts.header')
 @section('content')
+
+<style>
+  .swal2-icon.swal2-warning {
+    font-size: 1rem !important;
+    margin-top: 10px;
+  }
+</style>
+
 <div class="container-fluid flex-grow-1 container-p-y">
   <h3 class="font-weight-bold py-3 mb-0">Ajout Personnel</h3>
   <div class="text-muted small mt-0 mb-4 d-block breadcrumb">
@@ -141,6 +149,11 @@
       var id_fonction = $("#id_fonction").val();
       if (nom != '' && postnom != '' && prenom != '' && adresse != '' && tel != '' && occupation != '' && id_fonction != '') {
         if ($("#code_personnel").val() == '') {
+          Swal.fire(
+            'Ajouté',
+            'Personnel ajouté avec succès',
+            'success'
+          )
           swal({
             title: 'la colombe Money',
             text: "voulez vous l'enregistre!",
@@ -196,71 +209,61 @@
             }
 
           }).then(function() {
-            swal({
-              type: 'info',
-              title: 'la colombe Money',
-              html: 'LE PERSONNEL NE PAS AJOUTER DANS LE SYSTEM'
-            })
+            Swal.fire(
+              'Opération non effectuée',
+              'Le personnel n\'a pas été ajouté.',
+              'warning'
+            )
           });
 
         } else {
 
-          swal({
-            title: 'Voulez vous modifier LES INFORMATION DU PERSONNEL SELECTIONER?',
-            text: "il ya pas moyen de modifie!",
-            type: 'warning',
+          Swal.fire(
+            'Opération non effectuée',
+            'Le personnel n\'a pas été ajouté.',
+            'warning'
+          )
+
+          Swal.fire({
+
+            title: 'Voulez-vous modifier les informations du personnel sélectionné ?',
+            text: 'Cette opération est irréversible.',
+            icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes,MODIFIER!',
-            cancelButtonText: 'No, ANNULE!',
-            confirmButtonClass: 'btn btn-success',
-            cancelButtonClass: 'btn btn-danger',
-            buttonsStyling: false,
-            allowOutsideClick: false,
-            showLoaderOnConfirm: true,
-            preConfirm: function() {
-              return new Promise(function(resolve, reject) {
+            confirmButtonText: 'Oui, je modifie',
 
-
-                $.ajax({
-                  url: "{{route('route_update_personnel')}}",
-                  type: 'POST',
-                  async: false,
-                  data: {
-                    nom: $("#nom").val(),
-                    postnom: $("#postnom").val(),
-                    prenom: $("#prenom").val(),
-                    adresse: $("#adresse").val(),
-                    tel: $("#tel").val(),
-                    occupation: $("#occupation").val(),
-                    id_fonction: $("#id_fonction").val(),
-                    etat: etat_perso,
-                    matricule: $("#code_personnel").val(),
-                  },
-                  success: function(data) {
-                    if (data.success == '1') {
-                      swal({
-                        title: 'la colombe Money!',
-                        text: 'modification un nouveau agent!',
-                        type: 'success'
-                      })
-                      annuler();
-                    } else {
-                      alert('erreur de transaction');
-                    }
-                  }
-                });
-              })
-
-            }
-          }).then(function() {
-            swal({
-              type: 'info',
-              title: 'la colombe Money',
-              html: 'les information ne sont pas mofifier'
+          }).then((result) => {
+            $.ajax({
+              url: "{{route('route_update_personnel')}}",
+              type: 'POST',
+              async: false,
+              data: {
+                nom: $("#nom").val(),
+                postnom: $("#postnom").val(),
+                prenom: $("#prenom").val(),
+                adresse: $("#adresse").val(),
+                tel: $("#tel").val(),
+                occupation: $("#occupation").val(),
+                id_fonction: $("#id_fonction").val(),
+                etat: etat_perso,
+                matricule: $("#code_personnel").val(),
+              },
+              success: function(data) {
+                if (data.success == '1') {
+                  Swal.fire(
+                    'MOdifié',
+                    'Le personnel a été bien modifié.',
+                    'success'
+                  )
+                  annuler();
+                } else {
+                  alert('erreur de transaction');
+                }
+              }
             })
-          });
+          })
         }
       }
     });
