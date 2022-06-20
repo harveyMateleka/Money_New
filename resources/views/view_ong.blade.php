@@ -1,70 +1,43 @@
 @extends('layouts.header')
 @section('content')
 <div class="container-fluid flex-grow-1 container-p-y">
-    <h3 class="font-weight-bold py-3 mb-0">PAGE ONG</h3>
-    <div class="text-muted small mt-0 mb-4 d-block breadcrumb">
-    </div>
-    <div class="card col-md-8">
-        <h4 class="card-header">ENREGISTREMENT ONG</h4>
-        <div class="card-body">
-            <form action="#" method="POST">
-                {{csrf_field()}}
-                <div class="form-row">
-                    <div class="form-group col-md-5">
-                        <label class="form-label">NOM ONG</label>
-                        <input type="text" class="form-control" data-validation="required" name="nomong" style="text-transform:uppercase;" placeholder="" id="name_ong">
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="form-group col-md-5">
-                        <label class="form-label">NOM PERSONNEL</label>
-                        <input type="text" style="text-transform:uppercase;" class="form-control" data-validation="required" name="nompersonnel" placeholder="" id="name_Perso">
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
+                        <h3 class="font-weight-bold py-3 mb-0">O.N.G</h3>
+                        <div class="text-muted small mt-0 mb-4 d-block breadcrumb">
+                        </div>
+                        <div class="card col-md-8">
+                            <h4 class="card-header">ENREGISTREMENT D'UN O.N.G</h4>
+                            <div class="card-body">
+                                <form action="#" method="POST">
+                                {{csrf_field()}}
+                                    <div class="form-row">
+                                        <div class="form-group col-md-5">
+                                            <label class="form-label">NOM O.N.G</label>
+                                            <input type="text" class="form-control" data-validation="required" name="nomong" style="text-transform:uppercase;" placeholder="" id="name_ong">
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="form-group col-md-5">
+                                            <label class="form-label">NOM PERSONNEL</label>
+                                            <input type="text"  style="text-transform:uppercase;" class="form-control" data-validation="required" name="nompersonnel" placeholder="" id="name_Perso">
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
 
-                <div class="form-row">
-                    <div class="form-group col-md-5">
-                        <label class="form-label">ADRESSE SIEGE</label>
-                        <input type="text" class="form-control" style="text-transform:uppercase;" data-validation="required" name="adresse" placeholder="" id="adresse_siege">
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="form-group col-md-5">
-                        <label class="form-label">TEL CONTACT</label>
-                        <input type="number" class="form-control" data-validation="required" name="telservice" placeholder="" id="tel_contact">
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
-                <button type="button" class="btn btn-success" name="btnsave_ong" id="btnsave_ong">Sauvegarder</button>
-                <button type="reset" class="btn btn-danger">annule</button>
-                <input type="hidden" class="form-control" placeholder="Saisir le nom de l'ong" id="ong">
-            </form>
-
-
-
-        </div>
-    </div>
-    <hr class="border-light container-m--x my-4">
-    <div class="card col-md-12">
-        <h6 class="card-header">LITE DES ONG</h6>
-        <div class="card-body">
-            <table class="table card-table" id="tab_ong1">
-                <thead class="thead-light">
-                    <tr>
-                        <th>ID</th>
-                        <th>NOM ONG</th>
-                        <th>NOM PERSONNEL</th>
-                        <th>TEL CONTACT</th>
-                        <th>ADRESSE SIEGE</th>
-                        <th>ACTION</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-5">
+                                            <label class="form-label">ADRESSE SIEGE</label>
+                                            <input type="text" class="form-control" style="text-transform:uppercase;" data-validation="required" name="adresse" placeholder="" id="adresse_siege">
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="form-group col-md-5">
+                                            <label class="form-label">TELEPHONE</label>
+                                            <input type="number" class="form-control" data-validation="required" name="telservice" placeholder="" id="tel_contact">
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-success" name="btnsave_ong" id="btnsave_ong">Enregistre</button>
+                                    <button type="reset" class="btn btn-danger">annule</button>
+                                    <input type="hidden" class="form-control" placeholder="Saisir le nom de l'ong" id="ong">
+                                </form>
 
 @endsection
 

@@ -1,13 +1,13 @@
 @extends('layouts.header')
 @section('content')
 <div class="container-fluid flex-grow-1 container-p-y">
-                        <h3 class="font-weight-bold py-3 mb-0">Ajout Ville</h3>
+                        <h3 class="font-weight-bold py-3 mb-0">Ville</h3>
                         <div class="text-muted small mt-0 mb-4 d-block breadcrumb">
                             
                         </div>
 
                         <div class="card col-md-8">
-                            <h4 class="card-header">Mise à Jour Ville</h4>
+                            <h4 class="card-header">Ajout Ville</h4>
                             <div class="card-body">
                                 <form action="#" method="POST" id="form_ville">
                                 {{csrf_field()}}
@@ -61,122 +61,124 @@
 
                     </div>        
 @endsection
-@section('javascript')
-<script type="text/javascript">
-        (function() {
-            $.ajaxSetup({
-             headers: {
-                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-             }
-                }); 
-
-    affiche_ville();
-    $('#btnsave_ville').click(function() { 
-        var name_ville=$("#name_ville").val();
-        var initial=$("#initial").val();
-        if(name_ville!=''){ 
-            if ($("#code_ville").val()=='') {
-                Swal.fire({  
-                    title: 'Colombe Money',
-                    html: 'Vous voulez enregistrer modifier', 
-                    width: 600,
-                    padding: '3em',  
-                    showDenyButton: true,   
-                    confirmButtonText: `save`,  
-                    denyButtonText: `Annuler`,
-                    }).then((result) => {   
-                        if (result.isConfirmed) { 
+@section('script')
+  //____________________ajout ville
+         $('#btnsave_ville').click(function() { 
+             var name_ville=$("#name_ville").val();
+             var initial=$("#initial").val();
+             if(name_ville!=''){ 
+                 if ($("#code_ville").val()=='') {
+                    swal({
+                    title: 'La Colombe money',
+                    text: "voulez vous ajouter une ville?",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Oui,Ajouter!',
+                    cancelButtonText: 'No, ANNULE!',
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    buttonsStyling: false,
+                    allowOutsideClick: false,
+                    showLoaderOnConfirm: true,
+                    preConfirm: function () {
+                    return new Promise(function (resolve, reject) {
+                     $.ajax({
+                           url   : "{{route('route_create_ville')}}",
+                           type  : 'POST',
+                           async : false,
+                           data  : {
+                                     name_ville:name_ville,
+                                     initial:initial
+                                 },
                             
-                            $.ajax({
-                                url   : "{{route('route_create_ville')}}",
-                                type  : 'POST',
-                                async : false,
-                                data  : {
-                                            name_ville:name_ville,
-                                            initial:initial
-                                        },
-                                
-                                
-                                success:function(data)
-                                {
-                                    if(data.success=='1'){
-                                        Swal.fire('save', '', 'success') 
-                                        affiche_ville();
-                                        $("#name_ville").val("");
-                                        $("#initial").val("");
-                                    }
-                                    else{
-                                        alert('existe deja');
-                                    } 
-                                },
-                                error:function(data){
-                
-                                    Swal.fire('error', '', 'succerroress')                              
-                                }
-                            });
-                        
-                             
-                        } else if (result.isDenied) {    
-                            Swal.fire('Changes are not saved', '', 'info')  
-                        }
-                    }); 
+                          
+                           success:function(data)
+                           {
+                             if(data.success=='1'){
+               
+                                 window.location.href=("{{route('route_index_ville')}}");
+                             }
+                             else{
+                                 alert('existe deja');
+                             } 
+                           },
+                           error:function(data){
+         
+                             alert(data.success);                              
+                            }
+                       });
+                       
+                    })
+                }
 
-            }
-            else{
-
-                Swal.fire({  
-                    title: 'Colombe Money',
-                    html: 'Vous voulez vraiment modifier', 
-                    width: 600,
-                    padding: '3em', 
-                    showDenyButton: true,   
-                    confirmButtonText: `save`,  
-                    denyButtonText: `Annuler`,
-                    }).then((result) => {   
-                        if (result.isConfirmed) { 
-                            
-                            $.ajax({
-                                url   : "{{route('route_update_ville')}}",
-                                type  : 'POST',
-                                async : false,
-                                data  : {
-                                        ville: $("#name_ville").val(),
-                                        initial: $("#initial").val(),
-                                        code_ville:$("#code_ville").val(),
-                                        },
-                                
-                                
-                                success:function(data)
-                                {
-                                    if(data.success=='1'){
-                                        Swal.fire('modification', '', 'success') 
-                                        affiche_ville();
-                                        $("#name_ville").val("");
-                                        $("#initial").val("");
-                                        $("#code_ville").val("");
-                                    }
-                                    else{
-                                        alert('existe deja');
-                                    } 
-                                },
-                                error:function(data){
-                
-                                    Swal.fire('error', '', 'succerroress')                              
-                                }
-                            });
-                        
-                             
-                        } else if (result.isDenied) {    
-                            Swal.fire('Changes are not saved', '', 'info')  
-                        }
-                    }); 
-            }
-            
-          
-        }
+      }).then(function () {
+        swal({
+            type: 'info',
+            title: 'La Colombe Money',
+            html: 'la ville n\'est pas ajoutée ! '
+        })
     });
 
-    $('body').delegate('.modifier_ville','click',function(){
+                 }
+                 else{
+                     swal({
+        title: 'La Colombe Money',
+        text: "Voulez vous modifier?",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Oui,Modifier!',
+        cancelButtonText: 'No, ANNULE!',
+        confirmButtonClass: 'btn btn-success',
+        cancelButtonClass: 'btn btn-danger',
+        buttonsStyling: false,
+        allowOutsideClick: false,
+        showLoaderOnConfirm: true,
+        preConfirm: function () {
+            return new Promise(function (resolve, reject) {
+                     $.ajax({
+                           url   : "{{route('route_update_ville')}}",
+                           type  : 'POST',
+                           async : false,
+                           data  : {ville: $("#name_ville").val(),
+                                    initial: $("#initial").val(),
+                                    code_ville:$("#code_ville").val(),
+                           },
+                           success:function(data)
+                           {
+                             if(data.success=='1'){
+                                 swal({title: 'La Colombe Money',
+                text: 'modification ville avec success!',
+                type: 'success'
+                })
+                                 window.location.href=("{{route('route_index_ville')}}");
+                             }
+                             else{
+                                 alert('erreur de transaction');
+                             }
+                            
+                           }
+                       });
+            })
+
+   }
+ }).then(function () {
+        swal({
+            type: 'info',
+            title: 'La Colombe Money',
+            html: 'les information ne sont pas mofifiées'
+        })
+    });
+                 }
+                 
+               
+             }
+         });
+         
+         $('body').delegate('.modifier_ville','click',function(){
                        var ids=$(this).data('id');
                        $.ajax({
                            url   : "{{route('get_ville')}}",
@@ -192,18 +194,25 @@
                            }
                        });
               });
-
-
               $('body').delegate('.supprimer_ville','click',function(){
-                  var ids=$(this).data('id');
-                    Swal.fire({  
-                    title: 'Voulez vous supprimer cette ville',  
-                    showDenyButton: true,   
-                    confirmButtonText: `Supprimer`,  
-                    denyButtonText: `Annuler`,
-                    }).then((result) => {   
-                        if (result.isConfirmed) {   
-                        $.ajax({
+                       var ids=$(this).data('id');
+                        swal({
+        title: 'La Colombe Money',
+        text: "Voulez supprimer le donnes dans la base de donnees?",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Oui,SUPRIMER!',
+        cancelButtonText: 'No, ANNULE!',
+        confirmButtonClass: 'btn btn-success',
+        cancelButtonClass: 'btn btn-danger',
+        buttonsStyling: false,
+        allowOutsideClick: false,
+        showLoaderOnConfirm: true,
+        preConfirm: function () {
+            return new Promise(function (resolve, reject) {
+                       $.ajax({
                            url   : "{{route('delete_ville')}}",
                            type  : 'POST',
                            async : false,
@@ -211,42 +220,25 @@
                            },
                            success:function(data)
                            {
-                            if(data.success=='1'){
-                                Swal.fire('supprimer', '', 'success') 
-                                affiche_ville();
-                                }
-                                else{
-                                    Swal.fire('error', '', 'error') 
-                                }
+                             if(data.success=='1'){
+                                  swal({title: 'La Colombe Money!',
+                text: 'ville suprimer avec success!',
+                type: 'success'
+                })
+                                 window.location.href=("{{route('route_index_ville')}}");
+                             }
+                             else{
+                                 alert('erreur dans la suppression');
+                             }
                            }
                        });
-                             
-                        } else if (result.isDenied) {    
-                            Swal.fire('Changes are not saved', '', 'info')  
-                        }
-                    });      
+            })
+   }
+ }).then(function () {
+        swal({
+            type: 'info',
+            title: 'La Colombe Money',
+            html: 'La ville n\'est pas supprimée !'
+        })
     });
-    
-  })();
-  function affiche_ville()
-    {
-      var otableau=$('#tab_ville').DataTable({
-            "bProcessing":true,
-            "sAjaxSource":"{{route('get_list_ville')}}",
-            "columns":[
-                {"data":'id_ville'},
-                {"data":'ville'},
-                {"data":'initial'},
-                {"data":'id_ville',"autoWidth":true,"render":function (data) {
-    
-                        return '<button data-id='+data+' class="btn btn-warning btn-circle supprimer_ville" ><i class="fa fa-times"></i></button>'+ ' ' +
-                            '<button data-id='+data+' class="btn btn-info btn-circle modifier_ville" ><i class="fa fa-check"></i></button>';
-                    }}
-            ],
-            "pageLength": 10, 
-            "bDestroy":true
-        });
-    
-    }
-</script>       
 @endsection

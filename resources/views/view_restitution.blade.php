@@ -7,18 +7,19 @@
                         
                         <hr class="border-light container-m--x my-4">
                         <div class="card col-md-18">
-                            <h6 class="card-header">LISTE DES CREDIT</h6>
+                            <h6 class="card-header">LISTE DES CREDITS</h6>
                             <div class="card-body">
-                            <table class="table card-table" id="update">
-                                <thead class="thead-light">
+                                <div style="overflow-x:auto;">
+                            <table class="table "card-table" id="update">
+                                <thead class="thead-dark">
                                     <tr>
                                         <th>ID</th>
-                                        <th>NUMERO DEPOT</th>
+                                        <th>CODE</th>
                                         <th>BENEFICIARE</th>
-                                        <th>MONTANT</th>
-                                        <th>VILLE</th>
-                                        <th>AGENCE</th>
                                         <th>EXPEDITEURE</th>
+                                        <th>PROVENANCE</th>
+                                        <th>DESTINATION</th>
+                                        <th>MONTANT</th>
                                         <th>DEVISE</th>
                                         <th>ACTION</th>
                                     </tr>
@@ -37,10 +38,13 @@
                                      <td style="color:red">{{$resultats->id}}</td>
                                      <td style="color:red">{{$resultats->numdepot}}</td>
                                      <td style="color:red">{{$resultats->nomben}}</td>
-                                     <td style="color:red">{{$resultats->montenvoi}}</td>
-                                     <td style="color:red">{{$resultats->ville}}</td>
-                                     <td style="color:red">{{$resultats->nomagence}}</td>
                                      <td style="color:red">{{$resultats->nomclient}}</td>
+                                      <td style="color:red">{{$resultats->nomagence}}</td>
+                                    
+                                     <td style="color:red">{{$resultats->ville}}</td>
+                                    
+                                     
+                                       <td style="color:red">{{$resultats->montenvoi}}</td>
                                      <td style="color:red">{{$resultats->intitule}}</td>
                                      <td>
                                    
@@ -66,13 +70,13 @@
                             </table>
                             </div>
                         </div>
+                          </div>
                     </div> 
 
 
 
 @endsection
-@section ('javascript')
-<script type="text/javascript">
+@section ('script')
 $(document).ready(function() {
     $('#update').DataTable({
     "lengthMenu": [[10, 25, 50, -1], [5, 25, 50, "All"]],
@@ -174,6 +178,6 @@ $('body').delegate('.update_credit','click',function(){
             }
         });
     });
-</script> 
+
 @endsection
 

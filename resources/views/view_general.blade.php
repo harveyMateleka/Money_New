@@ -14,13 +14,13 @@
                                 <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <label class="form-label" style="font-size:20px">CAPITAL  USD</label>
-                                            <input type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="totalespeseusd" value="{{$capitalusd}}" readonly>
+                                            <input  style="border: 1px solid silver !important; padding-left: 8px !important" type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="totalespeseusd" value="{{$capitalusd}}" readonly>
                                             <div class="clearfix"></div>
                                         </div>
 
                                         <div class="form-group col-md-6">
                                             <label class="form-label" style="font-size:20px">CAPITAL CDF</label>
-                                            <input type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="totalespesecdf" value="{{$capitalcdf}}" readonly>
+                                            <input style="border: 1px solid silver !important; padding-left: 8px !important"  type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="totalespesecdf" value="{{$capitalcdf}}" readonly>
                                             <div class="clearfix"></div>
                                         </div>
                                        
@@ -29,23 +29,23 @@
                                     <div class="form-row">
                                         <div class="form-group col-md-3">
                                             <label class="form-label">TOTAL ESPECES USD</label>
-                                            <input type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="totalespeseusd" value="{{$totalespeseusd}}" readonly>
+                                            <input  style="border: 1px solid silver !important; padding-left: 8px !important" type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="totalespeseusd" value="{{$totalespeseusd}}" readonly>
                                             <div class="clearfix"></div>
                                         </div>
 
                                         <div class="form-group col-md-3">
                                             <label class="form-label">TOTAL ESPECES CDF</label>
-                                            <input type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="totalespesecdf" value="{{$totalespesecdf}}" readonly>
+                                            <input  style="border: 1px solid silver !important; padding-left: 8px !important" type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="totalespesecdf" value="{{$totalespesecdf}}" readonly>
                                             <div class="clearfix"></div>
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label class="form-label">TOTAL COFFRE EN CDF</label>
-                                            <input type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="totalespesecdf" value="{{$coffre_cdf}}" readonly>
+                                            <input style="border: 1px solid silver !important; padding-left: 8px !important" type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="totalespesecdf" value="{{$coffre_cdf}}" readonly>
                                             <div class="clearfix"></div>
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label class="form-label">TOTAL COFFRE EN USD</label>
-                                            <input type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="totalespesecdf" value="{{$coffre_usd}}" readonly>
+                                            <input style="border: 1px solid silver !important; padding-left: 8px !important" type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="totalespesecdf" value="{{$coffre_usd}}" readonly>
                                             <div class="clearfix"></div>
                                         </div>
                                        
@@ -54,23 +54,23 @@
                                     <div class="form-row">
                                         <div class="form-group col-md-3">
                                             <label class="form-label">TOTAL BANK USD</label>
-                                            <input type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="nouvdepartusd" value="{{$total_bankusd}}" readonly>
+                                            <input  style="border: 1px solid silver !important; padding-left: 8px !important" type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="nouvdepartusd" value="{{$total_bankusd}}" readonly>
                                             <div class="clearfix"></div>
                                         </div>
 
                                         <div class="form-group col-md-3">
                                             <label class="form-label">TOTAL BANK CDF</label>
-                                            <input type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="nouvdepartcdf" value="{{$total_bankcdf}}" readonly>
+                                            <input  style="border: 1px solid silver !important; padding-left: 8px !important" type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="nouvdepartcdf" value="{{$total_bankcdf}}" readonly>
                                             <div class="clearfix"></div>
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label class="form-label">TOTAL SUSPENSE MVT USD</label>
-                                            <input type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="totalcreditusd" value="{{$totalmvtusd}}" readonly>
+                                            <input  style="border: 1px solid silver !important; padding-left: 8px !important" type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="totalcreditusd" value="{{$totalmvtusd}}" readonly>
                                             <div class="clearfix"></div>
                                         </div>
                                         <div class="form-group col-md-3">
                                             <label class="form-label">TOTAL SUSPENSE MVT CDF</label>
-                                            <input type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="totalcreditcdf" value="{{$totalmvtcdf}}" readonly>
+                                            <input  style="border: 1px solid silver !important; padding-left: 8px !important" type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="totalcreditcdf" value="{{$totalmvtcdf}}" readonly>
                                             <div class="clearfix"></div>
                                         </div>
                                     </div>
@@ -78,12 +78,12 @@
                                     <div class="form-row">
                                     <div class="form-group col-md-6">
                                             <label class="form-label">TOTAL CREDIT USD</label>
-                                            <input type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="nouvdepartusd" value="{{$totalcreditusd}}" readonly>
+                                            <input  style="border: 1px solid silver !important; padding-left: 8px !important" type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="nouvdepartusd" value="{{$totalcreditusd}}" readonly>
                                             <div class="clearfix"></div>
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label class="form-label">TOTAL CREDIT CDF</label>
-                                            <input type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="nouvdepartcdf" value="{{$totalcreditcdf}}" readonly>
+                                            <input  style="border: 1px solid silver !important; padding-left: 8px !important" type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="nouvdepartcdf" value="{{$totalcreditcdf}}" readonly>
                                             <div class="clearfix"></div>
                                         </div>
                                     </div>
@@ -91,25 +91,25 @@
                                     <div class="form-row">
                                         <div class="form-group col-md-3">
                                             <label class="form-label">TOTAL % USD</label>
-                                            <input type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="totalpourcentageusd" value="{{$totalpourcentageusd}}" readonly >
+                                            <input  style="border: 1px solid silver !important; padding-left: 8px !important" type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="totalpourcentageusd" value="{{$totalpourcentageusd}}" readonly >
                                             <div class="clearfix"></div>
                                         </div>
 
                                         <div class="form-group col-md-3">
                                             <label class="form-label">TOTAL % CDF</label>
-                                            <input type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="totalpourcentagecdf" value="{{$totalpourcentagecdf}}" readonly>
+                                            <input  style="border: 1px solid silver !important; padding-left: 8px !important" type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="totalpourcentagecdf" value="{{$totalpourcentagecdf}}" readonly>
                                             <div class="clearfix"></div>
                                         </div>
 
                                         <div class="form-group col-md-3">
                                             <label class="form-label">TOTALE DEPENSE EN USD</label>
-                                            <input type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="totalusd"  value="{{$depenseusd}}" readonly>
+                                            <input style="border: 1px solid silver !important; padding-left: 8px !important"  type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="totalusd"  value="{{$depenseusd}}" readonly>
                                             <div class="clearfix"></div>
                                         </div>
 
                                         <div class="form-group col-md-3">
                                             <label class="form-label">TOTALE DEPENSE EN CDF</label>
-                                            <input type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="totalcdf" value="{{$depensecdf}}" readonly>
+                                            <input style="border: 1px solid silver !important; padding-left: 8px !important"  type="text" class="form-control" name="name_menu" placeholder="Saisir le menu" id="totalcdf" value="{{$depensecdf}}" readonly>
                                             <div class="clearfix"></div>
                                         </div>
                                        
@@ -118,12 +118,12 @@
                                      <div class="form-row">
                                      <div class="form-group col-md-4">
                                             <label class="form-label">DIFFERENCE EN CDF</label>
-                                            <input type="text" class="form-control" name="totalcdf" id="df_cdf" placeholder="Saisir le menu" id="diffcdf" value="{{$diffcdf}}" readonly>
+                                            <input  style="border: 1px solid silver !important; padding-left: 8px !important" type="text" class="form-control" name="totalcdf" id="df_cdf" placeholder="Saisir le menu" id="diffcdf" value="{{$diffcdf}}" readonly>
                                             <div class="clearfix"></div>
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label class="form-label">DIFFERENCE EN USD</label>
-                                            <input type="text" class="form-control" name="totalusd" id="df_usd" placeholder="Saisir le menu" id="diffusd" value="{{$diffusd}}" readonly>
+                                            <input style="border: 1px solid silver !important; padding-left: 8px !important"  type="text" class="form-control" name="totalusd" id="df_usd" placeholder="Saisir le menu" id="diffusd" value="{{$diffusd}}" readonly>
                                             <div class="clearfix"></div>
                                         </div>
                                         <div class="form-group col-md-4">
@@ -136,14 +136,7 @@
                         </div>
                     </div>
 @endsection
-@section('javascript')
-<script type="text/javascript">
-(function() {
-    $.ajaxSetup({
-             headers: {
-                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-             }
-                });
+@section('script')
 $('#btn_retrait').click(function () {
     var totalcdf = parseFloat($("#df_cdf").val()).toFixed(2);
     var totalusd = parseFloat($("#df_usd").val()).toFixed(2);
@@ -181,7 +174,7 @@ $('#btn_retrait').click(function () {
 
                         if (data.success == '1') {
                             swal({
-                                title: 'ABT COLOMBE!',
+                                title: 'La Colombe Money',
                                 text: 'le pourecentage retiré!',
                                 type: 'success'
                             })
@@ -190,14 +183,14 @@ $('#btn_retrait').click(function () {
 
                         } else if(data.success == '2') {
                             swal({
-                                title: 'ABT COLOMBE!',
+                                title: 'La Colombe Money',
                                 text: 'vous ne pouvez pas retirer le pourcentage car le montant est negatif',
                                 type: 'info'
                             })
                         }
                         else{
                             swal({
-                                title: 'ABT COLOMBE!',
+                                title: 'La Colombe Money',
                                 text: 'le pourcentage est deja retiré',
                                 type: 'info'
                             })
@@ -211,12 +204,11 @@ $('#btn_retrait').click(function () {
     }).then(function () {
         swal({
             type: 'info',
-            title: 'ABT COLOMBE',
-            html: 'Pourcentage ne pas retire'
+            title: 'La Colombe Money',
+            html: 'Pourcentage n\'est pas retiré'
         })
     });
   } 
 });
-})();
-</script>
+
 @endsection
