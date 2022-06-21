@@ -22,14 +22,14 @@
                <div class="col-md-3">
                   <div class="form-row">
                      <label class="form-label">NOM</label>
-                     <input type="text" class="form-control" style="text-transform:uppercase;" name="name_matr" placeholder="Afficher le matricule" id="nom">
+                     <input type="text" class="form-control" style="text-transform:uppercase;" name="nom" placeholder="Afficher le matricule" id="nom">
                      <div class="clearfix"></div>
                   </div>
                </div>
                <div class="col-md-3">
                   <div class="form-row">
                      <label class="form-label">PRENOM</label>
-                     <input type="text" class="form-control" style="text-transform:uppercase;" name="name_matr" placeholder="Afficher le matricule" id="postnom">
+                     <input type="text" class="form-control" style="text-transform:uppercase;" name="postnom" placeholder="Afficher le matricule" id="postnom">
                      <div class="clearfix"></div>
                   </div>
                </div>
@@ -185,7 +185,8 @@
                         name_agence: $("#name_agence").val()
                      },
                      success: function(data) {
-                        if (data.success == '1') {
+                        console.log('DATA DATA DATA :::: ', data.success)
+                        if (data.success === 1) {
                            affiche_affectation();
                            $("#name_matr").val("");
                            $("#name_agence").val("-1");

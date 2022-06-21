@@ -66,9 +66,9 @@ class Ctraffectation extends Controller
 
                 if (!$teste) {
                     $this->save_data($array);
-                    return response()->json(['success' => '1']);
+                    return response()->json(['success' => 1]);
                 } else {
-                    return response()->json(['success' => '0']);
+                    return response()->json(['success' => 0]);
                 }
             } else {
                 if (!$teste) {

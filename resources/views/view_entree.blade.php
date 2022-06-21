@@ -88,7 +88,7 @@
                      <label class="form-label">
                         <NAV>Phone Expediteur</NAV>
                      </label>
-                     <input type="number" maxlength="15" class="form-control" min="0" max="2" name="telexpedit" style="text-transform:uppercase; border: 1px solid silver;padding-left:7px" placeholder="Téléphone expéditeur" id="tel_expedit" required='Veuillez saisir cette zone'>
+                     <input type="text" maxlength="15" class="form-control" min="0" max="2" name="telexpedit" style="text-transform:uppercase; border: 1px solid silver;padding-left:7px" placeholder="Téléphone expéditeur" id="tel_expedit" required='Veuillez saisir cette zone'>
                      <span id="errPhoneExp"></span>
                      <div id="mes_ex" style="color:red; font-size:10px;" class="clearfix"></div>
                   </div>
@@ -106,7 +106,7 @@
                <div class="col-md-3">
                   <div class="form-row">
                      <label class="form-label">Phone Bénéficiaire</label>
-                     <input type="number" maxlength="15" class="form-control" style="border: 1px solid silver;padding-left:7px" name="tel_benefic" placeholder="" id="tel_benefic" required>
+                     <input type="text" maxlength="15" class="form-control" style="border: 1px solid silver;padding-left:7px" name="tel_benefic" placeholder="" id="tel_benefic" required>
                      <span id="errPhoneBenefic"></span>
                      <div id="mes_ben" style="color:red; font-size:10px;" class="clearfix"></div>
                   </div>
@@ -131,7 +131,8 @@
                <div class="col-md-3">
                   <div class="form-group">
                      <label class="form-label">Montant d'envoi</label>
-                     <input type="number" autocomplete="off" class="currency" name="name_montexp" placeholder="" id="name_montexp" required="Veuillez saisir cette zone">
+                     <input type="number" autocomplete="off" class="currency montant_envoi" name="name_montexp" placeholder="" id="name_montexp" required="Veuillez saisir cette zone">
+                     <span id="errMontant"></span>
                      <div class="clearfix" id='msgmont'></div>
                   </div>
                </div>
@@ -150,6 +151,7 @@
                <div class="col-md-4">
                   <label class="form-label">Raison de Transfert</label>
                   <textarea id="raison" rows="3" class="form-control" style="border: 1px solid silver;padding-left:7px" placeholder="Ecrivez votre raison"></textarea>
+                  <span id="errRaison"></span>
                </div>
 
             </div>
@@ -191,19 +193,98 @@
 @endsection
 @section('javascript')
 <script type="text/javascript">
+   let selectBtnEnvoyer = document.querySelector('.btnEnvoi');
+   let nameAgence = document.querySelector('#name_agence');
+   let errNameAgence = document.querySelector('#errNameAgence');
+   let name_transact = document.querySelector('#name_transact');
+
+   let isValidNameAgence = false;
 
    let isValidBtn = false;
 
-   $('#btnsave_envois').prop('disabled', true);
 
-   $('#name_agence').change(function() {
-      if ($("#name_agence").val() == '-1' || $("#name_ville").val() == '-1' || $("#name_expedit").val() == '') {
-         $('#btnsave_envois').prop('disabled', false);
-      } else {
-         $('#btnsave_repartition').prop('disabled', true);
+
+   $("#name_agence").on('change', () => {
+      let value = $("#name_agence").val();
+      if (isValidBtn) {
+         if (value === '-1') {
+            isValidNameAgence = false;
+            $('#errNameAgence').text('Veuillez choisir une agence svp !!!');
+         } else {
+            $('#errNameAgence').text('');
+         }
       }
    });
 
+   $("#name_ville").on('change', () => {
+      let value = $("#name_ville").val();
+      if (isValidBtn) {
+         if (value === '-1') {
+            isValidNameAgence = false;
+            $('#errNameVill').text('Veuillez choisir une ville svp !!!');
+            $('#errNameVill').css('color', 'red');
+            $('#errNameVill').css({
+               'font-size': '12px',
+               "margin-left": '10px'
+            });
+         } else {
+            $('#errNameVill').text('');
+         }
+      }
+   })
+
+   $(".montant_envoi").on('change', () => {
+      let value = $(".montant_envoi").val();
+      if (isValidBtn) {
+         if (value === '') {
+            isValidNameAgence = false;
+            $('#errMontant').text('Veuillez entrer un montant svp !!!');
+            $('#errMontant').css('color', 'red');
+            $('#errMontant').css({
+               'font-size': '12px',
+               "margin-left": '10px'
+            });
+         } else {
+            $('#errMontant').text('');
+         }
+      }
+   })
+
+   // VALIDATE FOR SELECT NAME VILLE
+
+   $("#name_ville").on('change', () => {
+      let value = $("#name_ville").val();
+      if (isValidBtn) {
+         if (value === '-1') {
+            isValidNameAgence = false;
+            $('#errNameVill').text('Veuillez choisir une ville svp !!!');
+            $('#errNameVill').css('color', 'red');
+            $('#errNameVill').css({
+               'font-size': '12px',
+               "margin-left": '10px'
+            });
+         } else {
+            $('#errNameVill').text('');
+         }
+      }
+   })
+
+   $("#raison").on('change', () => {
+      let value = $("#raison").val();
+      if (isValidBtn) {
+         if (value === '') {
+            isValidNameAgence = false;
+            $('#errRaison').text('Veuillez enter une raison svp !!!');
+            $('#errRaison').css('color', 'red');
+            $('#errRaison').css({
+               'font-size': '12px',
+               "margin-left": '10px'
+            });
+         } else {
+            $('#errRaison').text('');
+         }
+      }
+   })
 
    // VALIDATE FOR INPUT TEXT NAME EXP, EVENT ONCHANGE
 
@@ -218,8 +299,16 @@
                'font-size': '12px',
                "margin-left": '10px'
             });
+         } else if (value.match(/[0-9]/g)) {
+            $('#errCodeTransact').text('Veuillez entrer que des lettres svp !!!');
+            $('#errCodeTransact').css('color', 'red');
+            $('#errCodeTransact').css({
+               'font-size': '12px',
+               "margin-left": '10px'
+            });
          } else {
-            $('#errCodeTransact').text('');
+            $('#errCodeTransact').text('Valide');
+            $('#errCodeTransact').css('color', 'green');
          }
       }
    })
@@ -230,7 +319,7 @@
       let value = $("#tel_expedit").val();
       let pattern = /[0-9]/g;
       if (isValidBtn) {
-         if (value === '') {
+         if (value.length < 4) {
             isValidNameAgence = false;
             $('#errPhoneExp').text('Veuillez entrer un numéro de téléphone svp !!!');
             $('#errPhoneExp').css({
@@ -245,7 +334,7 @@
                "margin-left": '10px',
                "color": "red"
             });
-         } else if (value.length < 10) {
+         } else if (value.length < 3) {
             $('#errPhoneExp').text('Le numéro de téléphone assez court, minimum 10 chiffres !!!');
             $('#errPhoneExp').css({
                'font-size': '12px',
@@ -279,7 +368,7 @@
                "margin-left": '10px',
                "color": "red"
             });
-         } else if (value.length < 10) {
+         } else if (value.length < 3) {
             $('#errPhoneBenefic').text('Le numéro de téléphone assez court, minimum 10 chiffres !!!');
             $('#errPhoneBenefic').css({
                'font-size': '12px',
@@ -306,7 +395,7 @@
                "color": "red"
             });
          } else {
-            $('#errCodeTransact').text('');
+            $('#errNomBenefic').text('');
          }
       }
    })
@@ -349,8 +438,16 @@
             'font-size': '12px',
             "margin-left": '10px'
          });
+      } else if (value.match(/[0-9]/g)) {
+         $('#errCodeTransact').text('Veuillez entrer que des lettres svp !!!');
+         $('#errCodeTransact').css('color', 'red');
+         $('#errCodeTransact').css({
+            'font-size': '12px',
+            "margin-left": '10px'
+         });
       } else {
          $('#errCodeTransact').text('');
+         $('#errCodeTransact').css('color', 'green');
       }
 
       // VALIDATE FOR INPUT NUMBER PHONE NUMBER
@@ -392,9 +489,18 @@
          $('#errNomBenefic').text('');
       }
 
-   })
+      if ($('#raison').val() === "") {
+         $('#errRaison').text('Veuillez entrer une raison svp !!!');
+         $('#errRaison').css('color', 'red');
+         $('#errRaison').css({
+            'font-size': '12px',
+            "margin-left": '10px'
+         });
+      } else {
+         $('#errRaison').text('');
+      }
 
-
+   });
 
    (function() {
       $.ajaxSetup({
@@ -481,7 +587,7 @@
             $('#name_montcom').val(calcul_com());
 
          } else {
-            $("#msgmont").html("veuillez choisir la devise").css("color", "red");
+            $("#msgmont").html("Veuillez choisir la devise").css("color", "red");
             $('#name_montexp').val('');
          }
       });
@@ -533,14 +639,17 @@
                message += $('#ville' + id_vil).val() + ' provenant de ';
                message += $("#name_expedit").val() + ', destiné à ' + $("#name_benefic").val();
                message += ' au code de transfert de ' + $("#name_transact").val() + ' pour un montant de ' + $("#name_montexp").val() + ' ' + $('#devise' + dev).val();
+
                Swal.fire({
-                  title: 'Colombe Money',
-                  html: message,
-                  width: 600,
-                  padding: '3em',
-                  showDenyButton: true,
-                  confirmButtonText: `Enregistrer`,
-                  denyButtonText: `Annuler`,
+
+                  title: 'Etes-vous sûr ?',
+                  text: message,
+                  icon: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Oui, je veux',
+
                }).then((result) => {
                   if (result.isConfirmed) {
 
